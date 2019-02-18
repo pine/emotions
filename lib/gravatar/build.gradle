@@ -1,0 +1,4 @@
+dependencies {
+    implementation 'commons-codec:commons-codec'
+    implementation 'org.apache.xmlrpc:xmlrpc-client'
+}

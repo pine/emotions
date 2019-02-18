@@ -1,1 +1,7 @@
 include ':app'
+
+include ':lib-gravatar'
+project(':lib-gravatar').projectDir = new File(settingsDir, "/lib/gravatar")
+
+include ':tool-gravatar'
+project(':tool-gravatar').projectDir = new File(settingsDir, "/tools/gravatar")
