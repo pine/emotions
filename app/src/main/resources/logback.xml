@@ -1,10 +1,6 @@
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <target>System.out</target>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
-        </encoder>
-    </appender>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
 
     <logger name="ch.qos.logback.classic.LoggerContext" level="WARN"/>
     <logger name="io.netty.buffer.PooledByteBufAllocator" level="WARN"/>
@@ -30,6 +26,6 @@
 
     <root>
         <level value="DEBUG"/>
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
