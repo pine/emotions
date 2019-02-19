@@ -31,10 +31,13 @@ subprojects {
             mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
         }
         dependencies {
-            dependency 'commons-codec:commons-codec:1.11'
+            dependency 'com.google.code.findbugs:jsr305:3.0.2'
             dependency 'javax.servlet:javax.servlet-api:4.0.1'
             dependency 'org.apache.xmlrpc:xmlrpc-client:3.1.3'
-            dependency 'javax.validation:validation-api:2.0.1.Final'
+
+            // Apache Commons
+            dependency 'commons-codec:commons-codec:1.11'
+            dependency 'org.apache.commons:commons-lang3:3.8.1'
         }
     }
     dependencies {
@@ -50,6 +53,6 @@ subprojects {
 
         // Utilities
         implementation 'com.google.guava:guava:27.0.1-jre'
-        implementation 'javax.validation:validation-api'
+        implementation 'org.apache.commons:commons-lang3'
     }
 }

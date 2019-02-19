@@ -1,7 +1,6 @@
 package moe.pine.emotions.controllers;
 
 import lombok.extern.slf4j.Slf4j;
-import moe.pine.emotions.gravatar.Gravatar;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
