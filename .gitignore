@@ -2,3 +2,5 @@
 .gradle/
 build/
 *.iml
+
+app/src/main/resources/application-local.yml
