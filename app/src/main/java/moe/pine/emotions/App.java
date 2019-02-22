@@ -1,6 +1,6 @@
 package moe.pine.emotions;
 
-import moe.pine.emotions.settings.GravatarSetting;
+import moe.pine.emotions.properties.GravatarProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableConfigurationProperties(GravatarSetting.class)
+@EnableConfigurationProperties(GravatarProperties.class)
 public class App extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
