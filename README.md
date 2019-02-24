@@ -5,11 +5,19 @@
 ## Deployment
 
 ```sh
-$ ./gradlew build 
+$ ./gradlew build
 $ heroku apps:create your-app
 $ heroku plugins:install java
 $ heroku config:set SPRING_PROFILES_ACTIVE=prod
 $ heroku deploy:jar --jar app/build/libs/app.jar
+```
+
+## Tools
+### Gravatar
+Please try the following commands after set `GRAVATAR_EMAIL`, `GRAVATAR_PASSWORD` environment variables.
+
+```
+$ ./gradlew :tool-gravatar:bootRun
 ```
 
 ## License

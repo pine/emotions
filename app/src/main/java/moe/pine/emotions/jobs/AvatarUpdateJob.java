@@ -8,6 +8,8 @@ import moe.pine.emotions.properties.GravatarProperties;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -19,6 +21,9 @@ public class AvatarUpdateJob {
     public void run() {
         Gravatar gravatar = new Gravatar(
             gravatarProperties.getEmail(), gravatarProperties.getPassword());
+
+        List<String> images = gravatarProperties.getImages();
+
         gravatar.choiceImage();
     }
 }

@@ -33,6 +33,6 @@ public class Gravatar {
         return gravatarClient.getUserImages(password);
     }
 
-    public void choiceImage() {
+    public void choiceImage(String images) {
     }
 }
