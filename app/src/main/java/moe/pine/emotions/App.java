@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableConfigurationProperties(GravatarProperties.class)
 public class App {
     public static void main(String[] args) {
-        String port = System.getenv("PORT");
+        final String port = System.getenv("PORT");
         if (StringUtils.isNotEmpty(port)) {
             System.setProperty("server.port", port);
         }
