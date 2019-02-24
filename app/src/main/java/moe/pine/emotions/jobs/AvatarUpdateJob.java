@@ -17,7 +17,7 @@ public class AvatarUpdateJob {
     @NonNull
     private final GravatarProperties gravatarProperties;
 
-    @Scheduled(cron = "0 0 30 * * *")
+    @Scheduled(cron = "0 0 5 * * *")
     public void run() throws Exception {
         Gravatar gravatar = new Gravatar(
             gravatarProperties.getEmail(), gravatarProperties.getPassword());
