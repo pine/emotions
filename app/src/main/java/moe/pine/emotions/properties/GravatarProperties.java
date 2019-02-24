@@ -15,4 +15,5 @@ public class GravatarProperties {
     private @NotNull String email;
     private @NotNull String password;
     private @NotNull List<String> images;
+    private @NotNull List<String> addresses;
 }

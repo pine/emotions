@@ -17,13 +17,14 @@ public class AvatarUpdateJob {
     @NonNull
     private final GravatarProperties gravatarProperties;
 
-    @Scheduled(cron = "* * * * * *")
-    public void run() {
+    @Scheduled(cron = "0 0 30 * * *")
+    public void run() throws Exception {
         Gravatar gravatar = new Gravatar(
             gravatarProperties.getEmail(), gravatarProperties.getPassword());
 
-        List<String> images = gravatarProperties.getImages();
+        final List<String> images = gravatarProperties.getImages();
+        final List<String> addresses = gravatarProperties.getAddresses();
 
-        gravatar.choiceImage();
+        gravatar.choiceImage(images, addresses);
     }
 }

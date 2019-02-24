@@ -50,6 +50,7 @@ subprojects {
             // Apache Commons
             dependency 'commons-codec:commons-codec:1.11'
             dependency 'org.apache.commons:commons-lang3:3.8.1'
+            dependency 'org.apache.commons:commons-collections4:4.3'
         }
     }
     dependencies {
@@ -66,5 +67,6 @@ subprojects {
         // Utilities
         implementation 'com.google.guava:guava'
         implementation 'org.apache.commons:commons-lang3'
+        implementation 'org.apache.commons:commons-collections4'
     }
 }
