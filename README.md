@@ -8,6 +8,7 @@
 $ ./gradlew build 
 $ heroku apps:create your-app
 $ heroku plugins:install java
+$ heroku config:set SPRING_PROFILES_ACTIVE=prod
 $ heroku deploy:jar --jar app/build/libs/app.jar
 ```
 
