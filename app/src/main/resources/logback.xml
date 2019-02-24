@@ -12,7 +12,7 @@
     <logger name="org.springframework.boot.SpringApplication" level="WARN"/>
     <logger name="org.springframework.boot.autoconfigure.logging" level="WARN"/>
     <logger name="org.springframework.boot.context.logging" level="WARN"/>
-    <logger name="org.springframework.boot.web.embedded.tomcat" level="WARN"/>
+    <logger name="org.springframework.boot.web.embedded.tomcat" level="INFO"/>
     <logger name="org.springframework.boot.web.servlet" level="WARN"/>
     <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="WARN"/>
     <logger name="org.springframework.context.annotation" level="WARN"/>
