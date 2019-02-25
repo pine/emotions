@@ -6,6 +6,13 @@
 $ ./gradlew :app:bootRun
 ```
 
+## Supported services
+
+- Gravatar
+- Twitter *(planned)*
+- Slack *(planned)*
+- Google *(planned)*
+
 ## Deployment
 
 ```sh
