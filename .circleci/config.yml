@@ -19,4 +19,4 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
+        ./.circleci/setup-heroku.sh
