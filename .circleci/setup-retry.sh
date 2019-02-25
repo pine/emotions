@@ -2,5 +2,5 @@
 
 set -eu -o pipefail
 
-curl https://raw.githubusercontent.com/kadwanev/retry/master/retry -o /usr/bin/retry
-chmod +x /usr/bin/retry
+curl https://raw.githubusercontent.com/kadwanev/retry/master/retry -o /usr/local/bin/retry
+chmod +x /usr/local/bin/retry
