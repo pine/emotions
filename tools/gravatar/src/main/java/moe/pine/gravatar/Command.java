@@ -1,7 +1,7 @@
 package moe.pine.gravatar;
 
 import moe.pine.emotions.gravatar.Gravatar;
-import moe.pine.emotions.gravatar.xmlrpc.GravatarClientException;
+import moe.pine.emotions.gravatar.GravatarException;
 import moe.pine.emotions.gravatar.xmlrpc.models.UserImage;
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,7 +29,7 @@ public class Command {
         final UserImage[] userImages;
         try {
             userImages = gravatar.getUserImages();
-        } catch (GravatarClientException e) {
+        } catch (GravatarException e) {
             System.err.println("Cannot fetch your Gravatar's images.");
             System.err.println("Please re-confirm your email and password.");
             System.err.println();
