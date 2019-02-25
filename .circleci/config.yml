@@ -26,7 +26,7 @@ jobs:
             if [ "$CIRCLE_BRANCH" == "master" ]; then
               ./.circleci/setup-heroku.sh
 
-              heroku plugins:install java -a pinemz-emotions
-              heroku deploy:jar --jar app/build/libs/app.jar -a pinemz-emotions
+              heroku plugins:install java
+              heroku deploy:jar --jar app/build/libs/app.jar --app pinemz-emotions
             fi
 
