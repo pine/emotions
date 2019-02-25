@@ -18,5 +18,11 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-      - run: |
-          ./.circleci/setup-heroku.sh
+      - run:
+        name: Deployment
+        command: |
+          if [ "$CIRCLE_BRANCH" == "master" ]; then
+            ./.circleci/setup-heroku.sh
+            heroku deploy:jar --jar app/build/libs/app.jar
+          fi
+
