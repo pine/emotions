@@ -25,6 +25,8 @@ jobs:
           command: |
             if [ "$CIRCLE_BRANCH" == "master" ]; then
               ./.circleci/setup-heroku.sh
+
+              heroku plugins:install java
               heroku deploy:jar --jar app/build/libs/app.jar
             fi
 
