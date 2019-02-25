@@ -3,5 +3,8 @@ include ':app'
 include ':lib-gravatar'
 project(':lib-gravatar').projectDir = new File(settingsDir, "/lib/gravatar")
 
+include ':lib-slack'
+project(':lib-slack').projectDir = new File(settingsDir, "/lib/slack")
+
 include ':tool-gravatar'
 project(':tool-gravatar').projectDir = new File(settingsDir, "/tools/gravatar")
