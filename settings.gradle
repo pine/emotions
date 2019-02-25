@@ -9,5 +9,8 @@ project(':lib-cloudstorage').projectDir = new File(settingsDir, "/lib/cloudstora
 include ':lib-slack'
 project(':lib-slack').projectDir = new File(settingsDir, "/lib/slack")
 
+include ':lib-twitter'
+project(':lib-twitter').projectDir = new File(settingsDir, "/lib/twitter")
+
 include ':tool-gravatar'
 project(':tool-gravatar').projectDir = new File(settingsDir, "/tools/gravatar")

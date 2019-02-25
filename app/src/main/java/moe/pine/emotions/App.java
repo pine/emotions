@@ -1,19 +1,12 @@
 package moe.pine.emotions;
 
-import moe.pine.emotions.properties.GravatarProperties;
-import moe.pine.emotions.properties.SlackProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableConfigurationProperties({
-    GravatarProperties.class,
-    SlackProperties.class,
-})
 public class App {
     public static void main(String[] args) {
         final String port = System.getenv("PORT");
