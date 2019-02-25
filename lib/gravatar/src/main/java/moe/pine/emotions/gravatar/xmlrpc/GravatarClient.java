@@ -2,6 +2,8 @@ package moe.pine.emotions.gravatar.xmlrpc;
 
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.gravatar.xmlrpc.models.StatusFactory;
@@ -20,12 +22,14 @@ import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @see <a href="https://ja.gravatar.com/site/implement/xmlrpc/">XML-RPC API</a>
  */
 @ToString
 @Slf4j
+@Getter
 public class GravatarClient {
     @Nonnull
     private final String email;
@@ -36,8 +40,16 @@ public class GravatarClient {
     @ToString.Exclude
     private final XmlRpcClient rpcClient;
 
-    public GravatarClient(@Nonnull final String email) {
+    public GravatarClient(@NonNull final  String email) {
+        this(email, new XmlRpcClient());
+    }
+
+    GravatarClient(
+        @Nonnull final String email,
+        @NonNull final XmlRpcClient rpcClient
+    ) {
         checkArgument(StringUtils.isNotEmpty(email), "`email` cannot be empty");
+        checkNotNull(rpcClient, "`rpcClient` cannot be empty");
 
         this.email = email;
         this.endpoint = "https://secure.gravatar.com/xmlrpc?user=" + DigestUtils.md5Hex(email);
@@ -54,7 +66,6 @@ public class GravatarClient {
         config.setEncoding("UTF-8");
         config.setServerURL(endpointURL);
 
-        final XmlRpcClient rpcClient = new XmlRpcClient();
         rpcClient.setConfig(config);
         this.rpcClient = rpcClient;
     }

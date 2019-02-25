@@ -51,13 +51,17 @@ subprojects {
             dependency 'commons-codec:commons-codec:1.11'
             dependency 'org.apache.commons:commons-lang3:3.8.1'
             dependency 'org.apache.commons:commons-collections4:4.3'
+
+            // Test
+            dependency 'junit:junit:4.12'
+            dependency 'org.mockito:mockito-core:2.24.5'
         }
     }
     dependencies {
         // Lombok
         annotationProcessor "org.projectlombok:lombok:$lombokVersion"
         compileOnly  "org.projectlombok:lombok:$lombokVersion"
-        testAnnotationProcessor "org.projectlombok:$lombokVersion"
+        testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
         testCompileOnly "org.projectlombok:lombok:$lombokVersion"
 
         // Logging
@@ -68,9 +72,9 @@ subprojects {
         implementation 'com.google.guava:guava'
         implementation 'org.apache.commons:commons-lang3'
         implementation 'org.apache.commons:commons-collections4'
-    }
-    configurations {
-        implementation.exclude group: 'junit', module: 'junit'
-        implementation.exclude group: 'org.hamcrest', module: 'hamcrest-core'
+
+        // Test
+        testImplementation 'junit:junit'
+        testImplementation 'org.mockito:mockito-core'
     }
 }

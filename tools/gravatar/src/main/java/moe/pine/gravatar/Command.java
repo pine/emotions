@@ -2,6 +2,7 @@ package moe.pine.gravatar;
 
 import moe.pine.emotions.gravatar.Gravatar;
 import moe.pine.emotions.gravatar.GravatarException;
+import moe.pine.emotions.gravatar.xmlrpc.GravatarClient;
 import moe.pine.emotions.gravatar.xmlrpc.models.UserImage;
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,7 +26,8 @@ public class Command {
 
         // ----- Fetch gravatar avatars
 
-        final Gravatar gravatar = new Gravatar(email, password);
+        final GravatarClient gravatarClient = new GravatarClient(email);
+        final Gravatar gravatar = new Gravatar(gravatarClient, password);
         final UserImage[] userImages;
         try {
             userImages = gravatar.getUserImages();

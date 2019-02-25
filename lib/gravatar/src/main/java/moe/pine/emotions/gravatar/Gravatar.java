@@ -1,6 +1,8 @@
 package moe.pine.emotions.gravatar;
 
-import lombok.ToString;
+import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.gravatar.xmlrpc.GravatarClient;
 import moe.pine.emotions.gravatar.xmlrpc.GravatarClientException;
@@ -15,24 +17,15 @@ import java.util.Random;
 import static com.google.common.base.Preconditions.checkArgument;
 
 @Slf4j
-@ToString
+@RequiredArgsConstructor
+@Getter
 public class Gravatar {
-    @Nonnull
-    private final String email;
 
     @Nonnull
-    @ToString.Exclude
-    private final String password;
-
-    @Nonnull
-    @ToString.Exclude
     private final GravatarClient gravatarClient;
 
-    public Gravatar(@Nonnull final String email, @Nonnull final String password) {
-        this.email = email;
-        this.password = password;
-        this.gravatarClient = new GravatarClient(email);
-    }
+    @Nonnull
+    private final String password;
 
     @Nonnull
     public UserImage[] getUserImages() throws GravatarException {

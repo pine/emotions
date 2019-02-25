@@ -2,6 +2,7 @@ package moe.pine.emotions.gravatar.xmlrpc;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.xmlrpc.XmlRpcConfig;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfig;
 
@@ -14,6 +15,10 @@ public class XmlRpcClient {
 
     public void setConfig(XmlRpcClientConfig pConfig) {
         underlying.setConfig(pConfig);
+    }
+
+    public XmlRpcConfig getConfig() {
+        return underlying.getConfig();
     }
 
     public Object execute(String pMethodName, Object[] pParams) throws XmlRpcException {
