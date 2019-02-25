@@ -24,10 +24,11 @@ jobs:
       - run:
           name: Deployment
           command: |
-            # if [ "$CIRCLE_BRANCH" == "master" ]; then
-            #   ./.circleci/setup-heroku.sh
+            if [ "$CIRCLE_BRANCH" == "master" ]; then
+              ./.circleci/setup-heroku.sh
+              ./.circleci/setup-retry.sh
 
             #   heroku plugins:install java
             #   heroku deploy:jar --jar app/build/libs/app.jar --app pinemz-emotions
-            # fi
+            fi
 
