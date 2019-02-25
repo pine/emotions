@@ -2,6 +2,10 @@
 
 ## Getting started
 
+```sh
+$ ./gradlew :app:bootRun
+```
+
 ## Deployment
 
 ```sh
