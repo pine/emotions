@@ -2,7 +2,7 @@ apply plugin: 'org.springframework.boot'
 
 dependencies {
     implementation project(":lib-gravatar")
-    implementation project(":lib-s3")
+    implementation project(":lib-cloudstorage")
     implementation project(":lib-slack")
 
     // Spring Framework

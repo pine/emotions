@@ -3,8 +3,8 @@ include ':app'
 include ':lib-gravatar'
 project(':lib-gravatar').projectDir = new File(settingsDir, "/lib/gravatar")
 
-include ':lib-s3'
-project(':lib-s3').projectDir = new File(settingsDir, "/lib/s3")
+include ':lib-cloudstorage'
+project(':lib-cloudstorage').projectDir = new File(settingsDir, "/lib/cloudstorage")
 
 include ':lib-slack'
 project(':lib-slack').projectDir = new File(settingsDir, "/lib/slack")
