@@ -5,8 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.properties.SlackProperties;
 import moe.pine.emotions.slack.Slack;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,10 +17,8 @@ public class SlackService {
     @NotNull
     private final SlackProperties slackProperties;
 
-    public void updateImage() {
-        for (SlackProperties.Channel channel : slackProperties.getChannels()) {
-            final Resource resource = new ByteArrayResource(new byte[]{});
-            slack.setUserPhoto(channel.getToken(), resource);
-        }
+    public void updateImage(@NotNull final byte[] image) {
+        slackProperties.getChannels()
+            .forEach(channel -> slack.setUserPhoto(channel.getToken(), image));
     }
 }

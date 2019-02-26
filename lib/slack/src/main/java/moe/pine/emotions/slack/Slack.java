@@ -3,6 +3,7 @@ package moe.pine.emotions.slack;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.slack.models.Status;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,13 +27,14 @@ public class Slack {
 
     public void setUserPhoto(
         @NotNull final String token,
-        @NotNull final Resource image
+        @NotNull final byte[] image
     ) throws SlackException {
         final HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         final MultipartBodyBuilder body = new MultipartBodyBuilder();
-        body.part("image", image, MediaType.IMAGE_PNG);
+        final Resource resource = new ByteArrayResource(image);
+        body.part("image", resource, MediaType.IMAGE_PNG);
 
         final HttpEntity<?> request = new HttpEntity<>(body.build(), headers);
         final Status status = restTemplate.postForObject(SLACK_USERS_SET_PHOTO, request, Status.class);

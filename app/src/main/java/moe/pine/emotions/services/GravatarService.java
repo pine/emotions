@@ -20,7 +20,7 @@ public class GravatarService {
     @NotNull
     private final GravatarProperties gravatarProperties;
 
-    public void choiceImage() throws GravatarException {
+    public void chooseImage() throws GravatarException {
         final List<String> images = gravatarProperties.getImages();
         final List<String> addresses = gravatarProperties.getAddresses();
         gravatar.choiceImage(images, addresses);

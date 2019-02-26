@@ -1,6 +1,6 @@
 package moe.pine.emotions.gravatar;
 
-public class GravatarException extends Exception {
+public class GravatarException extends RuntimeException {
     GravatarException(Throwable cause) {
         super(cause);
     }
