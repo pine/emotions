@@ -61,6 +61,7 @@ subprojects {
             // Test
             dependency 'junit:junit:4.12'
             dependency 'org.mockito:mockito-core:2.24.5'
+            dependency 'org.powermock:powermock-reflect:2.0.0'
         }
     }
     dependencies {
@@ -83,5 +84,6 @@ subprojects {
         // Test
         testImplementation 'junit:junit'
         testImplementation 'org.mockito:mockito-core'
+        testImplementation 'org.powermock:powermock-reflect'
     }
 }

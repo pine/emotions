@@ -5,6 +5,7 @@ import moe.pine.emotions.gravatar.xmlrpc.GravatarClientException;
 import moe.pine.emotions.gravatar.xmlrpc.models.UserImage;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -16,6 +17,9 @@ import static org.mockito.Mockito.*;
 public class GravatarTest {
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Mock
     public GravatarClient gravatarClient;
@@ -39,8 +43,10 @@ public class GravatarTest {
         verify(gravatarClient, times(1)).getUserImages("password");
     }
 
-    @Test(expected = GravatarException.class)
+    @Test
     public void getUserImagesExceptionTest() {
+        expectedException.expect(GravatarException.class);
+        
         final Gravatar gravatar = new Gravatar(gravatarClient, "password");
 
         final Throwable throwable = new Exception();

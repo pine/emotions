@@ -3,6 +3,8 @@ package moe.pine.emotions.slack;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.slack.models.Status;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -12,10 +14,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.web.client.RestTemplate;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Slf4j
 public class Slack {
-    private static final String SLACK_USERS_SET_PHOTO = "https://slack.com/api/users.setPhoto";
+    @SuppressWarnings("WeakerAccess")
+    public static final String SLACK_USERS_SET_PHOTO = "https://slack.com/api/users.setPhoto";
 
+    @NotNull
     private final RestTemplate restTemplate;
 
     public Slack() {
@@ -23,14 +30,17 @@ public class Slack {
     }
 
     @VisibleForTesting
-    Slack(final RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    Slack(@NotNull final RestTemplate restTemplate) {
+        this.restTemplate = checkNotNull(restTemplate);
     }
 
     public void setUserPhoto(
         @NotNull final String token,
         @NotNull final byte[] image
-    ) throws SlackException {
+    ) {
+        checkArgument(StringUtils.isNotEmpty(token), "`token` should not be empty.");
+        checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
+
         final HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
