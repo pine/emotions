@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 public class GravatarTest {
     @Rule
-    public MockitoRule mockito = MockitoJUnit.rule();
+    public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock
     public GravatarClient gravatarClient;

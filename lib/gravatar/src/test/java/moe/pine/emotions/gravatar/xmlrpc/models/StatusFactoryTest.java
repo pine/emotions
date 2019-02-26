@@ -1,7 +1,6 @@
-package moe.pine.emotions.gravatar.xmlrpc;
+package moe.pine.emotions.gravatar.xmlrpc.models;
 
 import com.google.common.collect.ImmutableMap;
-import moe.pine.emotions.gravatar.xmlrpc.models.StatusFactory;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -11,29 +10,29 @@ import static org.junit.Assert.assertEquals;
 
 public class StatusFactoryTest {
     @Test
-    public void fromArrayTest() {
+    public void fromTest() {
         final Map<String, Boolean> expected =
             ImmutableMap.of(
                 "foo", true,
                 "bar", false
             );
 
-        final Map<String, Boolean> actual = StatusFactory.fromArray(expected);
+        final Map<String, Boolean> actual = StatusFactory.from(expected);
         assertEquals(expected, actual);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void fromArrayNonMapTest() {
-        StatusFactory.fromArray(Collections.<Integer>emptyList());
+    public void fromNonMapTest() {
+        StatusFactory.from(Collections.<Integer>emptyList());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void fromArrayInvalidKeyTest() {
-        StatusFactory.fromArray(ImmutableMap.of(1, true));
+    public void fromInvalidKeyTest() {
+        StatusFactory.from(ImmutableMap.of(1, true));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void fromArrayInvalidValueTest() {
-        StatusFactory.fromArray(ImmutableMap.of("foo", 1));
+    public void fromInvalidValueTest() {
+        StatusFactory.from(ImmutableMap.of("foo", 1));
     }
 }

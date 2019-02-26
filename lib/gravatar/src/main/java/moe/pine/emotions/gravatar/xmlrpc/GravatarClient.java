@@ -80,7 +80,7 @@ public class GravatarClient {
         final Map<String, String> params = ImmutableMap.of("password", password);
         try {
             final Object response = rpcClient.execute("grav.userimages", new Object[]{params});
-            return UserImageFactory.fromArray(response);
+            return UserImageFactory.from(response);
         } catch (XmlRpcException e) {
             throw new GravatarClientException("Failed to call grav.userimages API", e);
         }
@@ -106,7 +106,7 @@ public class GravatarClient {
         );
         try {
             final Object response = rpcClient.execute("grav.useUserimage", new Object[]{params});
-            return StatusFactory.fromArray(response);
+            return StatusFactory.from(response);
         } catch (XmlRpcException e) {
             throw new GravatarClientException("Failed to call grav.userimages API", e);
         }

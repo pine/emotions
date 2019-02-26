@@ -2,15 +2,14 @@ package moe.pine.emotions.gravatar.xmlrpc.models;
 
 import lombok.Builder;
 import lombok.Value;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 @Value
 @Builder
 public class UserImage {
-    @Nonnull
+    @NotNull
     private final String hash;
 
-    @Nonnull
+    @NotNull
     private final String url;
 }
