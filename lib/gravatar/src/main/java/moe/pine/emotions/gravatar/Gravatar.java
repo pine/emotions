@@ -41,8 +41,7 @@ public class Gravatar {
     ) {
         checkArgument(CollectionUtils.isNotEmpty(images), "`images` cannot be empty");
 
-        final Random random = new Random();
-        final int chosen = random.nextInt(images.size());
+        final int chosen = new Random().nextInt(images.size());
         final String chosenImage = images.get(chosen);
 
         final Map<String, Boolean> statuses;

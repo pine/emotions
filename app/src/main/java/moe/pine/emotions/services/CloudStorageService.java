@@ -24,8 +24,7 @@ public class CloudStorageService {
     public byte[] chooseImage() {
         final List<CloudStorageProperties.Image> images = cloudStorageProperties.getImages();
 
-        final Random random = new Random();
-        final int chosen = random.nextInt(images.size());
+        final int chosen = new Random().nextInt(images.size());
         final CloudStorageProperties.Image chosenImage = images.get(chosen);
 
         return cloudStorage.get(chosenImage.getBucket(), chosenImage.getName());
