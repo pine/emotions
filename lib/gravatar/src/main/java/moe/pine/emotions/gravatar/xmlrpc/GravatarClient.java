@@ -82,7 +82,7 @@ public class GravatarClient {
             final Object response = rpcClient.execute("grav.userimages", new Object[]{params});
             return UserImageFactory.from(response);
         } catch (XmlRpcException e) {
-            throw new GravatarClientException("Failed to call grav.userimages API", e);
+            throw new GravatarClientException("Failed to call `grav.userimages` API", e);
         }
     }
 
@@ -108,7 +108,7 @@ public class GravatarClient {
             final Object response = rpcClient.execute("grav.useUserimage", new Object[]{params});
             return StatusFactory.from(response);
         } catch (XmlRpcException e) {
-            throw new GravatarClientException("Failed to call grav.userimages API", e);
+            throw new GravatarClientException("Failed to call `grav.useUserimage` API", e);
         }
 
     }

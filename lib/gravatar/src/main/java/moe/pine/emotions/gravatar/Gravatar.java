@@ -1,6 +1,5 @@
 package moe.pine.emotions.gravatar;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,7 @@ public class Gravatar {
     public void choiceImage(
         @Nonnull final List<String> images,
         @Nonnull final List<String> addresses
-    ) throws GravatarException {
+    ) {
         checkArgument(CollectionUtils.isNotEmpty(images), "`images` cannot be empty");
 
         final Random random = new Random();

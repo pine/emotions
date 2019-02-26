@@ -29,7 +29,7 @@ public class GravatarTest {
     }
 
     @Test
-    public void getUserImagesTest() throws Exception {
+    public void getUserImagesTest() {
         final Gravatar gravatar = new Gravatar(gravatarClient, "password");
 
         final UserImage[] userImages = new UserImage[]{};
@@ -40,7 +40,7 @@ public class GravatarTest {
     }
 
     @Test(expected = GravatarException.class)
-    public void getUserImagesExceptionTest() throws Exception {
+    public void getUserImagesExceptionTest() {
         final Gravatar gravatar = new Gravatar(gravatarClient, "password");
 
         final Throwable throwable = new Exception();
