@@ -1,28 +1,30 @@
 <configuration>
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%logger){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
 
-    <logger name="ch.qos.logback.classic.LoggerContext" level="WARN"/>
-    <logger name="io.netty.buffer.PooledByteBufAllocator" level="WARN"/>
-    <logger name="io.netty.util" level="WARN"/>
+    <logger name="ch.qos.logback.classic.LoggerContext" level="INFO"/>
+    <logger name="io.netty.buffer.PooledByteBufAllocator" level="INFO"/>
+    <logger name="io.netty.util" level="INFO"/>
     <logger name="org.apache.coyote.http11.Http11NioProtocol" level="WARN"/>
     <logger name="org.apache.catalina.core.AprLifecycleListener" level="WARN"/>
-    <logger name="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator" level="WARN"/>
-    <logger name="org.hibernate.validator.internal" level="WARN"/>
-    <logger name="org.springframework.boot.SpringApplication" level="WARN"/>
-    <logger name="org.springframework.boot.autoconfigure.logging" level="WARN"/>
-    <logger name="org.springframework.boot.context.logging" level="WARN"/>
+    <logger name="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator" level="INFO"/>
+    <logger name="org.hibernate.validator.internal" level="INFO"/>
+    <logger name="org.springframework.boot.SpringApplication" level="INFO"/>
+    <logger name="org.springframework.boot.autoconfigure.logging" level="INFO"/>
+    <logger name="org.springframework.boot.context.logging" level="INFO"/>
     <logger name="org.springframework.boot.web.embedded.tomcat" level="INFO"/>
-    <logger name="org.springframework.boot.web.servlet" level="WARN"/>
-    <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="WARN"/>
-    <logger name="org.springframework.context.annotation" level="WARN"/>
-    <logger name="org.springframework.core.LocalVariableTableParameterNameDiscoverer" level="WARN"/>
-    <logger name="org.springframework.jmx" level="WARN"/>
-    <logger name="org.springframework.scheduling.concurrent" level="WARN"/>
-    <logger name="org.springframework.ui.context.support" level="WARN"/>
-    <logger name="org.springframework.web.servlet" level="WARN"/>
-    <logger name="reactor.netty.tcp.TcpResources" level="WARN"/>
-    <logger name="reactor.util" level="WARN"/>
+    <logger name="org.springframework.boot.web.servlet" level="INFO"/>
+    <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="INFO"/>
+    <logger name="org.springframework.context.annotation" level="INFO"/>
+    <logger name="org.springframework.core.LocalVariableTableParameterNameDiscoverer" level="INFO"/>
+    <logger name="org.springframework.jmx" level="INFO"/>
+    <logger name="org.springframework.scheduling.concurrent" level="INFO"/>
+    <logger name="org.springframework.ui.context.support" level="INFO"/>
+    <logger name="org.springframework.web.servlet" level="INFO"/>
+    <logger name="reactor.netty.tcp.TcpResources" level="INFO"/>
+    <logger name="reactor.util" level="INFO"/>
 
     <root>
         <level value="DEBUG"/>
