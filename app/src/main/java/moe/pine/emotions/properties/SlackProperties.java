@@ -11,6 +11,7 @@ public class SlackProperties {
     private List<Channel> channels;
 
     @Data
+    @SuppressWarnings("WeakerAccess")
     public static class Channel {
         private String workspace;
         private String token;

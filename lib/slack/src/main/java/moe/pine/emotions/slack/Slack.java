@@ -1,5 +1,6 @@
 package moe.pine.emotions.slack;
 
+import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.slack.models.Status;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +22,8 @@ public class Slack {
         this(new RestTemplate());
     }
 
-    public Slack(final RestTemplate restTemplate) {
+    @VisibleForTesting
+    Slack(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

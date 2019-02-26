@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@Slf4j
 @EnableConfigurationProperties(GravatarProperties.class)
+@Slf4j
 public class GravatarConfig {
     @Bean
     public GravatarClient gravatarClient(
