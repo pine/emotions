@@ -9,19 +9,26 @@ import org.apache.xmlrpc.client.XmlRpcClientConfig;
 import java.util.Arrays;
 
 @Slf4j
-public class XmlRpcClient {
-    private final org.apache.xmlrpc.client.XmlRpcClient underlying =
-        new org.apache.xmlrpc.client.XmlRpcClient();
+class XmlRpcClient {
+    private final org.apache.xmlrpc.client.XmlRpcClient underlying;
 
-    public void setConfig(XmlRpcClientConfig pConfig) {
+    XmlRpcClient() {
+        this(new org.apache.xmlrpc.client.XmlRpcClient());
+    }
+
+    XmlRpcClient(org.apache.xmlrpc.client.XmlRpcClient rpcClient) {
+        underlying = rpcClient;
+    }
+
+    void setConfig(XmlRpcClientConfig pConfig) {
         underlying.setConfig(pConfig);
     }
 
-    public XmlRpcConfig getConfig() {
+    XmlRpcConfig getConfig() {
         return underlying.getConfig();
     }
 
-    public Object execute(String pMethodName, Object[] pParams) throws XmlRpcException {
+    Object execute(String pMethodName, Object[] pParams) throws XmlRpcException {
         log.debug(String.format("Execute XML-RPC :: method=%s, args=%s", pMethodName, Arrays.deepToString(pParams)));
 
         final Object response = underlying.execute(pMethodName, pParams);

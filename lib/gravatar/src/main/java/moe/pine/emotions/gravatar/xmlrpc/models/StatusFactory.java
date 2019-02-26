@@ -17,7 +17,7 @@ public class StatusFactory {
     @Nonnull
     public Map<String, Boolean> fromArray(@Nonnull final Object data) {
         if (!(data instanceof Map<?, ?>)) {
-            throw new RuntimeException(
+            throw new IllegalArgumentException(
                 String.format("Unexpected data format :: %s", data.toString()));
         }
 
@@ -28,11 +28,11 @@ public class StatusFactory {
             .stream()
             .map(entry -> {
                 if (!(entry.getKey() instanceof String)) {
-                    throw new RuntimeException(
+                    throw new IllegalArgumentException(
                         String.format("Unexpected data format :: %s", entry.getKey()));
                 }
                 if (!(entry.getValue() instanceof Boolean)) {
-                    throw new RuntimeException(
+                    throw new IllegalArgumentException(
                         String.format("Unexpected data format :: %s", entry.getValue()));
                 }
 
