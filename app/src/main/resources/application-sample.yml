@@ -1,0 +1,20 @@
+gravatar:
+  email: example@gmail.com
+  password: password
+  addresses:
+    - example@gmail.com
+    - example@outlook.com
+  images:
+    - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+slack:
+  channels:
+    - workspace: workspace
+      token: xxxx-0000000000-0000000000-0000000000-xxxxxx
+
+cloudstorage:
+  images:
+    - bucket: bucket
+      name: name
