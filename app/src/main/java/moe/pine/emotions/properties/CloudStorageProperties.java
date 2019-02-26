@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @ConfigurationProperties(prefix = "cloudstorage")
 public class CloudStorageProperties {
+    private String credentials;
     private List<Image> images;
 
     @Data

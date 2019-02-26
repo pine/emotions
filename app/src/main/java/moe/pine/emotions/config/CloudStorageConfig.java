@@ -18,9 +18,10 @@ import java.io.IOException;
 public class CloudStorageConfig {
     @Bean
     public CloudStorage cloudStorage(
+        @NotNull CloudStorageProperties cloudStorageProperties,
         @NotNull final ResourceLoader resourceLoader
     ) throws IOException {
-        final Resource resource = resourceLoader.getResource("");
+        final Resource resource = resourceLoader.getResource(cloudStorageProperties.getCredentials());
         return new CloudStorage(resource.getInputStream());
     }
 }
