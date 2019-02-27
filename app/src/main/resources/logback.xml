@@ -26,6 +26,12 @@
     <logger name="reactor.netty.tcp.TcpResources" level="INFO"/>
     <logger name="reactor.util" level="INFO"/>
 
+    <!-- Twitter4J -->
+    <logger name="twitter4j.HttpResponseImpl" level="INFO"/>
+    <logger name="twitter4j.HttpClientBase" level="INFO"/>
+    <logger name="twitter4j.HttpClientImpl" level="INFO"/>
+    <logger name="twitter4j.auth.OAuthAuthorization" level="INFO"/>
+
     <root>
         <level value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>

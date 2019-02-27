@@ -33,14 +33,14 @@ public class ScheduledJob {
         gravatarService.chooseImage();
     }
 
-    @Scheduled(cron = "0 10 4 * * *")
+    @Scheduled(cron = "0 20 4 * * *")
     @Retryable
     public void slack() {
         final byte[] chosenImage = cloudStorageService.chooseImage();
         slackService.updateImage(chosenImage);
     }
 
-    @Scheduled(cron = "0 20 4 * * *")
+    @Scheduled(cron = "0 40 4 * * *")
     @Retryable
     public void twitter() {
         final byte[] chosenImage = cloudStorageService.chooseImage();

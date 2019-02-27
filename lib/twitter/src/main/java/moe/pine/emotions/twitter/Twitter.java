@@ -1,6 +1,7 @@
 package moe.pine.emotions.twitter;
 
 import com.google.common.annotations.VisibleForTesting;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+@Slf4j
 public class Twitter {
     private final twitter4j.Twitter underlying;
 
@@ -52,11 +54,15 @@ public class Twitter {
     public void updateProfileImage(@NotNull final byte[] image) {
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
 
+        log.info("Updating profile image");
+
         try {
             final InputStream stream = new ByteArrayInputStream(image);
             underlying.updateProfileImage(stream);
         } catch (twitter4j.TwitterException e) {
             throw new TwitterException(e);
         }
+
+        log.info("Updated profile image");
     }
 }

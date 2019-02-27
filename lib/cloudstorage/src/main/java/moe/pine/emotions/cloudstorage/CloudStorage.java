@@ -8,11 +8,13 @@ import com.google.cloud.storage.StorageException;
 import com.google.cloud.storage.StorageOptions;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+@Slf4j
 public class CloudStorage {
     private final Storage storage;
 
@@ -46,6 +48,8 @@ public class CloudStorage {
             throw new CloudStorageException(
                 String.format("Not found :: blobId=%s", blobId.toString()));
         }
+        log.info(String.format(
+            "Downloaded blob info :: blob=%s", blob.toString()));
 
         final byte[] content;
         try {
@@ -53,6 +57,8 @@ public class CloudStorage {
         } catch (StorageException e) {
             throw new CloudStorageException(e);
         }
+        log.info(String.format(
+            "Downloaded blob content :: content-length=%d", content.length));
 
         return content;
     }
