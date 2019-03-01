@@ -46,7 +46,7 @@ public class GravatarTest {
     @Test
     public void getUserImagesExceptionTest() {
         expectedException.expect(GravatarException.class);
-        
+
         final Gravatar gravatar = new Gravatar(gravatarClient, "password");
 
         final Throwable throwable = new Exception();
