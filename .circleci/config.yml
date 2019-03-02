@@ -33,6 +33,7 @@ jobs:
               ./.circleci/setup-retry.sh
 
               retry -- heroku plugins:install java
-              retry -- heroku deploy:jar --jar app/build/libs/app.jar --app pinemz-emotions
+              retry -- heroku deploy:jar \
+                --jar app/build/libs/app.jar --app pinemz-emotions
             fi
 
