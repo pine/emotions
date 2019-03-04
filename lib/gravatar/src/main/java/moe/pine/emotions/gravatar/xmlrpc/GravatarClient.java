@@ -1,6 +1,7 @@
 package moe.pine.emotions.gravatar.xmlrpc;
 
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
 import lombok.NonNull;
@@ -44,6 +45,7 @@ public class GravatarClient {
         this(email, new XmlRpcClient());
     }
 
+    @VisibleForTesting
     GravatarClient(
         @Nonnull final String email,
         @NonNull final XmlRpcClient rpcClient

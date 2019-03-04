@@ -16,6 +16,7 @@ class XmlRpcClient {
         this(new org.apache.xmlrpc.client.XmlRpcClient());
     }
 
+
     XmlRpcClient(org.apache.xmlrpc.client.XmlRpcClient rpcClient) {
         underlying = rpcClient;
     }
