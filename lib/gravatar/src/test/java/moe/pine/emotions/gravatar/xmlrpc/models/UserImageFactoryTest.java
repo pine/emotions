@@ -1,29 +1,31 @@
 package moe.pine.emotions.gravatar.xmlrpc.models;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class UserImageFactoryTest {
     @Test
     public void fromTest() {
-        final UserImage[] expected = new UserImage[]{
+        final List<UserImage> expected = ImmutableList.of(
             UserImage.builder()
                 .hash("foo")
                 .url("https://www.example.com/images/foo.png")
                 .build()
-        };
+        );
 
         final Map<String, Object[]> data = ImmutableMap.of(
             "foo", new Object[]{0, "https://www.example.com/images/foo.png"}
         );
-        final UserImage[] actual = UserImageFactory.from(data);
+        final List<UserImage> actual = UserImageFactory.from(data);
 
-        assertArrayEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test(expected = IllegalArgumentException.class)

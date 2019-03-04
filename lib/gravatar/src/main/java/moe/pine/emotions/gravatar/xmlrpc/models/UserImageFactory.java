@@ -4,7 +4,9 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @UtilityClass
 @Slf4j
@@ -13,7 +15,7 @@ public class UserImageFactory {
      * @see <a href="https://en.gravatar.com/site/implement/xmlrpc/">XML-RPC API</a>
      */
     @NotNull
-    public UserImage[] from(@NotNull final Object data) {
+    public List<UserImage> from(@NotNull final Object data) {
         if (!(data instanceof Map<?, ?>)) {
             throw new IllegalArgumentException(
                 String.format("Unexpected data format :: %s", data.toString()));
@@ -49,6 +51,6 @@ public class UserImageFactory {
                     .url((String) values[1])
                     .build();
             })
-            .toArray(UserImage[]::new);
+            .collect(Collectors.toList());
     }
 }

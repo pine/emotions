@@ -74,7 +74,7 @@ public class GravatarClient {
      * grav.userimages
      */
     @Nonnull
-    public UserImage[] getUserImages(@Nonnull final String password) throws GravatarClientException {
+    public List<UserImage> getUserImages(@Nonnull final String password) throws GravatarClientException {
         checkArgument(StringUtils.isNotEmpty(password), "`password` cannot be empty");
 
         final Map<String, String> params = ImmutableMap.of("password", password);

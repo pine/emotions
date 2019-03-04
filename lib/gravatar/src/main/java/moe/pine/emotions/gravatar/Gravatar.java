@@ -1,33 +1,44 @@
 package moe.pine.emotions.gravatar;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.gravatar.xmlrpc.GravatarClient;
 import moe.pine.emotions.gravatar.xmlrpc.GravatarClientException;
 import moe.pine.emotions.gravatar.xmlrpc.models.UserImage;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @Slf4j
-@RequiredArgsConstructor
 @Getter
 public class Gravatar {
 
-    @Nonnull
+    @NotNull
     private final GravatarClient gravatarClient;
 
-    @Nonnull
+    @NotNull
     private final String password;
 
-    @Nonnull
-    public UserImage[] getUserImages() throws GravatarException {
+    public Gravatar(
+        @NotNull final GravatarClient gravatarClient,
+        @NotNull final String password
+    ) {
+        checkNotNull(gravatarClient);
+        checkArgument(StringUtils.isNotEmpty(password), "`password` should not be empty");
+
+        this.gravatarClient = gravatarClient;
+        this.password = password;
+    }
+
+    @NotNull
+    public List<UserImage> getUserImages() {
         try {
             return gravatarClient.getUserImages(password);
         } catch (GravatarClientException e) {
@@ -36,8 +47,8 @@ public class Gravatar {
     }
 
     public void choiceImage(
-        @Nonnull final List<String> images,
-        @Nonnull final List<String> addresses
+        @NotNull final List<String> images,
+        @NotNull final List<String> addresses
     ) {
         checkArgument(CollectionUtils.isNotEmpty(images), "`images` cannot be empty");
 

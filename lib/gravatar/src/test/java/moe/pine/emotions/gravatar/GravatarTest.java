@@ -10,6 +10,9 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
@@ -33,10 +36,26 @@ public class GravatarTest {
     }
 
     @Test
+    public void constructorEmptyPasswordTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`password` should not be empty");
+
+        new Gravatar(gravatarClient, "");
+    }
+
+    @Test
+    public void constructorNullGravatarClientTest() {
+        expectedException.expect(NullPointerException.class);
+
+        //noinspection ConstantConditions
+        new Gravatar(null, "password");
+    }
+
+    @Test
     public void getUserImagesTest() {
         final Gravatar gravatar = new Gravatar(gravatarClient, "password");
 
-        final UserImage[] userImages = new UserImage[]{};
+        final List<UserImage> userImages = Collections.emptyList();
         when(gravatarClient.getUserImages("password")).thenReturn(userImages);
 
         assertSame(userImages, gravatar.getUserImages());
@@ -44,7 +63,7 @@ public class GravatarTest {
     }
 
     @Test
-    public void getUserImagesExceptionTest() {
+    public void getUserImagesClientExceptionTest() {
         expectedException.expect(GravatarException.class);
 
         final Gravatar gravatar = new Gravatar(gravatarClient, "password");

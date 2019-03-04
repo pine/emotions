@@ -6,6 +6,8 @@ import moe.pine.emotions.gravatar.xmlrpc.GravatarClient;
 import moe.pine.emotions.gravatar.xmlrpc.models.UserImage;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+
 public class Command {
     public static void main(String[] args) {
 
@@ -28,7 +30,7 @@ public class Command {
 
         final GravatarClient gravatarClient = new GravatarClient(email);
         final Gravatar gravatar = new Gravatar(gravatarClient, password);
-        final UserImage[] userImages;
+        final List<UserImage> userImages;
         try {
             userImages = gravatar.getUserImages();
         } catch (GravatarException e) {
@@ -41,16 +43,16 @@ public class Command {
             return;
         }
 
-        System.out.printf("Found %d your Gravatar's images\n", userImages.length);
+        System.out.printf("Found %d your Gravatar's images\n", userImages.size());
         System.out.println("-------------------------------");
         System.out.println();
 
-        for (int i = 0; i < userImages.length; ++i) {
+        for (int i = 0; i < userImages.size(); ++i) {
             if (i > 0) {
                 System.out.println("--");
             }
-            System.out.printf("Hash: %s\n", userImages[i].getHash());
-            System.out.printf("URL : %s\n", userImages[i].getUrl());
+            System.out.printf("Hash: %s\n", userImages.get(i).getHash());
+            System.out.printf("URL : %s\n", userImages.get(i).getUrl());
         }
     }
 }
