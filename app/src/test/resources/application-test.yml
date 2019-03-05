@@ -1,0 +1,27 @@
+gravatar:
+  email: example@gmail.com
+  password: password
+  addresses:
+    - example@gmail.com
+    - example@outlook.com
+  images:
+    - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+slack:
+  channels:
+    - workspace: workspace
+      token: xxxx-0000000000-0000000000-0000000000-xxxxxx
+
+twitter:
+  consumer_key: 'consumer_key'
+  consumer_secret: 'consumer_secret'
+  access_token: 'access_token'
+  access_token_secret: 'access_token_secret'
+
+cloudstorage:
+  credentials: 'classpath:/gcp-credentials.json'
+  images:
+    - bucket: bucket
+      name: name
