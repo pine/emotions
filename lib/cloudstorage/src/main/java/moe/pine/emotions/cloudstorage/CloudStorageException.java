@@ -1,11 +1,13 @@
 package moe.pine.emotions.cloudstorage;
 
+
+@SuppressWarnings("WeakerAccess")
 public class CloudStorageException extends RuntimeException {
-    public CloudStorageException(String message) {
+    CloudStorageException(String message) {
         super(message);
     }
 
-    public CloudStorageException(Throwable cause) {
+    CloudStorageException(Throwable cause) {
         super(cause);
     }
 }

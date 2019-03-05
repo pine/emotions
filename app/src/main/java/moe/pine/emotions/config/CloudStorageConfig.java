@@ -25,6 +25,6 @@ public class CloudStorageConfig {
         log.info(String.format("Loading GCP credentials file '%s'", location));
 
         final Resource resource = resourceLoader.getResource(location);
-        return new CloudStorage(resource.getInputStream());
+        return CloudStorage.fromStream(resource.getInputStream());
     }
 }

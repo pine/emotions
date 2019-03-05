@@ -1,8 +1,10 @@
 package moe.pine.emotions.gravatar.xmlrpc;
 
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class GravatarClientTest {
     private static final String EMAIL = "example@example.com";
@@ -12,13 +14,13 @@ public class GravatarClientTest {
     public void constructorTest() {
         final XmlRpcClient rpcClient = new XmlRpcClient();
         final GravatarClient gravatarClient = new GravatarClient(EMAIL, rpcClient);
-        Assert.assertEquals(EMAIL, gravatarClient.getEmail());
-        Assert.assertEquals(ENDPOINT, gravatarClient.getEndpoint());
-        Assert.assertSame(rpcClient, gravatarClient.getRpcClient());
+        assertEquals(EMAIL, gravatarClient.getEmail());
+        assertEquals(ENDPOINT, gravatarClient.getEndpoint());
+        assertSame(rpcClient, gravatarClient.getRpcClient());
 
         final XmlRpcClientConfigImpl config = (XmlRpcClientConfigImpl) rpcClient.getConfig();
-        Assert.assertEquals("UTF-8", config.getEncoding());
-        Assert.assertEquals(ENDPOINT, config.getServerURL().toString());
+        assertEquals("UTF-8", config.getEncoding());
+        assertEquals(ENDPOINT, config.getServerURL().toString());
     }
 
     @Test(expected = IllegalArgumentException.class)

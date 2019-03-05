@@ -2,7 +2,6 @@ package moe.pine.emotions.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moe.pine.emotions.services.SlackService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @Slf4j
 public class HealthCheckController {
-    private final SlackService slackService;
-
     @GetMapping("")
     public String home() {
         final String repositoryUrl = "https://github.com/pine/emotions";

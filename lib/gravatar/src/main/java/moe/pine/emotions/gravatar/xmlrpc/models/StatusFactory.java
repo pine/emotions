@@ -3,8 +3,8 @@ package moe.pine.emotions.gravatar.xmlrpc.models;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -14,8 +14,8 @@ public class StatusFactory {
     /**
      * @see <a href="https://en.gravatar.com/site/implement/xmlrpc/">XML-RPC API</a>
      */
-    @Nonnull
-    public Map<String, Boolean> from(@Nonnull final Object data) {
+    @NotNull
+    public Map<String, Boolean> from(@NotNull final Object data) {
         if (!(data instanceof Map<?, ?>)) {
             throw new IllegalArgumentException(
                 String.format("Unexpected data format :: %s", data.toString()));

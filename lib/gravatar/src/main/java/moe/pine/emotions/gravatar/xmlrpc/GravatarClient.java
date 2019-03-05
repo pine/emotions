@@ -1,10 +1,8 @@
 package moe.pine.emotions.gravatar.xmlrpc;
 
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.gravatar.xmlrpc.models.StatusFactory;
@@ -15,8 +13,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -32,23 +30,22 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Slf4j
 @Getter
 public class GravatarClient {
-    @Nonnull
+    @NotNull
     private final String email;
 
-    @Nonnull
+    @NotNull
     private final String endpoint;
 
     @ToString.Exclude
     private final XmlRpcClient rpcClient;
 
-    public GravatarClient(@NonNull final  String email) {
+    public GravatarClient(@NotNull final String email) {
         this(email, new XmlRpcClient());
     }
 
-    @VisibleForTesting
-    GravatarClient(
-        @Nonnull final String email,
-        @NonNull final XmlRpcClient rpcClient
+    protected GravatarClient(
+        @NotNull final String email,
+        @NotNull final XmlRpcClient rpcClient
     ) {
         checkArgument(StringUtils.isNotEmpty(email), "`email` cannot be empty");
         checkNotNull(rpcClient, "`rpcClient` cannot be empty");
@@ -75,8 +72,8 @@ public class GravatarClient {
     /**
      * grav.userimages
      */
-    @Nonnull
-    public List<UserImage> getUserImages(@Nonnull final String password) throws GravatarClientException {
+    @NotNull
+    public List<UserImage> getUserImages(@NotNull final String password) throws GravatarClientException {
         checkArgument(StringUtils.isNotEmpty(password), "`password` cannot be empty");
 
         final Map<String, String> params = ImmutableMap.of("password", password);
@@ -91,11 +88,11 @@ public class GravatarClient {
     /**
      * grav.useUserimage
      */
-    @Nonnull
+    @NotNull
     public Map<String, Boolean> useUserImage(
-        @Nonnull final String password,
-        @Nonnull final String userImage,
-        @Nonnull final List<String> addresses
+        @NotNull final String password,
+        @NotNull final String userImage,
+        @NotNull final List<String> addresses
     ) throws GravatarClientException {
         checkArgument(StringUtils.isNotEmpty(password), "`password` cannot be empty");
         checkArgument(StringUtils.isNotEmpty(password), "`userImage` cannot be empty");
@@ -112,6 +109,5 @@ public class GravatarClient {
         } catch (XmlRpcException e) {
             throw new GravatarClientException("Failed to call `grav.useUserimage` API", e);
         }
-
     }
 }

@@ -1,5 +1,6 @@
 package moe.pine.emotions.gravatar;
 
+import com.google.common.collect.ImmutableList;
 import moe.pine.emotions.gravatar.xmlrpc.GravatarClient;
 import moe.pine.emotions.gravatar.xmlrpc.GravatarClientException;
 import moe.pine.emotions.gravatar.xmlrpc.models.UserImage;
@@ -26,6 +27,9 @@ public class GravatarTest {
 
     @Mock
     public GravatarClient gravatarClient;
+
+    @Mock
+    public GravatarClientException gravatarClientException;
 
     @Test
     public void constructorTest() {
@@ -67,11 +71,30 @@ public class GravatarTest {
         expectedException.expect(GravatarException.class);
 
         final Gravatar gravatar = new Gravatar(gravatarClient, "password");
-
-        final Throwable throwable = new Exception();
-        final GravatarClientException exception = new GravatarClientException("error", throwable);
-        when(gravatarClient.getUserImages("password")).thenThrow(exception);
+        when(gravatarClient.getUserImages("password")).thenThrow(gravatarClientException);
 
         gravatar.getUserImages();
+    }
+
+    @Test
+    public void chooseImageEmptyImagesTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`images` should not be empty");
+
+        final Gravatar gravatar = new Gravatar(gravatarClient, "password");
+        gravatar.chooseImage(
+            Collections.emptyList(),
+            ImmutableList.of("example@example.com"));
+    }
+
+    @Test
+    public void chooseImageEmptyAddressesTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`addresses` should not be empty");
+
+        final Gravatar gravatar = new Gravatar(gravatarClient, "password");
+        gravatar.chooseImage(
+            ImmutableList.of("example@example.com"),
+            Collections.emptyList());
     }
 }

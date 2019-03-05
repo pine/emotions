@@ -23,6 +23,6 @@ public class GravatarService {
     public void chooseImage() throws GravatarException {
         final List<String> images = gravatarProperties.getImages();
         final List<String> addresses = gravatarProperties.getAddresses();
-        gravatar.choiceImage(images, addresses);
+        gravatar.chooseImage(images, addresses);
     }
 }

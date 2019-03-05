@@ -1,6 +1,7 @@
 package moe.pine.emotions.gravatar.xmlrpc;
 
 
+import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.xmlrpc.XmlRpcConfig;
 import org.apache.xmlrpc.XmlRpcException;
@@ -16,7 +17,8 @@ class XmlRpcClient {
         this(new org.apache.xmlrpc.client.XmlRpcClient());
     }
 
-
+    @SuppressWarnings("WeakerAccess")
+    @VisibleForTesting
     XmlRpcClient(org.apache.xmlrpc.client.XmlRpcClient rpcClient) {
         underlying = rpcClient;
     }

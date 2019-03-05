@@ -46,11 +46,12 @@ public class Gravatar {
         }
     }
 
-    public void choiceImage(
+    public void chooseImage(
         @NotNull final List<String> images,
         @NotNull final List<String> addresses
     ) {
-        checkArgument(CollectionUtils.isNotEmpty(images), "`images` cannot be empty");
+        checkArgument(CollectionUtils.isNotEmpty(images), "`images` should not be empty");
+        checkArgument(CollectionUtils.isNotEmpty(addresses), "`addresses` should not be empty");
 
         final int chosen = new Random().nextInt(images.size());
         final String chosenImage = images.get(chosen);
