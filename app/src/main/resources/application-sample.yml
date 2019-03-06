@@ -1,3 +1,6 @@
+scheduling:
+  enabled: true
+
 gravatar:
   email: example@gmail.com
   password: password
@@ -15,10 +18,10 @@ slack:
       token: xxxx-0000000000-0000000000-0000000000-xxxxxx
 
 twitter:
-  consumer_key: 'consumer_key'
-  consumer_secret: 'consumer_secret'
-  access_token: 'access_token'
-  access_token_secret: 'access_token_secret'
+  consumer-key: 'consumer_key'
+  consumer-secret: 'consumer_secret'
+  access-token: 'access_token'
+  access-token-secret: 'access_token_secret'
 
 cloudstorage:
   credentials: 'classpath:/gcp-credentials.json'
