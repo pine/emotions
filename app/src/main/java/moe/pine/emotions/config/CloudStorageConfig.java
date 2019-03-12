@@ -11,6 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
 @Configuration
 @EnableConfigurationProperties(CloudStorageProperties.class)
@@ -20,11 +21,15 @@ public class CloudStorageConfig {
     public CloudStorage cloudStorage(
         @NotNull final CloudStorageProperties cloudStorageProperties,
         @NotNull final ResourceLoader resourceLoader
-    ) throws IOException {
+    ) {
         final String location = cloudStorageProperties.getCredentials();
         log.info("Loading GCP credentials file '{}'", location);
 
         final Resource resource = resourceLoader.getResource(location);
-        return CloudStorage.fromStream(resource.getInputStream());
+        try {
+            return CloudStorage.fromStream(resource.getInputStream());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
