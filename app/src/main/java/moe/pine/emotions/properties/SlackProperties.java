@@ -1,6 +1,8 @@
 package moe.pine.emotions.properties;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
@@ -11,7 +13,8 @@ public class SlackProperties {
     private List<Channel> channels;
 
     @Data
-    @SuppressWarnings("WeakerAccess")
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Channel {
         private String workspace;
         private String token;
