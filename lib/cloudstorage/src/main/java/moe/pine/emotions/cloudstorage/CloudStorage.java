@@ -61,8 +61,7 @@ public class CloudStorage {
             throw new CloudStorageException(
                 String.format("Not found :: blobId=%s", blobId.toString()));
         }
-        log.info(String.format(
-            "Downloaded blob info :: blob=%s", blob.toString()));
+        log.info("Downloaded blob info :: blob={}", blob.toString());
 
         final byte[] content;
         try {
@@ -70,8 +69,7 @@ public class CloudStorage {
         } catch (StorageException e) {
             throw new CloudStorageException(e);
         }
-        log.info(String.format(
-            "Downloaded blob content :: content-length=%d", content.length));
+        log.info("Downloaded blob content :: content-length={}", content.length);
 
         return content;
     }

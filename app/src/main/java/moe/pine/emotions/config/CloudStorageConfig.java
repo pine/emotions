@@ -22,7 +22,7 @@ public class CloudStorageConfig {
         @NotNull final ResourceLoader resourceLoader
     ) throws IOException {
         final String location = cloudStorageProperties.getCredentials();
-        log.info(String.format("Loading GCP credentials file '%s'", location));
+        log.info("Loading GCP credentials file '{}'", location);
 
         final Resource resource = resourceLoader.getResource(location);
         return CloudStorage.fromStream(resource.getInputStream());
