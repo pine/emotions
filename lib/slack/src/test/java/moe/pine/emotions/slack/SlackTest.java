@@ -4,6 +4,7 @@ import moe.pine.emotions.slack.models.Status;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -23,6 +24,9 @@ public class SlackTest {
     @Mock
     public RestTemplate restTemplate;
 
+    @InjectMocks
+    public Slack slack;
+
     @Test
     public void constructorTest() {
         final Slack slack = new Slack();
@@ -32,9 +36,9 @@ public class SlackTest {
 
     @Test
     public void setUserPhotoTest() {
-        final Slack slack = new Slack(restTemplate);
-        final Status response = new Status();
-        response.setOk(true);
+        final Status response = new Status() {{
+            setOk(true);
+        }};
 
         when(
             restTemplate.postForObject(
@@ -49,7 +53,6 @@ public class SlackTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`token` should not be empty.");
 
-        final Slack slack = new Slack(restTemplate);
         slack.setUserPhoto("", new byte[]{0x00});
     }
 
@@ -58,7 +61,6 @@ public class SlackTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`image` should not be empty.");
 
-        final Slack slack = new Slack(restTemplate);
         slack.setUserPhoto("token", new byte[]{});
     }
 }
