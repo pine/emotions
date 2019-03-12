@@ -58,6 +58,15 @@ public class GravatarTest {
     }
 
     @Test
+    public void constructorNullPasswordTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`password` should not be empty");
+
+        //noinspection ConstantConditions
+        new Gravatar(gravatarClient, null);
+    }
+
+    @Test
     public void constructorNullGravatarClientTest() {
         expectedException.expect(NullPointerException.class);
 

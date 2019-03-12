@@ -3,7 +3,6 @@ package moe.pine.emotions.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.gravatar.Gravatar;
-import moe.pine.emotions.gravatar.GravatarException;
 import moe.pine.emotions.properties.GravatarProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class GravatarService {
     @NotNull
     private final GravatarProperties gravatarProperties;
 
-    public void chooseImage() throws GravatarException {
+    public void chooseImage() {
         final List<String> images = gravatarProperties.getImages();
         final List<String> addresses = gravatarProperties.getAddresses();
         gravatar.chooseImage(images, addresses);

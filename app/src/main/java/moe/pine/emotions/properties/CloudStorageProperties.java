@@ -1,5 +1,6 @@
 package moe.pine.emotions.properties;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -12,6 +13,7 @@ public class CloudStorageProperties {
     private List<Image> images;
 
     @Data
+    @AllArgsConstructor
     public static class Image {
         private String bucket;
         private String name;
