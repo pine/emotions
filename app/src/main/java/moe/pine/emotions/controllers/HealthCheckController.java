@@ -23,6 +23,7 @@ public class HealthCheckController {
     @GetMapping(value = "health", produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
     public String health(HttpServletResponse response) {
+        response.addHeader(HttpHeaders.PRAGMA, "no-cache");
         response.addHeader(
             HttpHeaders.CACHE_CONTROL, "private, no-cache, no-store, must-revalidate");
         return "OK";
