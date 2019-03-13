@@ -5,10 +5,12 @@ buildscript {
     }
     repositories {
         jcenter()
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
         classpath 'io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE'
+        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.11"
     }
 }
 
@@ -31,6 +33,7 @@ subprojects {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: "com.github.spotbugs"
 
     group 'moe.pine.emotions'
 
@@ -88,5 +91,20 @@ subprojects {
         testImplementation 'junit:junit'
         testImplementation 'org.mockito:mockito-core'
         testImplementation 'org.powermock:powermock-reflect'
+    }
+
+
+    // ----- SpotBugs -------------------------------------
+
+    spotbugs {
+        toolVersion = '3.1.8'
+        excludeFilter = file("${project.rootDir}/findbugs-exclude.xml")
+        spotbugsTest.enabled = false
+    }
+    tasks.withType(com.github.spotbugs.SpotBugsTask) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
     }
 }

@@ -43,7 +43,7 @@ public class Command {
             return;
         }
 
-        System.out.printf("Found %d your Gravatar's images\n", userImages.size());
+        System.out.printf("Found %d your Gravatar's images%n", userImages.size());
         System.out.println("-------------------------------");
         System.out.println();
 
@@ -51,8 +51,8 @@ public class Command {
             if (i > 0) {
                 System.out.println("--");
             }
-            System.out.printf("Hash: %s\n", userImages.get(i).getHash());
-            System.out.printf("URL : %s\n", userImages.get(i).getUrl());
+            System.out.printf("Hash: %s%n", userImages.get(i).getHash());
+            System.out.printf("URL : %s%n", userImages.get(i).getUrl());
         }
     }
 }
