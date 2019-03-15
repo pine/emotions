@@ -22,10 +22,10 @@ public class SlackTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Mock
-    public RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     @InjectMocks
-    public Slack slack;
+    private Slack slack;
 
     @Test
     public void constructorTest() {

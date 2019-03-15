@@ -47,8 +47,8 @@ public class GravatarClient {
         @NotNull final String email,
         @NotNull final XmlRpcClient rpcClient
     ) {
-        checkArgument(StringUtils.isNotEmpty(email), "`email` cannot be empty");
-        checkNotNull(rpcClient, "`rpcClient` cannot be empty");
+        checkArgument(StringUtils.isNotEmpty(email), "`email` should not be empty");
+        checkNotNull(rpcClient, "`rpcClient` should not be empty");
 
         this.email = email;
         this.endpoint = "https://secure.gravatar.com/xmlrpc?user=" + DigestUtils.md5Hex(email);

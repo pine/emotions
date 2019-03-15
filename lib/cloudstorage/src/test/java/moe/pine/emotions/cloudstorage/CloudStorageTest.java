@@ -22,13 +22,13 @@ public class CloudStorageTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Mock
-    public Storage storage;
+    private Storage storage;
 
     @Mock
-    public GoogleCredentials credentials;
+    private GoogleCredentials credentials;
 
     @Mock
-    public Blob blob;
+    private Blob blob;
 
     @Test
     public void constructorTest() {

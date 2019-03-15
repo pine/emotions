@@ -1,5 +1,6 @@
 package moe.pine.emotions.twitter;
 
+import lombok.SneakyThrows;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -23,13 +24,14 @@ public class TwitterTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Mock
-    public twitter4j.Twitter underlying;
+    private twitter4j.Twitter underlying;
 
     @Mock
-    public twitter4j.User user;
+    private twitter4j.User user;
 
     @Test
-    public void constructorTest() throws Exception {
+    @SneakyThrows
+    public void constructorTest() {
         final Twitter twitter = new Twitter(
             "consumer_key",
             "consumer_secret",
@@ -101,7 +103,8 @@ public class TwitterTest {
     }
 
     @Test
-    public void updateProfileImageTest() throws Exception {
+    @SneakyThrows
+    public void updateProfileImageTest() {
         final Twitter twitter = new Twitter(underlying);
 
         when(underlying.updateProfileImage((InputStream) any())).thenReturn(user);

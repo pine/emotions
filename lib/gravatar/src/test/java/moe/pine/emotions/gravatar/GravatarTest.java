@@ -29,10 +29,10 @@ public class GravatarTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Mock
-    public GravatarClient gravatarClient;
+    private GravatarClient gravatarClient;
 
     @Mock
-    public GravatarClientException gravatarClientException;
+    private GravatarClientException gravatarClientException;
 
     private Gravatar gravatar;
 
