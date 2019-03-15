@@ -46,6 +46,8 @@ public class SlackTest {
         ).thenReturn(response);
 
         slack.setUserPhoto("token", new byte[]{0x00});
+
+        verify(restTemplate).postForObject(anyString(), any(), eq(Status.class));
     }
 
     @Test
