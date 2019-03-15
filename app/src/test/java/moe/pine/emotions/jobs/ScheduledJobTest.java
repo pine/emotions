@@ -21,22 +21,22 @@ public class ScheduledJobTest {
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Mock
-    CloudStorageService cloudStorageService;
+    private CloudStorageService cloudStorageService;
 
     @Mock
-    GravatarService gravatarService;
+    private GravatarService gravatarService;
 
     @Mock
-    SlackService slackService;
+    private SlackService slackService;
 
     @Mock
-    TwitterService twitterService;
+    private TwitterService twitterService;
 
     @InjectMocks
-    ScheduledJob scheduledJob;
+    private ScheduledJob scheduledJob;
 
     @Captor
-    ArgumentCaptor<byte[]> imageBytesCaptor;
+    private ArgumentCaptor<byte[]> imageBytesCaptor;
 
     @Test
     public void gravatarTest() {

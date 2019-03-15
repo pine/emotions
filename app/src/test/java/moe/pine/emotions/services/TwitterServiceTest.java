@@ -19,10 +19,10 @@ public class TwitterServiceTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Mock
-    Twitter twitter;
+    private Twitter twitter;
 
     @InjectMocks
-    TwitterService twitterService;
+    private TwitterService twitterService;
 
     @Test
     public void updateImageTest() {

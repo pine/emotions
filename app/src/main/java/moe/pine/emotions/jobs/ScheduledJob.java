@@ -6,26 +6,27 @@ import moe.pine.emotions.services.CloudStorageService;
 import moe.pine.emotions.services.GravatarService;
 import moe.pine.emotions.services.SlackService;
 import moe.pine.emotions.services.TwitterService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Nonnull;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class ScheduledJob {
-    @NotNull
+    @Nonnull
     private final CloudStorageService cloudStorageService;
 
-    @NotNull
+    @Nonnull
     private final GravatarService gravatarService;
 
-    @NotNull
+    @Nonnull
     private final SlackService slackService;
 
-    @NotNull
+    @Nonnull
     private final TwitterService twitterService;
 
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")

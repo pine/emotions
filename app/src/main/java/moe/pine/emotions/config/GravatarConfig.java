@@ -4,10 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.gravatar.Gravatar;
 import moe.pine.emotions.gravatar.xmlrpc.GravatarClient;
 import moe.pine.emotions.properties.GravatarProperties;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.Nonnull;
 
 @Configuration
 @EnableConfigurationProperties(GravatarProperties.class)
@@ -15,15 +16,15 @@ import org.springframework.context.annotation.Configuration;
 public class GravatarConfig {
     @Bean
     public GravatarClient gravatarClient(
-        @NotNull final GravatarProperties gravatarProperties
+        @Nonnull final GravatarProperties gravatarProperties
     ) {
         return new GravatarClient(gravatarProperties.getEmail());
     }
 
     @Bean
     public Gravatar gravatar(
-        @NotNull final GravatarProperties gravatarProperties,
-        @NotNull final GravatarClient gravatarClient
+        @Nonnull final GravatarProperties gravatarProperties,
+        @Nonnull final GravatarClient gravatarClient
     ) {
         return new Gravatar(gravatarClient, gravatarProperties.getPassword());
     }

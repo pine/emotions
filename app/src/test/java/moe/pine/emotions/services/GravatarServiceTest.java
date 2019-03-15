@@ -20,13 +20,13 @@ public class GravatarServiceTest {
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Mock
-    Gravatar gravatar;
+    private Gravatar gravatar;
 
     @Mock
-    GravatarProperties gravatarProperties;
+    private GravatarProperties gravatarProperties;
 
     @InjectMocks
-    GravatarService gravatarService;
+    private GravatarService gravatarService;
 
     @Test
     public void chooseImageTest() {

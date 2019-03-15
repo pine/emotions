@@ -25,13 +25,13 @@ public class SlackServiceTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Mock
-    Slack slack;
+    private Slack slack;
 
     @Mock
-    SlackProperties slackProperties;
+    private SlackProperties slackProperties;
 
     @InjectMocks
-    SlackService slackService;
+    private SlackService slackService;
 
     @Test
     public void updateImageTest() {

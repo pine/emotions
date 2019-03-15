@@ -4,11 +4,11 @@ import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
+import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
@@ -20,10 +20,10 @@ public class Twitter {
     private final twitter4j.Twitter underlying;
 
     public Twitter(
-        @NotNull final String consumerKey,
-        @NotNull final String consumerSecret,
-        @NotNull final String accessToken,
-        @NotNull final String accessTokenSecret
+        @Nonnull final String consumerKey,
+        @Nonnull final String consumerSecret,
+        @Nonnull final String accessToken,
+        @Nonnull final String accessTokenSecret
     ) {
         checkArgument(StringUtils.isNotEmpty(consumerKey), "`consumerKey` should not be empty.");
         checkArgument(StringUtils.isNotEmpty(consumerSecret), "`consumerSecret` should not be empty.");
@@ -43,7 +43,7 @@ public class Twitter {
 
     @VisibleForTesting
     Twitter(
-        @NotNull final twitter4j.Twitter twitter
+        @Nonnull final twitter4j.Twitter twitter
     ) {
         underlying = checkNotNull(twitter);
     }
@@ -51,7 +51,7 @@ public class Twitter {
     /**
      * @see <a href="http://twitter4j.org/javadoc/twitter4j/TwitterImpl.html">TwitterImpl</a>
      */
-    public void updateProfileImage(@NotNull final byte[] image) {
+    public void updateProfileImage(@Nonnull final byte[] image) {
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
 
         log.info("Updating profile image");

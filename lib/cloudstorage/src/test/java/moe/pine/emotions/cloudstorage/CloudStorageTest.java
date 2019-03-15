@@ -4,6 +4,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.Storage;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -30,6 +31,13 @@ public class CloudStorageTest {
     @Mock
     private Blob blob;
 
+    private CloudStorage cloudStorage;
+
+    @Before
+    public void setUp() {
+        cloudStorage = new CloudStorage(storage);
+    }
+
     @Test
     public void constructorTest() {
         new CloudStorage(credentials);
@@ -37,8 +45,6 @@ public class CloudStorageTest {
 
     @Test
     public void getTest() {
-        final CloudStorage cloudStorage = new CloudStorage(storage);
-
         final BlobId blobId = BlobId.of("bucket", "name");
         when(storage.get(blobId)).thenReturn(blob);
         when(blob.getContent(Blob.BlobSourceOption.generationMatch()))
@@ -53,8 +59,16 @@ public class CloudStorageTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`bucket` should not be empty");
 
-        final CloudStorage cloudStorage = new CloudStorage(storage);
         cloudStorage.get("", "name");
+    }
+
+    @Test
+    public void getNullBucketTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`bucket` should not be empty");
+
+        //noinspection ConstantConditions
+        cloudStorage.get(null, "name");
     }
 
     @Test
@@ -62,8 +76,16 @@ public class CloudStorageTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`name` should not be empty");
 
-        final CloudStorage cloudStorage = new CloudStorage(storage);
         cloudStorage.get("bucket", "");
+    }
+
+    @Test
+    public void getNullNameTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`name` should not be empty");
+
+        //noinspection ConstantConditions
+        cloudStorage.get("bucket", null);
     }
 
 }

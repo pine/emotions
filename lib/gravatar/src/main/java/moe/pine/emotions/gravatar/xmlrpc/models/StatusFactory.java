@@ -14,8 +14,8 @@ public class StatusFactory {
     /**
      * @see <a href="https://en.gravatar.com/site/implement/xmlrpc/">XML-RPC API</a>
      */
-    @NotNull
-    public Map<String, Boolean> from(@NotNull final Object data) {
+    
+    public Map<String, Boolean> from( final Object data) {
         if (!(data instanceof Map<?, ?>)) {
             throw new IllegalArgumentException(
                 String.format("Unexpected data format :: %s", data.toString()));

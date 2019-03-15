@@ -2,6 +2,7 @@ package moe.pine.emotions.gravatar.xmlrpc.models;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -11,6 +12,13 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class UserImageFactoryTest {
+    private UserImageFactory userImageFactory;
+
+    @Before
+    public void setUp() {
+        userImageFactory = new UserImageFactory();
+    }
+
     @Test
     public void fromTest() {
         final List<UserImage> expected = ImmutableList.of(
@@ -23,34 +31,34 @@ public class UserImageFactoryTest {
         final Map<String, Object[]> data = ImmutableMap.of(
             "foo", new Object[]{0, "https://www.example.com/images/foo.png"}
         );
-        final List<UserImage> actual = UserImageFactory.from(data);
+        final List<UserImage> actual = userImageFactory.from(data);
 
         assertEquals(expected, actual);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fromNonMapTest() {
-        UserImageFactory.from(Collections.<Integer>emptyList());
+        userImageFactory.from(Collections.<Integer>emptyList());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fromInvalidKeyTest() {
-        UserImageFactory.from(ImmutableMap.of(1, new Object[]{0, "foo"}));
+        userImageFactory.from(ImmutableMap.of(1, new Object[]{0, "foo"}));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fromInvalidValueTest() {
-        UserImageFactory.from(ImmutableMap.of("foo", true));
+        userImageFactory.from(ImmutableMap.of("foo", true));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fromInvalidValueLengthTest() {
-        UserImageFactory.from(ImmutableMap.of("foo", new Object[]{}));
+        userImageFactory.from(ImmutableMap.of("foo", new Object[]{}));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fromInvalidValueTypeTest() {
-        UserImageFactory.from(ImmutableMap.of("foo", new Object[]{0, 1}));
+        userImageFactory.from(ImmutableMap.of("foo", new Object[]{0, 1}));
     }
 
 }

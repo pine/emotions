@@ -9,8 +9,8 @@ import com.google.cloud.storage.StorageOptions;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -19,10 +19,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 @Slf4j
 public class CloudStorage {
-    @NotNull
+    @Nonnull
     private final Storage storage;
 
-    public static CloudStorage fromStream(@NotNull final InputStream credentialsStream) {
+    public static CloudStorage fromStream(@Nonnull final InputStream credentialsStream) {
         checkNotNull(credentialsStream);
 
         final GoogleCredentials credentials;
@@ -36,7 +36,7 @@ public class CloudStorage {
         return new CloudStorage(credentials);
     }
 
-    protected CloudStorage(@NotNull final GoogleCredentials credentials) {
+    protected CloudStorage(@Nonnull final GoogleCredentials credentials) {
         this(
             StorageOptions.newBuilder()
                 .setCredentials(checkNotNull(credentials))
@@ -44,13 +44,13 @@ public class CloudStorage {
                 .getService());
     }
 
-    protected CloudStorage(@NotNull final Storage storage) {
+    protected CloudStorage(@Nonnull final Storage storage) {
         this.storage = checkNotNull(storage);
     }
 
     public byte[] get(
-        @NotNull final String bucket,
-        @NotNull final String name
+        @Nonnull final String bucket,
+        @Nonnull final String name
     ) {
         checkArgument(StringUtils.isNotEmpty(bucket), "`bucket` should not be empty");
         checkArgument(StringUtils.isNotEmpty(name), "`name` should not be empty");

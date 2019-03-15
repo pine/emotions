@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class HealthCheckControllerTest {
     @Autowired
-    MockMvc mvc;
+    private MockMvc mvc;
 
     @Test
     @SneakyThrows

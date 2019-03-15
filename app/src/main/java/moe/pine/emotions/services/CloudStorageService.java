@@ -5,11 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.cloudstorage.CloudStorage;
 import moe.pine.emotions.properties.CloudStorageProperties;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.ListUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
@@ -17,16 +15,16 @@ import java.util.Random;
 @Slf4j
 @RequiredArgsConstructor
 public class CloudStorageService {
-    @NotNull
+    @Nonnull
     private final Random random;
 
-    @NotNull
+    @Nonnull
     private final CloudStorage cloudStorage;
 
-    @NotNull
+    @Nonnull
     private final CloudStorageProperties cloudStorageProperties;
 
-    @NotNull
+    @Nonnull
     public byte[] chooseImage() {
         final List<CloudStorageProperties.Image> images = cloudStorageProperties.getImages();
         if (CollectionUtils.isEmpty(images)) {

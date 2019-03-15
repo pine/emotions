@@ -28,16 +28,16 @@ public class CloudStorageServiceTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Mock
-    Random random;
+    private Random random;
 
     @Mock
-    CloudStorage cloudStorage;
+    private CloudStorage cloudStorage;
 
     @Mock
-    CloudStorageProperties cloudStorageProperties;
+    private CloudStorageProperties cloudStorageProperties;
 
     @InjectMocks
-    CloudStorageService cloudStorageService;
+    private CloudStorageService cloudStorageService;
 
     @Test
     public void chooseImageTest() {

@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.twitter.Twitter;
 import org.apache.commons.lang3.ArrayUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Nonnull;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -13,10 +14,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 @RequiredArgsConstructor
 @Slf4j
 public class TwitterService {
-    @NotNull
+    @Nonnull
     private final Twitter twitter;
 
-    public void updateImage(@NotNull final byte[] image) {
+    public void updateImage(@Nonnull final byte[] image) {
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
 
         twitter.updateProfileImage(image);
