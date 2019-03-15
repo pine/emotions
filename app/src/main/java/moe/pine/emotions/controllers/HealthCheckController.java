@@ -14,10 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @Slf4j
 public class HealthCheckController {
+    @SuppressWarnings("WeakerAccess")
+    public final static String REPOSITORY_URL = "https://github.com/pine/emotions";
+
     @GetMapping("")
     public String home() {
-        final String repositoryUrl = "https://github.com/pine/emotions";
-        return String.format("redirect:%s", repositoryUrl);
+        return String.format("redirect:%s", REPOSITORY_URL);
     }
 
     @GetMapping(value = "health", produces = MediaType.TEXT_PLAIN_VALUE)

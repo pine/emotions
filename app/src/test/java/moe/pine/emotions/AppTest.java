@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AppTest {
     @Autowired
-    public App app;
+    App app;
 
     @Test
     public void mainTest() {
