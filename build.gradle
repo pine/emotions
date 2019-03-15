@@ -51,7 +51,6 @@ subprojects {
             mavenBom 'com.google.cloud:google-cloud-bom:0.82.0-alpha'
         }
         dependencies {
-            dependency 'org.jetbrains:annotations:17.0.0'
             dependency 'javax.servlet:javax.servlet-api:4.0.1'
 
             // Guava
@@ -87,7 +86,6 @@ subprojects {
         implementation 'com.google.guava:guava'
         implementation 'org.apache.commons:commons-lang3'
         implementation 'org.apache.commons:commons-collections4'
-        implementation 'org.jetbrains:annotations'
 
         // Test
         testImplementation 'junit:junit'
