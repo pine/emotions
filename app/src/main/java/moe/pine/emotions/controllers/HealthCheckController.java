@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @Slf4j
 public class HealthCheckController {
-    @SuppressWarnings("WeakerAccess")
-    public final static String REPOSITORY_URL = "https://github.com/pine/emotions";
+    final static String REPOSITORY_URL = "https://github.com/pine/emotions";
 
     @GetMapping("")
     public String home() {
