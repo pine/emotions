@@ -41,14 +41,18 @@ public class GravatarClient {
     @ToString.Exclude
     private final UserImageFactory userImageFactory;
 
+    @ToString.Exclude
+    private final StatusFactory statusFactory;
+
     public GravatarClient(@Nonnull final String email) {
-        this(email, new XmlRpcClient(), new UserImageFactory());
+        this(email, new XmlRpcClient(), new UserImageFactory(), new StatusFactory());
     }
 
     protected GravatarClient(
         @Nonnull final String email,
         @Nonnull final XmlRpcClient rpcClient,
-        @Nonnull final UserImageFactory userImageFactory
+        @Nonnull final UserImageFactory userImageFactory,
+        @Nonnull final StatusFactory statusFactory
     ) {
         checkArgument(StringUtils.isNotEmpty(email), "`email` should not be empty");
         checkNotNull(rpcClient, "`rpcClient` should not be empty");
@@ -56,6 +60,7 @@ public class GravatarClient {
         this.email = email;
         this.endpoint = "https://secure.gravatar.com/xmlrpc?user=" + DigestUtils.md5Hex(email);
         this.userImageFactory = userImageFactory;
+        this.statusFactory = statusFactory;
 
         final URL endpointURL;
         try {
@@ -78,7 +83,7 @@ public class GravatarClient {
      */
     @Nonnull
     public List<UserImage> getUserImages(@Nonnull final String password) {
-        checkArgument(StringUtils.isNotEmpty(password), "`password` cannot be empty");
+        checkArgument(StringUtils.isNotEmpty(password), "`password` should not be empty");
 
         final Map<String, String> params = ImmutableMap.of("password", password);
         try {
@@ -98,9 +103,9 @@ public class GravatarClient {
         @Nonnull final String userImage,
         @Nonnull final List<String> addresses
     ) {
-        checkArgument(StringUtils.isNotEmpty(password), "`password` cannot be empty");
-        checkArgument(StringUtils.isNotEmpty(password), "`userImage` cannot be empty");
-        checkArgument(CollectionUtils.isNotEmpty(addresses), "`addresses` cannot be empty");
+        checkArgument(StringUtils.isNotEmpty(password), "`password` should not be empty");
+        checkArgument(StringUtils.isNotEmpty(userImage), "`userImage` should not be empty");
+        checkArgument(CollectionUtils.isNotEmpty(addresses), "`addresses` should not be empty");
 
         final Map<String, Object> params = ImmutableMap.of(
             "password", password,
@@ -109,7 +114,7 @@ public class GravatarClient {
         );
         try {
             final Object response = rpcClient.execute("grav.useUserimage", new Object[]{params});
-            return StatusFactory.from(response);
+            return statusFactory.from(response);
         } catch (XmlRpcException e) {
             throw new GravatarClientException("Failed to call `grav.useUserimage` API", e);
         }

@@ -110,7 +110,7 @@ public class TwitterTest {
         when(underlying.updateProfileImage((InputStream) any())).thenReturn(user);
 
         twitter.updateProfileImage(new byte[]{0x01, 0x02, 0x03});
-        verify(underlying, times(1)).updateProfileImage((InputStream) any());
+        verify(underlying).updateProfileImage((InputStream) any());
     }
 
     @Test
@@ -120,5 +120,16 @@ public class TwitterTest {
 
         final Twitter twitter = new Twitter(underlying);
         twitter.updateProfileImage(new byte[]{});
+    }
+
+    @Test
+    public void updateProfileImageNullImageTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`image` should not be empty.");
+
+        final Twitter twitter = new Twitter(underlying);
+
+        //noinspection ConstantConditions
+        twitter.updateProfileImage(null);
     }
 }

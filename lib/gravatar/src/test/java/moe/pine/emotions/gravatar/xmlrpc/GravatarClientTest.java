@@ -1,7 +1,9 @@
 package moe.pine.emotions.gravatar.xmlrpc;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
+import moe.pine.emotions.gravatar.xmlrpc.models.StatusFactory;
 import moe.pine.emotions.gravatar.xmlrpc.models.UserImage;
 import moe.pine.emotions.gravatar.xmlrpc.models.UserImageFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +44,9 @@ public class GravatarClientTest {
     @Mock
     private UserImageFactory userImageFactory;
 
+    @Mock
+    private StatusFactory statusFactory;
+
     private GravatarClient gravatarClient;
 
     @Captor
@@ -53,7 +58,7 @@ public class GravatarClientTest {
     @Before
     public void setUp() {
         doNothing().when(xmlRpcClient).setConfig(configCaptor.capture());
-        gravatarClient = new GravatarClient(EMAIL, xmlRpcClient, userImageFactory);
+        gravatarClient = new GravatarClient(EMAIL, xmlRpcClient, userImageFactory, statusFactory);
     }
 
     @Test
@@ -68,23 +73,30 @@ public class GravatarClientTest {
     }
 
     @Test
-    public void constructorExceptionTest() {
+    public void constructorEmptyEmailTest() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`email` should not be empty");
 
-        //noinspection ConstantConditions
         new GravatarClient(StringUtils.EMPTY);
     }
 
     @Test
-    public void constructorNPEExceptionTest() {
+    public void constructorNullEmailTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`email` should not be empty");
+
+        //noinspection ConstantConditions
+        new GravatarClient(null);
+    }
+
+    @Test
+    public void constructorNullClientExceptionTest() {
         expectedException.expect(NullPointerException.class);
         expectedException.expectMessage("`rpcClient` should not be empty");
 
         //noinspection ConstantConditions
-        new GravatarClient("example@example.com", null, userImageFactory);
+        new GravatarClient("example@example.com", null, userImageFactory, statusFactory);
     }
-
 
     @Test
     @SneakyThrows
@@ -123,8 +135,67 @@ public class GravatarClientTest {
     @Test
     public void getUserImagesEmptyPasswordTest() {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`password` cannot be empty");
+        expectedException.expectMessage("`password` should not be empty");
 
         gravatarClient.getUserImages(StringUtils.EMPTY);
     }
+
+    @Test
+    @SneakyThrows
+    public void useUserImageTest() {
+        final Map<String, Object> params = ImmutableMap.of(
+            "password", PASSWORD,
+            "userimage", "userImage",
+            "addresses", Collections.singletonList(EMAIL)
+        );
+        final Object rpcResult = new Object();
+        final Map<String, Boolean> expected = Maps.newHashMap();
+
+        when(xmlRpcClient.execute("grav.useUserimage", new Object[]{params}))
+            .thenReturn(rpcResult);
+        when(statusFactory.from(rpcResultCaptor.capture())).thenReturn(expected);
+
+        final Map<String, Boolean> actual =
+            gravatarClient.useUserImage(PASSWORD, "userImage", Collections.singletonList(EMAIL));
+
+        assertSame(expected, actual);
+        assertSame(rpcResult, rpcResultCaptor.getValue());
+
+        verify(xmlRpcClient).execute(anyString(), any());
+        verify(statusFactory).from(any());
+    }
+
+    @Test
+    public void useUserImageEmptyPasswordTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`password` should not be empty");
+
+        gravatarClient.useUserImage(StringUtils.EMPTY, "userImage", Collections.singletonList(EMAIL));
+    }
+
+    @Test
+    public void useUserImageNullPasswordTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`password` should not be empty");
+
+        //noinspection ConstantConditions
+        gravatarClient.useUserImage(null, "userImage", Collections.singletonList(EMAIL));
+    }
+
+    @Test
+    public void useUserImageEmptyUserImageTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`userImage` should not be empty");
+
+        gravatarClient.useUserImage(PASSWORD, StringUtils.EMPTY, Collections.singletonList(EMAIL));
+    }
+
+    @Test
+    public void useUserImageEmptyAddressesTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("`addresses` should not be empty");
+
+        gravatarClient.useUserImage(PASSWORD, "userImage", Collections.emptyList());
+    }
+
 }

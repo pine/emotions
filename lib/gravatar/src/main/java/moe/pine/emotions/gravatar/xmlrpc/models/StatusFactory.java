@@ -1,20 +1,18 @@
 package moe.pine.emotions.gravatar.xmlrpc.models;
 
-import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@UtilityClass
 @Slf4j
 public class StatusFactory {
     /**
      * @see <a href="https://en.gravatar.com/site/implement/xmlrpc/">XML-RPC API</a>
      */
-    
-    public Map<String, Boolean> from( final Object data) {
+
+    public Map<String, Boolean> from(final Object data) {
         if (!(data instanceof Map<?, ?>)) {
             throw new IllegalArgumentException(
                 String.format("Unexpected data format :: %s", data.toString()));
