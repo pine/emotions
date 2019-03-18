@@ -52,6 +52,7 @@ subprojects {
         }
         dependencies {
             dependency 'javax.servlet:javax.servlet-api:4.0.1'
+            dependency "org.projectlombok:lombok:$lombokVersion"
 
             // Guava
             dependency 'com.google.guava:guava:27.0.1-jre'
@@ -73,10 +74,10 @@ subprojects {
     }
     dependencies {
         // Lombok
-        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-        compileOnly "org.projectlombok:lombok:$lombokVersion"
-        testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
-        testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+        annotationProcessor 'org.projectlombok:lombok'
+        compileOnly 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
+        testCompileOnly 'org.projectlombok:lombok'
 
         // Logging
         implementation 'org.slf4j:slf4j-api'
