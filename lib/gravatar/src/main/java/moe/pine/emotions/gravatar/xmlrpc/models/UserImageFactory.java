@@ -16,7 +16,7 @@ public class UserImageFactory {
     public List<UserImage> from(@Nonnull final Object data) {
         if (!(data instanceof Map<?, ?>)) {
             throw new IllegalArgumentException(
-                String.format("Unexpected data format :: %s", data.toString()));
+                String.format("Unexpected data format :: %s", String.valueOf(data)));
         }
 
         @SuppressWarnings("unchecked") final Map<Object, Object> entries = (Map<Object, Object>) data;

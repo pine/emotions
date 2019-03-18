@@ -3,7 +3,12 @@ package moe.pine.emotions.gravatar.xmlrpc.models;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,12 +17,14 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class UserImageFactoryTest {
-    private UserImageFactory userImageFactory;
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    @Before
-    public void setUp() {
-        userImageFactory = new UserImageFactory();
-    }
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
+    @InjectMocks
+    private UserImageFactory userImageFactory;
 
     @Test
     public void fromTest() {
@@ -36,9 +43,21 @@ public class UserImageFactoryTest {
         assertEquals(expected, actual);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void fromNonMapTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Unexpected data format :: ");
+
         userImageFactory.from(Collections.<Integer>emptyList());
+    }
+
+    @Test
+    public void fromNullTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Unexpected data format :: null");
+
+        //noinspection ConstantConditions
+        userImageFactory.from(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
