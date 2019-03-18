@@ -27,11 +27,11 @@ public class UserImageFactory {
             .map(entry -> {
                 if (!(entry.getKey() instanceof String)) {
                     throw new IllegalArgumentException(
-                        String.format("Unexpected data format :: %s", entry.getKey()));
+                        String.format("Unexpected data format :: %s", String.valueOf(entry.getKey())));
                 }
                 if (!(entry.getValue() instanceof Object[])) {
                     throw new IllegalArgumentException(
-                        String.format("Unexpected data format :: %s", entry.getValue()));
+                        String.format("Unexpected data format :: %s", String.valueOf(entry.getValue())));
                 }
 
                 final Object[] values = (Object[]) entry.getValue();
@@ -41,7 +41,7 @@ public class UserImageFactory {
                 }
                 if (!(values[1] instanceof String)) {
                     throw new IllegalArgumentException(
-                        String.format("Unexpected data format :: %s", values[1]));
+                        String.format("Unexpected data format :: %s", String.valueOf(values[1])));
                 }
 
                 return UserImage.builder()

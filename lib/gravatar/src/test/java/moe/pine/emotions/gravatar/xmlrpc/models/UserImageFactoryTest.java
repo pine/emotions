@@ -2,7 +2,7 @@ package moe.pine.emotions.gravatar.xmlrpc.models;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import org.junit.Before;
+import com.google.common.collect.Maps;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -60,23 +60,46 @@ public class UserImageFactoryTest {
         userImageFactory.from(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void fromInvalidKeyTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Unexpected data format ::");
+
         userImageFactory.from(ImmutableMap.of(1, new Object[]{0, "foo"}));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void fromInvalidValueTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Unexpected data format ::");
+
         userImageFactory.from(ImmutableMap.of("foo", true));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
+    public void fromNullValueTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Unexpected data format ::");
+
+        final Map<String, Object> data = Maps.newHashMap();
+        data.put("foo", null);
+
+        userImageFactory.from(data);
+    }
+
+    @Test
     public void fromInvalidValueLengthTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Unexpected array length :: expected=2, actual=0");
+
         userImageFactory.from(ImmutableMap.of("foo", new Object[]{}));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void fromInvalidValueTypeTest() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Unexpected data format :: ");
+
         userImageFactory.from(ImmutableMap.of("foo", new Object[]{0, 1}));
     }
 
