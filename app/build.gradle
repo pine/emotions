@@ -2,10 +2,10 @@ apply plugin: 'org.springframework.boot'
 
 dependencies {
     // Sub-projects
-    implementation project(":lib-gravatar")
-    implementation project(":lib-cloudstorage")
-    implementation project(":lib-slack")
-    implementation project(":lib-twitter")
+    implementation project(':lib-gravatar')
+    implementation project(':lib-cloudstorage')
+    implementation project(':lib-slack')
+    implementation project(':lib-twitter')
 
     // Spring Framework
     implementation 'org.springframework.boot:spring-boot-starter-web'
