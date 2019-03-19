@@ -30,11 +30,10 @@ confFiles.forEach { File src ->
 }
 
 
-subprojects {
+allprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
-    apply plugin: 'io.spring.dependency-management'
 
     group 'moe.pine.emotions'
 
@@ -44,6 +43,19 @@ subprojects {
     repositories {
         jcenter()
     }
+
+    // ----- JaCoCo ---------------------------------------
+
+    apply plugin: 'jacoco'
+
+    jacoco {
+        toolVersion = '0.8.3'
+    }
+}
+
+subprojects {
+    apply plugin: 'io.spring.dependency-management'
+
     dependencyManagement {
         imports {
             mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
@@ -119,4 +131,27 @@ subprojects {
         toolVersion = '8.18'
         configFile = file("${project.rootDir}/config/checkstyle.xml")
     }
+}
+
+
+// ----- JaCoCo -------------------------------------------
+
+task jacocoMerge(type: JacocoMerge) {
+    dependsOn(subprojects.jacocoTestReport.dependsOn)
+    mustRunAfter(subprojects.jacocoTestReport.mustRunAfter)
+    destinationFile = file("${buildDir}/jacoco/test.exec")
+    executionData = files(subprojects.jacocoTestReport.executionData)
+        .filter { f -> f.exists() }
+}
+
+jacocoTestReport {
+    dependsOn(jacocoMerge)
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories = files(subprojects.sourceSets.main.output)
 }
