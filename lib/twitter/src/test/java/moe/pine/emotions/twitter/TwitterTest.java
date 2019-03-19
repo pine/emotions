@@ -14,7 +14,9 @@ import twitter4j.conf.Configuration;
 import java.io.InputStream;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class TwitterTest {
     @Rule

@@ -23,19 +23,19 @@ class XmlRpcClient {
         underlying = rpcClient;
     }
 
-    void setConfig(XmlRpcClientConfig pConfig) {
-        underlying.setConfig(pConfig);
+    void setConfig(XmlRpcClientConfig config) {
+        underlying.setConfig(config);
     }
 
     XmlRpcConfig getConfig() {
         return underlying.getConfig();
     }
 
-    Object execute(String pMethodName, Object[] pParams) throws XmlRpcException {
-        log.debug("Execute XML-RPC :: method={}, args={}", pMethodName, Arrays.deepToString(pParams));
+    Object execute(String methodName, Object[] params) throws XmlRpcException {
+        log.debug("Execute XML-RPC :: method={}, args={}", methodName, Arrays.deepToString(params));
 
-        final Object response = underlying.execute(pMethodName, pParams);
-        log.debug("Executed XML-RPC :: method={}, response={}", pMethodName, response.toString());
+        final Object response = underlying.execute(methodName, params);
+        log.debug("Executed XML-RPC :: method={}, response={}", methodName, response.toString());
 
         return response;
     }

@@ -20,7 +20,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @see <a href="https://ja.gravatar.com/site/implement/xmlrpc/">XML-RPC API</a>
@@ -62,9 +63,9 @@ public class GravatarClient {
         this.userImageFactory = userImageFactory;
         this.statusFactory = statusFactory;
 
-        final URL endpointURL;
+        final URL endpointUrl;
         try {
-            endpointURL = new URL(endpoint);
+            endpointUrl = new URL(endpoint);
         } catch (MalformedURLException e) {
             throw new RuntimeException(
                 String.format("Malformed URL format :: %s", endpoint), e);
@@ -72,7 +73,7 @@ public class GravatarClient {
 
         final XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
         config.setEncoding("UTF-8");
-        config.setServerURL(endpointURL);
+        config.setServerURL(endpointUrl);
 
         rpcClient.setConfig(config);
         this.rpcClient = rpcClient;

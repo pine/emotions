@@ -100,7 +100,7 @@ subprojects {
 
     spotbugs {
         toolVersion = '3.1.8'
-        excludeFilter = file("${project.rootDir}/findbugs-exclude.xml")
+        excludeFilter = file("${project.rootDir}/config/findbugs-exclude.xml")
         spotbugsTest.enabled = false
     }
     tasks.withType(com.github.spotbugs.SpotBugsTask) {
@@ -117,6 +117,6 @@ subprojects {
 
     checkstyle {
         toolVersion = '8.18'
-        configFile = file('/sun_checks.xml')
+        configFile = file("${project.rootDir}/config/checkstyle.xml")
     }
 }

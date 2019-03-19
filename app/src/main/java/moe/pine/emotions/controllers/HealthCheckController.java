@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @Slf4j
 public class HealthCheckController {
-    final static String REPOSITORY_URL = "https://github.com/pine/emotions";
+    static final String REPOSITORY_URL = "https://github.com/pine/emotions";
 
     @GetMapping("")
     public String home() {

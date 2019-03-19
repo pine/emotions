@@ -12,7 +12,11 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class SlackTest {
     @Rule

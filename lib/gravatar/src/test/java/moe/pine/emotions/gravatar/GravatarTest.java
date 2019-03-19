@@ -17,7 +17,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class GravatarTest {
     private static String PASSWORD = "password";
@@ -80,14 +81,15 @@ public class GravatarTest {
         when(gravatarClient.getUserImages(PASSWORD)).thenReturn(userImages);
 
         assertSame(userImages, gravatar.getUserImages());
-        verify(gravatarClient, times(1)).getUserImages(PASSWORD);
+        verify(gravatarClient).getUserImages(PASSWORD);
     }
 
     @Test
     public void getUserImagesClientExceptionTest() {
         expectedException.expect(GravatarException.class);
 
-        when(gravatarClient.getUserImages(PASSWORD)).thenThrow(gravatarClientException);
+        when(gravatarClient.getUserImages(PASSWORD))
+            .thenThrow(gravatarClientException);
 
         gravatar.getUserImages();
     }
