@@ -42,11 +42,11 @@ public class Slack {
         checkArgument(StringUtils.isNotEmpty(token), "`token` should not be empty.");
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
 
-        final HttpHeaders headers = new HttpHeaders();
+        final var headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
-        final MultipartBodyBuilder body = new MultipartBodyBuilder();
+        final var body = new MultipartBodyBuilder();
         final Resource resource = new ByteArrayResource(image) {
             @Override
             public String getFilename() {

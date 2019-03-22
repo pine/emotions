@@ -10,7 +10,6 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -37,7 +36,7 @@ public class Twitter {
             .setOAuthAccessTokenSecret(accessTokenSecret)
             .build();
 
-        final TwitterFactory twitterFactory = new TwitterFactory(conf);
+        final var twitterFactory = new TwitterFactory(conf);
         underlying = twitterFactory.getInstance();
     }
 
@@ -56,8 +55,8 @@ public class Twitter {
 
         log.info("Updating profile image");
 
+        final var stream = new ByteArrayInputStream(image);
         try {
-            final InputStream stream = new ByteArrayInputStream(image);
             underlying.updateProfileImage(stream);
         } catch (twitter4j.TwitterException e) {
             throw new TwitterException(e);

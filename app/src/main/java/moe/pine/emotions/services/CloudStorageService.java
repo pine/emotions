@@ -8,7 +8,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.Random;
 
 @Service
@@ -26,14 +25,14 @@ public class CloudStorageService {
 
     @Nonnull
     public byte[] chooseImage() {
-        final List<CloudStorageProperties.Image> images = cloudStorageProperties.getImages();
+        final var images = cloudStorageProperties.getImages();
         if (CollectionUtils.isEmpty(images)) {
             //noinspection SpellCheckingInspection
             throw new RuntimeException("`cloudstorage`.`images` should not be empty");
         }
 
         final int chosen = random.nextInt(images.size());
-        final CloudStorageProperties.Image chosenImage = images.get(chosen);
+        final var chosenImage = images.get(chosen);
 
         return cloudStorage.get(chosenImage.getBucket(), chosenImage.getName());
     }
