@@ -3,6 +3,11 @@
 <br>
 <br>
 
+
+## Requirements
+
+- JDK 11
+
 ## Libraries
 
 - Spring Boot 2.x
@@ -27,11 +32,21 @@ $ heroku apps:create your-app
 $ heroku plugins:install java
 $ heroku config:set SPRING_PROFILES_ACTIVE=prod
 $ heroku config:set TZ=Asia/Tokyo
-$ heroku deploy:jar --jar app/build/libs/app.jar
+$ heroku deploy:jar --jar app/build/libs/app.jar --jdk 11
 ```
 
-## Tools
+## Development
+## JDK
+For macOS users.
+
+```
+$ brew tap adoptopenjdk/openjdk
+$ brew cask install adoptopenjdk11
+```
+
 ### Gravatar
+You should set `gravatar.images` properties when the app runs.
+
 Please try the following commands after set `GRAVATAR_EMAIL`, `GRAVATAR_PASSWORD` environment variables.
 
 ```
