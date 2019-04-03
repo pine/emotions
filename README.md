@@ -36,7 +36,7 @@ $ heroku deploy:jar --jar app/build/libs/app.jar --jdk 11
 ```
 
 ## Development
-## JDK
+### JDK
 For macOS users.
 
 ```
