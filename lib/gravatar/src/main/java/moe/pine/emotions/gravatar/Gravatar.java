@@ -20,19 +20,23 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Getter
 public class Gravatar {
     @Nonnull
+    private final Random random;
+
+    @Nonnull
     private final GravatarClient gravatarClient;
 
     @Nonnull
     private final String password;
 
     public Gravatar(
+        @Nonnull final Random random,
         @Nonnull final GravatarClient gravatarClient,
         @Nonnull final String password
     ) {
-        checkNotNull(gravatarClient);
         checkArgument(StringUtils.isNotEmpty(password), "`password` should not be empty");
 
-        this.gravatarClient = gravatarClient;
+        this.random = checkNotNull(random);
+        this.gravatarClient = checkNotNull(gravatarClient);
         this.password = password;
     }
 

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 @Configuration
 @EnableConfigurationProperties(GravatarProperties.class)
@@ -23,10 +24,11 @@ public class GravatarConfig {
 
     @Bean
     public Gravatar gravatar(
+        @Nonnull final Random random,
         @Nonnull final GravatarProperties gravatarProperties,
         @Nonnull final GravatarClient gravatarClient
     ) {
-        return new Gravatar(gravatarClient, gravatarProperties.getPassword());
+        return new Gravatar(random, gravatarClient, gravatarProperties.getPassword());
     }
 
 }
