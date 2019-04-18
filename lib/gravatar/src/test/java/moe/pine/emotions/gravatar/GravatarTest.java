@@ -43,13 +43,13 @@ public class GravatarTest {
 
     @Before
     public void setUp() {
-        gravatar = new Gravatar(random, gravatarClient, PASSWORD);
+        gravatar = new Gravatar(gravatarClient, PASSWORD, random);
     }
 
     @Test
     public void constructorTest() {
         final GravatarClient gravatarClient = new GravatarClient("example@example.com");
-        final Gravatar gravatar = new Gravatar(random, gravatarClient, PASSWORD);
+        final Gravatar gravatar = new Gravatar(gravatarClient, PASSWORD, random);
         assertSame(random, gravatar.getRandom());
         assertSame(gravatarClient, gravatar.getGravatarClient());
         assertEquals(PASSWORD, gravatar.getPassword());
@@ -60,7 +60,7 @@ public class GravatarTest {
     public void constructorTest_nullRandom() {
         expectedException.expect(NullPointerException.class);
 
-        new Gravatar(null, gravatarClient, PASSWORD);
+        new Gravatar(gravatarClient, PASSWORD, null);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class GravatarTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`password` should not be empty");
 
-        new Gravatar(random, gravatarClient, "");
+        new Gravatar(gravatarClient, "", random);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -77,15 +77,15 @@ public class GravatarTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`password` should not be empty");
 
-        new Gravatar(random, gravatarClient, null);
+        new Gravatar(gravatarClient, null, random);
     }
 
     @SuppressWarnings("ConstantConditions")
     @Test
     public void constructorTest_nullGravatarClient() {
         expectedException.expect(NullPointerException.class);
-        
-        new Gravatar(random, null, PASSWORD);
+
+        new Gravatar(null, PASSWORD, random);
     }
 
     @Test

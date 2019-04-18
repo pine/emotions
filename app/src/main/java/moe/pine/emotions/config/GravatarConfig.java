@@ -24,11 +24,11 @@ public class GravatarConfig {
 
     @Bean
     public Gravatar gravatar(
-        @Nonnull final Random random,
         @Nonnull final GravatarProperties gravatarProperties,
-        @Nonnull final GravatarClient gravatarClient
+        @Nonnull final GravatarClient gravatarClient,
+        @Nonnull final Random random
     ) {
-        return new Gravatar(random, gravatarClient, gravatarProperties.getPassword());
+        return new Gravatar(gravatarClient, gravatarProperties.getPassword(), random);
     }
 
 }

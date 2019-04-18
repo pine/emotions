@@ -29,9 +29,16 @@ public class Gravatar {
     private final String password;
 
     public Gravatar(
-        @Nonnull final Random random,
         @Nonnull final GravatarClient gravatarClient,
         @Nonnull final String password
+    ) {
+        this(gravatarClient, password, new Random());
+    }
+
+    public Gravatar(
+        @Nonnull final GravatarClient gravatarClient,
+        @Nonnull final String password,
+        @Nonnull final Random random
     ) {
         checkArgument(StringUtils.isNotEmpty(password), "`password` should not be empty");
 
