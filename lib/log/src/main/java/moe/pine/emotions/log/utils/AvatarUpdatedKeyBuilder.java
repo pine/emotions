@@ -3,11 +3,13 @@ package moe.pine.emotions.log.utils;
 import moe.pine.emotions.log.models.AvatarType;
 import org.springframework.stereotype.Component;
 
-@Component
-public class AvatarLastUpdatedKeyBuilder {
-    private static final String KEY_FORMAT = "avatar_last_updated_at:%s";
+import javax.annotation.Nonnull;
 
-    public String buildKey(AvatarType avatarType) {
+@Component
+public class AvatarUpdatedKeyBuilder {
+    private static final String KEY_FORMAT = "avatar_updated:%s";
+
+    public String buildKey(@Nonnull final AvatarType avatarType) {
         return String.format(KEY_FORMAT, avatarType.getId());
     }
 }

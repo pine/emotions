@@ -6,6 +6,9 @@ project(':lib-gravatar').projectDir = new File(settingsDir, "/lib/gravatar")
 include ':lib-log'
 project(':lib-log').projectDir = new File(settingsDir, '/lib/log')
 
+include ':lib-mackerel'
+project(':lib-mackerel').projectDir = new File(settingsDir, '/lib/mackerel')
+
 include ':lib-cloudstorage'
 project(':lib-cloudstorage').projectDir = new File(settingsDir, "/lib/cloudstorage")
 
