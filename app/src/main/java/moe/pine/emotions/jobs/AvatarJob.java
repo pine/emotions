@@ -2,8 +2,10 @@ package moe.pine.emotions.jobs;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moe.pine.emotions.log.models.AvatarType;
 import moe.pine.emotions.services.CloudStorageService;
 import moe.pine.emotions.services.GravatarService;
+import moe.pine.emotions.services.MetricsService;
 import moe.pine.emotions.services.SlackService;
 import moe.pine.emotions.services.TwitterService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -16,7 +18,7 @@ import javax.annotation.Nonnull;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ScheduledJob {
+public class AvatarJob {
     @Nonnull
     private final CloudStorageService cloudStorageService;
 
@@ -29,11 +31,15 @@ public class ScheduledJob {
     @Nonnull
     private final TwitterService twitterService;
 
+    @Nonnull
+    private final MetricsService metricsService;
+
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
     @Scheduled(cron = "0 0 4 * * *")
     @Retryable
     public void gravatar() {
         gravatarService.chooseImage();
+        metricsService.log(AvatarType.GRAVATAR);
     }
 
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
@@ -42,6 +48,7 @@ public class ScheduledJob {
     public void slack() {
         final byte[] chosenImage = cloudStorageService.chooseImage();
         slackService.updateImage(chosenImage);
+        metricsService.log(AvatarType.SLACK);
     }
 
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
@@ -50,5 +57,6 @@ public class ScheduledJob {
     public void twitter() {
         final byte[] chosenImage = cloudStorageService.chooseImage();
         twitterService.updateImage(chosenImage);
+        metricsService.log(AvatarType.TWITTER);
     }
 }

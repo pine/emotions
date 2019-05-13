@@ -19,7 +19,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ScheduledJobTest {
+public class AvatarJobTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
@@ -36,7 +36,7 @@ public class ScheduledJobTest {
     private TwitterService twitterService;
 
     @InjectMocks
-    private ScheduledJob scheduledJob;
+    private AvatarJob avatarJob;
 
     @Captor
     private ArgumentCaptor<byte[]> imageBytesCaptor;
@@ -45,7 +45,7 @@ public class ScheduledJobTest {
     public void gravatarTest() {
         doNothing().when(gravatarService).chooseImage();
 
-        scheduledJob.gravatar();
+        avatarJob.gravatar();
 
         verify(gravatarService).chooseImage();
     }
@@ -57,7 +57,7 @@ public class ScheduledJobTest {
         when(cloudStorageService.chooseImage()).thenReturn(imageBytes);
         doNothing().when(slackService).updateImage(imageBytesCaptor.capture());
 
-        scheduledJob.slack();
+        avatarJob.slack();
 
         verify(cloudStorageService).chooseImage();
         verify(slackService).updateImage(any());
@@ -71,7 +71,7 @@ public class ScheduledJobTest {
         when(cloudStorageService.chooseImage()).thenReturn(imageBytes);
         doNothing().when(twitterService).updateImage(imageBytesCaptor.capture());
 
-        scheduledJob.twitter();
+        avatarJob.twitter();
 
         verify(cloudStorageService).chooseImage();
         verify(twitterService).updateImage(any());
