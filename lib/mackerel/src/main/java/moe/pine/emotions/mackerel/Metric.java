@@ -1,4 +1,4 @@
-package moe.pine.emotions.models;
+package moe.pine.emotions.mackerel;
 
 import lombok.Builder;
 import lombok.Value;

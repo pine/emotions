@@ -2,8 +2,7 @@ package moe.pine.emotions.jobs;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moe.pine.emotions.models.Metric;
-import moe.pine.emotions.services.MackerelService;
+import moe.pine.emotions.mackerel.Metric;
 import moe.pine.emotions.services.MetricService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.retry.annotation.Retryable;
@@ -20,9 +19,6 @@ public class MetricJob {
     @Nonnull
     private final MetricService metricService;
 
-    @Nonnull
-    private final MackerelService mackerelService;
-
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
     @Scheduled(cron = "0 * * * * *")
     @Retryable
@@ -30,6 +26,6 @@ public class MetricJob {
         final List<Metric> metrics = metricService.collect();
         log.debug("The metrics collected :: {}", metrics);
 
-        mackerelService.send(metrics);
+        metricService.send(metrics);
     }
 }
