@@ -6,13 +6,13 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageException;
 import com.google.cloud.storage.StorageOptions;
-import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -22,13 +22,14 @@ public class CloudStorage {
     @Nonnull
     private final Storage storage;
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static CloudStorage fromStream(@Nonnull final InputStream credentialsStream) {
         checkNotNull(credentialsStream);
 
         final GoogleCredentials credentials;
         try {
             credentials = GoogleCredentials.fromStream(credentialsStream)
-                .createScoped(ImmutableList.of("https://www.googleapis.com/auth/cloud-platform"));
+                .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
         } catch (IOException e) {
             throw new CloudStorageException(e);
         }
