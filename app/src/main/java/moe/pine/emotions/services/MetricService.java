@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import moe.pine.emotions.log.models.AvatarType;
 import moe.pine.emotions.log.repositories.AvatarUpdatedRepository;
 import moe.pine.emotions.mackerel.Mackerel;
-import moe.pine.emotions.mackerel.Metric;
+import moe.pine.emotions.mackerel.models.Metric;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
