@@ -5,7 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.client.RestTemplate;
 
+import java.time.Clock;
+import java.time.ZoneId;
 import java.util.Random;
 
 @Configuration
@@ -17,11 +20,26 @@ public class AppConfig {
     }
 
     @Bean
+    public Clock clock() {
+        return Clock.systemDefaultZone();
+    }
+
+    @Bean
+    public ZoneId zoneId() {
+        return ZoneId.systemDefault();
+    }
+
+    @Bean
     public TaskExecutor taskExecutor() {
         final var executor = new ThreadPoolTaskExecutor();
         executor.setWaitForTasksToCompleteOnShutdown(true);
         executor.setAwaitTerminationSeconds(60);
         return executor;
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }
 

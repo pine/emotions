@@ -1,3 +1,6 @@
+scheduling:
+  enabled: false
+
 gravatar:
   email: example@gmail.com
   password: password

@@ -1,0 +1,8 @@
+dependencies {
+    // Spring Framework
+    implementation 'org.springframework:spring-context'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Redis
+    testImplementation 'io.lettuce:lettuce-core'
+}

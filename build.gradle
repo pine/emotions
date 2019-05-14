@@ -2,6 +2,7 @@ buildscript {
     ext {
         springBootVersion = '2.1.4.RELEASE'
         lombokVersion = '1.18.6'
+        lettuceVersion = '5.1.6.RELEASE'
     }
     repositories {
         jcenter()
@@ -69,6 +70,9 @@ subprojects {
             dependency 'commons-codec:commons-codec:1.11'
             dependency 'org.apache.commons:commons-lang3:3.8.1'
             dependency 'org.apache.commons:commons-collections4:4.3'
+
+            // Redis
+            dependency "io.lettuce:lettuce-core:$lettuceVersion"
 
             // Test
             dependency 'junit:junit:4.12'

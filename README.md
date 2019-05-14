@@ -27,18 +27,6 @@ $ ./gradlew :app:bootRun
 - Slack
 - Twitter
 
-## Deployment
-
-```sh
-$ ./gradlew build
-$ heroku apps:create your-app
-$ heroku plugins:install java
-$ heroku config:set SPRING_PROFILES_ACTIVE=prod
-$ heroku config:set TZ=Asia/Tokyo
-$ heroku config:set 'JAVA_OPTS=-verbose:gc -Xlog:gc* -XX:+UseStringDeduplication'
-$ heroku deploy:jar --jar app/build/libs/app.jar --jdk 11
-```
-
 ## Development
 ### JDK
 For macOS users.
@@ -55,6 +43,25 @@ Please try the following commands after set `GRAVATAR_EMAIL`, `GRAVATAR_PASSWORD
 
 ```
 $ ./gradlew :tool-gravatar:bootRun
+```
+
+### Deployment
+
+```sh
+$ heroku apps:create your-app
+$ heroku config:set SPRING_PROFILES_ACTIVE=prod
+$ heroku config:set TZ=Asia/Tokyo
+$ heroku config:set 'JAVA_OPTS=-XX:+UseStringDeduplication'
+
+# Setup Redis
+$ heroku addons:create heroku-redis:hobby-dev
+$ heroku config | fgrep REDIS_URL
+$ vim conf/app/src/main/resources/application-prod.yml
+
+# Deploy JAR file
+$ ./gradlew build
+$ heroku plugins:install java
+$ heroku deploy:jar --jar app/build/libs/app.jar --jdk 11
 ```
 
 ## License
