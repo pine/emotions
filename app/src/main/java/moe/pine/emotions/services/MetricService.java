@@ -41,10 +41,7 @@ public class MetricService {
         final List<Pair<AvatarType, LocalDateTime>> items =
             avatarUpdatedRepository.mget(avatarTypes);
 
-        final long now = LocalDateTime.now(clock)
-            .atZone(zoneId)
-            .toEpochSecond();
-
+        final long now = clock.instant().getEpochSecond();
         return items.stream()
             .map(item -> {
                 final String name = String.format(METRICS_NAME_FORMAT, item.getKey().getId());
