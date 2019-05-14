@@ -49,6 +49,7 @@ public class GravatarClient {
         this(email, new XmlRpcClient(), new UserImageFactory(), new StatusFactory());
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     protected GravatarClient(
         @Nonnull final String email,
         @Nonnull final XmlRpcClient rpcClient,
