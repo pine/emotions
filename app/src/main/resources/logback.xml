@@ -5,37 +5,31 @@
   <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
   <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-  <!-- Reactor -->
-  <logger name="reactor.netty" level="INFO"/>
-  <logger name="reactor.util" level="INFO"/>
-
-  <!-- Spring Framework -->
-  <logger name="org.springframework.boot.SpringApplication" level="INFO"/>
-  <logger name="org.springframework.boot.autoconfigure.logging" level="INFO"/>
-  <logger name="org.springframework.boot.context.logging" level="INFO"/>
-  <logger name="org.springframework.boot.web.embedded.tomcat" level="INFO"/>
-  <logger name="org.springframework.boot.web.servlet" level="INFO"/>
-  <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="INFO"/>
-  <logger name="org.springframework.context.annotation" level="INFO"/>
-  <logger name="org.springframework.core.LocalVariableTableParameterNameDiscoverer" level="INFO"/>
-  <logger name="org.springframework.jmx" level="INFO"/>
-  <logger name="org.springframework.scheduling.concurrent" level="INFO"/>
-  <logger name="org.springframework.ui.context.support" level="INFO"/>
-  <logger name="org.springframework.web.servlet" level="INFO"/>
-
-  <!-- Twitter4J -->
-  <logger name="twitter4j" level="INFO"/>
+  <!-- Hibernate Validator -->
+  <logger name="org.hibernate.validator" level="WARN"/>
 
   <!-- Lettuce -->
   <logger name="io.lettuce.core" level="INFO"/>
 
-  <logger name="ch.qos.logback.classic.LoggerContext" level="INFO"/>
-  <logger name="io.netty.buffer.PooledByteBufAllocator" level="INFO"/>
-  <logger name="io.netty.util" level="INFO"/>
-  <logger name="org.apache.coyote.http11.Http11NioProtocol" level="WARN"/>
-  <logger name="org.apache.catalina.core.AprLifecycleListener" level="WARN"/>
-  <logger name="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator" level="INFO"/>
-  <logger name="org.hibernate.validator.internal" level="INFO"/>
+  <!-- Netty -->
+  <logger name="io.netty" level="WARN"/>
+
+  <!-- Reactor -->
+  <logger name="reactor" level="WARN"/>
+
+  <!-- Spring Framework -->
+  <logger name="org.springframework" level="INFO"/>
+  <logger name="org.springframework.boot.context.config.ConfigFileApplicationListener" level="DEBUG"/>
+
+  <!-- Twitter4J -->
+  <logger name="twitter4j" level="INFO"/>
+
+  <!-- Undertow -->
+  <logger name="org.xnio" level="WARN"/>
+  <logger name="io.undertow" level="INFO"/>
+  <logger name="io.undertow.session" level="WARN"/>
+  <logger name="io.undertow.websockets.jsr" level="ERROR"/>
+  <logger name="io.undertow.request.security" level="WARN"/>
 
   <root>
     <level value="DEBUG"/>

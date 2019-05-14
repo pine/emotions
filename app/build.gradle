@@ -1,5 +1,9 @@
 apply plugin: 'org.springframework.boot'
 
+configurations {
+    implementation.exclude module: 'spring-boot-starter-tomcat'
+}
+
 dependencies {
     // Sub-projects
     implementation project(':lib-gravatar')
@@ -12,6 +16,7 @@ dependencies {
     // Spring Framework
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-undertow'
     implementation 'org.springframework.retry:spring-retry'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
