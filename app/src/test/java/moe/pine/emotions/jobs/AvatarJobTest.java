@@ -1,7 +1,9 @@
 package moe.pine.emotions.jobs;
 
+import moe.pine.emotions.log.models.AvatarType;
 import moe.pine.emotions.services.CloudStorageService;
 import moe.pine.emotions.services.GravatarService;
+import moe.pine.emotions.services.MetricService;
 import moe.pine.emotions.services.SlackService;
 import moe.pine.emotions.services.TwitterService;
 import org.junit.Rule;
@@ -35,6 +37,9 @@ public class AvatarJobTest {
     @Mock
     private TwitterService twitterService;
 
+    @Mock
+    private MetricService metricService;
+
     @InjectMocks
     private AvatarJob avatarJob;
 
@@ -44,10 +49,12 @@ public class AvatarJobTest {
     @Test
     public void gravatarTest() {
         doNothing().when(gravatarService).chooseImage();
+        doNothing().when(metricService).log(AvatarType.GRAVATAR);
 
         avatarJob.gravatar();
 
         verify(gravatarService).chooseImage();
+        verify(metricService).log(AvatarType.GRAVATAR);
     }
 
     @Test
@@ -56,11 +63,14 @@ public class AvatarJobTest {
 
         when(cloudStorageService.chooseImage()).thenReturn(imageBytes);
         doNothing().when(slackService).updateImage(imageBytesCaptor.capture());
+        doNothing().when(metricService).log(AvatarType.SLACK);
 
         avatarJob.slack();
 
         verify(cloudStorageService).chooseImage();
         verify(slackService).updateImage(any());
+        verify(metricService).log(AvatarType.SLACK);
+
         assertArrayEquals(imageBytes, imageBytesCaptor.getValue());
     }
 
@@ -70,11 +80,14 @@ public class AvatarJobTest {
 
         when(cloudStorageService.chooseImage()).thenReturn(imageBytes);
         doNothing().when(twitterService).updateImage(imageBytesCaptor.capture());
+        doNothing().when(metricService).log(AvatarType.TWITTER);
 
         avatarJob.twitter();
 
         verify(cloudStorageService).chooseImage();
         verify(twitterService).updateImage(any());
+        verify(metricService).log(AvatarType.TWITTER);
+
         assertArrayEquals(imageBytes, imageBytesCaptor.getValue());
     }
 }

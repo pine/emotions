@@ -7,6 +7,7 @@ import moe.pine.emotions.log.utils.AvatarUpdatedKeyBuilder;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.Nonnull;
 import java.time.Instant;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+@Repository
 @RequiredArgsConstructor
 public class AvatarUpdatedRepository {
     private final StringRedisTemplate redisTemplate;

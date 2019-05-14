@@ -28,3 +28,6 @@ cloudstorage:
   images:
     - bucket: bucket
       name: name
+
+mackerel:
+  api-key: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
