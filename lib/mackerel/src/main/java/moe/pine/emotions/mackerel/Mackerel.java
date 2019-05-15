@@ -37,6 +37,16 @@ public class Mackerel {
         headers.set(API_KEY_HEADER, apiKey);
 
         final HttpEntity<?> request = new HttpEntity<>(metrics, headers);
-        restTemplate.postForObject(ENDPOINT, request, Status.class);
+        final Status status = restTemplate.postForObject(ENDPOINT, request, Status.class);
+        if (status == null) {
+            throw new MackerelException("Failed to call Mackerel API. An empty response received.");
+        }
+        if (!status.isSuccess()) {
+            throw new MackerelException(
+                String.format(
+                    "Failed to call Mackerel API :: success=%s, metrics=%s",
+                    String.valueOf(status.isSuccess()),
+                    metrics.toString()));
+        }
     }
 }
