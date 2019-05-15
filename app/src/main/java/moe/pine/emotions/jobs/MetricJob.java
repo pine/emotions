@@ -1,7 +1,6 @@
 package moe.pine.emotions.jobs;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.mackerel.models.Metric;
 import moe.pine.emotions.services.MetricService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,7 +13,6 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class MetricJob {
     @Nonnull
     private final MetricService metricService;
@@ -24,8 +22,6 @@ public class MetricJob {
     @Retryable
     public void mackerel() {
         final List<Metric> metrics = metricService.collect();
-        log.debug("The metrics collected :: {}", metrics);
-
         metricService.send(metrics);
     }
 }
