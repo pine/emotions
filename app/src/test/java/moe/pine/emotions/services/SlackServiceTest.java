@@ -42,21 +42,21 @@ public class SlackServiceTest {
     @Test
     public void updateImageTest() {
         final byte[] imageBytes = new byte[]{0x00, 0x01, 0x02};
-        final List<SlackProperties.Channel> channels =
+        final List<SlackProperties.Workspace> workspaces =
             ImmutableList.of(
-                new SlackProperties.Channel("workspace1", "token1"),
-                new SlackProperties.Channel("workspace2", "token2"),
-                new SlackProperties.Channel("workspace3", "token3")
+                new SlackProperties.Workspace("workspace1", "token1"),
+                new SlackProperties.Workspace("workspace2", "token2"),
+                new SlackProperties.Workspace("workspace3", "token3")
             );
 
-        when(slackProperties.getChannels()).thenReturn(channels);
+        when(slackProperties.getWorkspaces()).thenReturn(workspaces);
         doNothing().when(slack).setUserPhoto("token1", imageBytes);
         doNothing().when(slack).setUserPhoto("token2", imageBytes);
         doNothing().when(slack).setUserPhoto("token3", imageBytes);
 
         slackService.updateImage(imageBytes);
 
-        verify(slackProperties, times(1)).getChannels();
+        verify(slackProperties, times(1)).getWorkspaces();
         verify(slack, times(1)).setUserPhoto("token1", imageBytes);
         verify(slack, times(1)).setUserPhoto("token2", imageBytes);
         verify(slack, times(1)).setUserPhoto("token3", imageBytes);
@@ -68,13 +68,13 @@ public class SlackServiceTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`image` should not be empty.");
 
-        when(slackProperties.getChannels()).thenReturn(Collections.emptyList());
+        when(slackProperties.getWorkspaces()).thenReturn(Collections.emptyList());
         doNothing().when(slack).setUserPhoto(anyString(), any());
 
         //noinspection ConstantConditions
         slackService.updateImage(null);
 
-        verify(slackProperties, never()).getChannels();
+        verify(slackProperties, never()).getWorkspaces();
         verify(slack, never()).setUserPhoto(anyString(), any());
     }
 
@@ -83,12 +83,12 @@ public class SlackServiceTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`image` should not be empty.");
 
-        when(slackProperties.getChannels()).thenReturn(Collections.emptyList());
+        when(slackProperties.getWorkspaces()).thenReturn(Collections.emptyList());
         doNothing().when(slack).setUserPhoto(anyString(), any());
 
         slackService.updateImage(new byte[]{});
 
-        verify(slackProperties, never()).getChannels();
+        verify(slackProperties, never()).getWorkspaces();
         verify(slack, never()).setUserPhoto(anyString(), any());
     }
 }

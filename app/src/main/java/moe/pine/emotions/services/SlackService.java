@@ -24,7 +24,7 @@ public class SlackService {
     public void updateImage(@Nonnull final byte[] image) {
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
 
-        slackProperties.getChannels()
-            .forEach(channel -> slack.setUserPhoto(channel.getToken(), image));
+        slackProperties.getWorkspaces()
+            .forEach(workspace -> slack.setUserPhoto(workspace.getToken(), image));
     }
 }

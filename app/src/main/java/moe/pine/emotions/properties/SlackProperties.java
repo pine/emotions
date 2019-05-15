@@ -10,13 +10,13 @@ import java.util.List;
 @Data
 @ConfigurationProperties(prefix = "slack")
 public class SlackProperties {
-    private List<Channel> channels;
+    private List<Workspace> workspaces;
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Channel {
-        private String workspace;
+    public static class Workspace {
+        private String id;
         private String token;
     }
 }
