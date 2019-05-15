@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class HealthCheckController {
+public class HealthController {
     static final String REPOSITORY_URL = "https://github.com/pine/emotions";
 
     @GetMapping("")

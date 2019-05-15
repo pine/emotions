@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class HealthCheckControllerTest {
+public class HealthControllerTest {
     @Autowired
     private MockMvc mvc;
 
@@ -28,7 +28,7 @@ public class HealthCheckControllerTest {
     public void homeTest() {
         mvc.perform(MockMvcRequestBuilders.get("/"))
             .andExpect(status().is3xxRedirection())
-            .andExpect(redirectedUrl(HealthCheckController.REPOSITORY_URL));
+            .andExpect(redirectedUrl(HealthController.REPOSITORY_URL));
     }
 
     @Test
