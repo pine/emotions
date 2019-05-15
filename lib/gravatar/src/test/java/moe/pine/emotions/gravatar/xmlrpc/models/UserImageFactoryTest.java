@@ -1,7 +1,5 @@
 package moe.pine.emotions.gravatar.xmlrpc.models;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,14 +26,14 @@ public class UserImageFactoryTest {
 
     @Test
     public void fromTest() {
-        final List<UserImage> expected = ImmutableList.of(
+        final List<UserImage> expected = List.of(
             UserImage.builder()
                 .hash("foo")
                 .url("https://www.example.com/images/foo.png")
                 .build()
         );
 
-        final Map<String, Object[]> data = ImmutableMap.of(
+        final Map<String, Object[]> data = Map.of(
             "foo", new Object[]{0, "https://www.example.com/images/foo.png"}
         );
         final List<UserImage> actual = userImageFactory.from(data);
@@ -52,11 +50,11 @@ public class UserImageFactoryTest {
     }
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void fromNullTest() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Unexpected data format :: null");
 
-        //noinspection ConstantConditions
         userImageFactory.from(null);
     }
 
@@ -65,7 +63,7 @@ public class UserImageFactoryTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Unexpected data format ::");
 
-        userImageFactory.from(ImmutableMap.of(1, new Object[]{0, "foo"}));
+        userImageFactory.from(Map.of(1, new Object[]{0, "foo"}));
     }
 
     @Test
@@ -73,7 +71,7 @@ public class UserImageFactoryTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Unexpected data format ::");
 
-        userImageFactory.from(ImmutableMap.of("foo", true));
+        userImageFactory.from(Map.of("foo", true));
     }
 
     @Test
@@ -92,7 +90,7 @@ public class UserImageFactoryTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Unexpected array length :: expected=2, actual=0");
 
-        userImageFactory.from(ImmutableMap.of("foo", new Object[]{}));
+        userImageFactory.from(Map.of("foo", new Object[]{}));
     }
 
     @Test
@@ -100,7 +98,7 @@ public class UserImageFactoryTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Unexpected data format :: ");
 
-        userImageFactory.from(ImmutableMap.of("foo", new Object[]{0, 1}));
+        userImageFactory.from(Map.of("foo", new Object[]{0, 1}));
     }
 
 }

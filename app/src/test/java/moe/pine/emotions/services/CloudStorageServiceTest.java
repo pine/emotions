@@ -1,6 +1,5 @@
 package moe.pine.emotions.services;
 
-import com.google.common.collect.ImmutableList;
 import moe.pine.emotions.cloudstorage.CloudStorage;
 import moe.pine.emotions.properties.CloudStorageProperties;
 import org.junit.Rule;
@@ -42,7 +41,7 @@ public class CloudStorageServiceTest {
     @Test
     public void chooseImageTest() {
         final List<CloudStorageProperties.Image> images =
-            ImmutableList.of(
+            List.of(
                 /* 0 */ new CloudStorageProperties.Image("bucket1", "name1"),
                 /* 1 */ new CloudStorageProperties.Image("bucket2", "name2"),
                 /* 2 */ new CloudStorageProperties.Image("bucket3", "name3")

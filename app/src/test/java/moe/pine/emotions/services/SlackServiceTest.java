@@ -1,6 +1,5 @@
 package moe.pine.emotions.services;
 
-import com.google.common.collect.ImmutableList;
 import moe.pine.emotions.properties.SlackProperties;
 import moe.pine.emotions.slack.Slack;
 import org.junit.Rule;
@@ -43,7 +42,7 @@ public class SlackServiceTest {
     public void updateImageTest() {
         final byte[] imageBytes = new byte[]{0x00, 0x01, 0x02};
         final List<SlackProperties.Workspace> workspaces =
-            ImmutableList.of(
+            List.of(
                 new SlackProperties.Workspace("workspace1", "token1"),
                 new SlackProperties.Workspace("workspace2", "token2"),
                 new SlackProperties.Workspace("workspace3", "token3")
@@ -64,6 +63,7 @@ public class SlackServiceTest {
     }
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void updateImageNullImageTest() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`image` should not be empty.");
@@ -71,7 +71,6 @@ public class SlackServiceTest {
         when(slackProperties.getWorkspaces()).thenReturn(Collections.emptyList());
         doNothing().when(slack).setUserPhoto(anyString(), any());
 
-        //noinspection ConstantConditions
         slackService.updateImage(null);
 
         verify(slackProperties, never()).getWorkspaces();

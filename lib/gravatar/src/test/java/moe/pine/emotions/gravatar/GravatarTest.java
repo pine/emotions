@@ -1,6 +1,5 @@
 package moe.pine.emotions.gravatar;
 
-import com.google.common.collect.ImmutableList;
 import moe.pine.emotions.gravatar.xmlrpc.GravatarClient;
 import moe.pine.emotions.gravatar.xmlrpc.GravatarClientException;
 import moe.pine.emotions.gravatar.xmlrpc.models.UserImage;
@@ -119,7 +118,7 @@ public class GravatarTest {
 
         gravatar.chooseImage(
             Collections.emptyList(),
-            ImmutableList.of("example@example.com"));
+            List.of("example@example.com"));
     }
 
     @Test
@@ -128,7 +127,7 @@ public class GravatarTest {
         expectedException.expectMessage("`addresses` should not be empty");
 
         gravatar.chooseImage(
-            ImmutableList.of("example@example.com"),
+            List.of("example@example.com"),
             Collections.emptyList());
     }
 }
