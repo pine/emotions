@@ -9,6 +9,6 @@ import java.math.BigDecimal;
 @Builder
 public class Metric {
     private String name;
-    private Long time;
+    private long time;
     private BigDecimal value;
 }
