@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties(prefix = "mackerel")
+@ConfigurationProperties(prefix = "send")
 public class MackerelProperties {
     private String apiKey;
     private Graphs graphs;

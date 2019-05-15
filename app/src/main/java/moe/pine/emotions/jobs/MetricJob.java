@@ -20,7 +20,7 @@ public class MetricJob {
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
     @Scheduled(cron = "0 * * * * *")
     @Retryable
-    public void mackerel() {
+    public void send() {
         final List<Metric> metrics = metricService.collect();
         metricService.send(metrics);
     }
