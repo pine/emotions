@@ -7,10 +7,12 @@ buildscript {
     repositories {
         jcenter()
         maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
         classpath 'io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE'
+        classpath 'io.spring.gradle:propdeps-plugin:0.0.9.RELEASE'
         classpath 'gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.11'
         classpath 'net.rdrei.android.buildtimetracker:gradle-plugin:0.11.0'
     }
@@ -19,8 +21,10 @@ buildscript {
 
 allprojects {
     apply plugin: 'java'
-    apply plugin: 'eclipse'
     apply plugin: 'idea'
+    apply plugin: 'propdeps'
+    apply plugin: 'propdeps-maven'
+    apply plugin: 'propdeps-idea'
 
     group 'moe.pine.emotions'
 
@@ -30,14 +34,14 @@ allprojects {
     repositories {
         jcenter()
     }
-    
+
     compileJava {
         options.encoding = 'UTF-8'
         options.compilerArgs << '-Xlint:unchecked'
         options.compilerArgs << '-Xlint:deprecation'
     }
-    
-    
+
+
     // ----- JaCoCo ---------------------------------------
 
     apply plugin: 'jacoco'
