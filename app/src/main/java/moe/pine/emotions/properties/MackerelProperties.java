@@ -3,11 +3,10 @@ package moe.pine.emotions.properties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties(prefix = "send")
+@ConfigurationProperties(prefix = "mackerel")
 public class MackerelProperties {
     private String apiKey;
     private Graphs graphs;
