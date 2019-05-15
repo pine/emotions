@@ -22,7 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Service
 @RequiredArgsConstructor
 public class MetricService {
-    private static final String METRICS_NAME_FORMAT = "elapsed_time_%s";
+    private static final String METRICS_NAME_FORMAT = "elapsed_time.%s";
 
     private final AvatarUpdatedRepository avatarUpdatedRepository;
     private final Mackerel mackerel;
