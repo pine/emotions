@@ -5,6 +5,7 @@ import moe.pine.emotions.log.models.AvatarType;
 import moe.pine.emotions.log.repositories.AvatarUpdatedRepository;
 import moe.pine.emotions.mackerel.Mackerel;
 import moe.pine.emotions.mackerel.models.Metric;
+import moe.pine.emotions.properties.MackerelProperties;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +23,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Service
 @RequiredArgsConstructor
 public class MetricService {
-    private static final String METRICS_NAME_FORMAT = "elapsed_time.%s";
-
     private final AvatarUpdatedRepository avatarUpdatedRepository;
     private final Mackerel mackerel;
+    private final MackerelProperties mackerelProperties;
     private final Clock clock;
     private final ZoneId zoneId;
 
@@ -42,9 +42,10 @@ public class MetricService {
             avatarUpdatedRepository.mget(avatarTypes);
 
         final long now = clock.instant().getEpochSecond();
+        final String graphName = mackerelProperties.getGraphs().getElapsedTime().getName();
         return items.stream()
             .map(item -> {
-                final String name = String.format(METRICS_NAME_FORMAT, item.getKey().getId());
+                final String name = String.format("%s.%s", graphName, item.getKey().getId());
                 final long updatedAt = item.getValue().atZone(zoneId).toEpochSecond();
                 final BigDecimal value = BigDecimal.valueOf(now - updatedAt);
 
