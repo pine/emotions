@@ -16,8 +16,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 @RequiredArgsConstructor
 public class Mackerel {
-    private static final String ENDPOINT = "https://api.mackerelio.com/api/v0/services/app/tsdb";
-    private static final String API_KEY_HEADER = "X-Api-Key";
+    static final String ENDPOINT = "https://api.mackerelio.com/api/v0/services/app/tsdb";
+    static final String API_KEY_HEADER = "X-Api-Key";
 
     private final RestTemplate restTemplate;
     private final String apiKey;
