@@ -24,10 +24,10 @@ public class CloudStorageService {
     private final CloudStorageProperties cloudStorageProperties;
 
     @Nonnull
+    @SuppressWarnings("SpellCheckingInspection")
     public byte[] chooseImage() {
         final var images = cloudStorageProperties.getImages();
         if (CollectionUtils.isEmpty(images)) {
-            //noinspection SpellCheckingInspection
             throw new RuntimeException("`cloudstorage`.`images` should not be empty");
         }
 
