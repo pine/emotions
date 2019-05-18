@@ -21,15 +21,11 @@ public class CloudStorageConfig {
     public CloudStorage cloudStorage(
         @Nonnull final CloudStorageProperties cloudStorageProperties,
         @Nonnull final ResourceLoader resourceLoader
-    ) {
+    ) throws IOException {
         final String location = cloudStorageProperties.getCredentials();
         log.info("Loading GCP credentials file '{}'", location);
 
         final Resource resource = resourceLoader.getResource(location);
-        try {
-            return CloudStorage.fromStream(resource.getInputStream());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        return CloudStorage.fromStream(resource.getInputStream());
     }
 }
