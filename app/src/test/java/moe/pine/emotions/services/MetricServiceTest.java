@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -93,5 +94,23 @@ public class MetricServiceTest {
         assertEquals("graph1.twitter", metrics.get(2).getName());
         assertEquals(CLOCK.instant().getEpochSecond(), metrics.get(2).getTime());
         assertEquals(0, metrics.get(2).getValue().intValue());
+    }
+
+    @Test
+    public void sendTest() {
+        final List<Metric> metrics =
+            List.of(
+                Metric.builder()
+                    .name("metric-1")
+                    .time(1L)
+                    .value(BigDecimal.ONE)
+                    .build()
+            );
+
+        doNothing().when(mackerel).send(metrics);
+
+        metricService.send(metrics);
+
+        verify(mackerel).send(metrics);
     }
 }
