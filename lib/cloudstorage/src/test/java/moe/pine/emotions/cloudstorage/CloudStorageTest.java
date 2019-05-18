@@ -55,27 +55,24 @@ public class CloudStorageTest {
     }
 
     @Test
-    public void getEmptyBucketTest() {
+    public void getTest_emptyBucket() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`bucket` should not be empty");
-
         cloudStorage.get("", "name");
     }
 
     @Test
-    public void getNullBucketTest() {
+    @SuppressWarnings("ConstantConditions")
+    public void getTest_nullBucket() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`bucket` should not be empty");
-
-        //noinspection ConstantConditions
         cloudStorage.get(null, "name");
     }
 
     @Test
-    public void getEmptyNameTest() {
+    public void getTest_emptyName() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`name` should not be empty");
-
         cloudStorage.get("bucket", "");
     }
 
