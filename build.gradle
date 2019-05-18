@@ -33,6 +33,7 @@ allprojects {
 
     repositories {
         jcenter()
+        maven { url 'https://dl.bintray.com/pinemz/maven/' }
     }
 
     compileJava {
@@ -99,6 +100,7 @@ subprojects {
         implementation 'com.google.guava:guava'
         implementation 'org.apache.commons:commons-lang3'
         implementation 'org.apache.commons:commons-collections4'
+        implementation 'moe.pine:heroku-addons:0.1.1'
 
         // Test
         testImplementation 'junit:junit'
