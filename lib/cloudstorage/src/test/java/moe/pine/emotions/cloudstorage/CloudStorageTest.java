@@ -80,12 +80,21 @@ public class CloudStorageTest {
     }
 
     @Test
-    public void getNullNameTest() {
+    @SuppressWarnings("ConstantConditions")
+    public void getTest_nullName() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`name` should not be empty");
-
-        //noinspection ConstantConditions
         cloudStorage.get("bucket", null);
     }
 
+    @Test
+    public void getTest_blobNotFound() {
+        expectedException.expect(CloudStorageException.class);
+        expectedException.expectMessage("Not found :: blobId=");
+
+        final BlobId blobId = BlobId.of("bucket", "name");
+        when(storage.get(blobId)).thenReturn(null);
+
+        cloudStorage.get("bucket", "name");
+    }
 }
