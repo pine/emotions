@@ -11,7 +11,6 @@ import org.springframework.core.io.ResourceLoader;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 
 @Configuration
 @EnableConfigurationProperties(CloudStorageProperties.class)
