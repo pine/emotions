@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -32,21 +33,27 @@ public class HealthControllerTest {
 
     @Test
     @SneakyThrows
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void homeTest() {
         when(appProperties.getSiteUrl()).thenReturn("https://www.example.com");
 
         mvc.perform(MockMvcRequestBuilders.get("/"))
             .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrl("https://www.example.com"));
+
+        verify(appProperties).getSiteUrl();
     }
 
     @Test
     @SneakyThrows
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void homeTest_notFound() {
         when(appProperties.getSiteUrl()).thenReturn(null);
 
         mvc.perform(MockMvcRequestBuilders.get("/"))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
+
+        verify(appProperties).getSiteUrl();
     }
 
     @Test
