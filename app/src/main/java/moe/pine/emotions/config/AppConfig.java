@@ -1,6 +1,7 @@
 package moe.pine.emotions.config;
 
-import lombok.extern.slf4j.Slf4j;
+import moe.pine.emotions.properties.AppProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
@@ -12,7 +13,7 @@ import java.time.ZoneId;
 import java.util.Random;
 
 @Configuration
-@Slf4j
+@EnableConfigurationProperties(AppProperties.class)
 public class AppConfig {
     @Bean
     public Random random() {

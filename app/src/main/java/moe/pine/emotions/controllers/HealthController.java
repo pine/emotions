@@ -2,23 +2,35 @@ package moe.pine.emotions.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moe.pine.emotions.properties.AppProperties;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class HealthController {
-    static final String REPOSITORY_URL = "https://github.com/pine/emotions";
+    private final AppProperties appProperties;
 
     @GetMapping("")
-    public String home() {
-        return String.format("redirect:%s", REPOSITORY_URL);
+    public void home(final HttpServletResponse response) throws IOException {
+        final String siteUrl = appProperties.getSiteUrl();
+        if (StringUtils.isEmpty(siteUrl)) {
+            response.sendError(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase());
+            return;
+        }
+
+        response.sendRedirect(siteUrl);
     }
 
     @GetMapping(value = "health", produces = MediaType.TEXT_PLAIN_VALUE)
