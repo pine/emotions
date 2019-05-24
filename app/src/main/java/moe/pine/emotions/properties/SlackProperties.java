@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.List;
 
 @Data
-@ConfigurationProperties(prefix = "slack")
+@ConfigurationProperties("slack")
 public class SlackProperties {
     private List<Workspace> workspaces;
 

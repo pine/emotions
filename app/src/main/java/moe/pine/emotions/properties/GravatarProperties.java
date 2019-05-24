@@ -7,7 +7,7 @@ import java.util.List;
 
 
 @Data
-@ConfigurationProperties(prefix = "gravatar")
+@ConfigurationProperties("gravatar")
 public class GravatarProperties {
     private String email;
     private String password;

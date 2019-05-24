@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.List;
 
 @Data
-@ConfigurationProperties(prefix = "cloudstorage")
+@ConfigurationProperties("cloudstorage")
 public class CloudStorageProperties {
     private String credentials;
     private List<Image> images;

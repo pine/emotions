@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties(prefix = "mackerel")
+@ConfigurationProperties("mackerel")
 public class MackerelProperties {
     private String apiKey;
     private Graphs graphs;
