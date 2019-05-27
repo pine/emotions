@@ -20,8 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 @Slf4j
 public class Slack {
-    @SuppressWarnings("WeakerAccess")
-    public static final String SLACK_USERS_SET_PHOTO = "https://slack.com/api/users.setPhoto";
+    static final String SLACK_USERS_SET_PHOTO = "https://slack.com/api/users.setPhoto";
 
     @Nonnull
     private final RestTemplate restTemplate;
