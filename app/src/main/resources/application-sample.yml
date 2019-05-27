@@ -1,6 +1,9 @@
 scheduling:
   enabled: true
 
+app:
+  site-url: https://www.example.com/
+
 gravatar:
   email: example@gmail.com
   password: password
@@ -28,3 +31,9 @@ cloudstorage:
   images:
     - bucket: bucket
       name: name
+
+mackerel:
+  api-key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  graphs:
+    elapsed-time:
+      name: 'elapsed_time'
