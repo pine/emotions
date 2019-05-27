@@ -27,6 +27,9 @@ dependencies {
 
     // Redis
     implementation 'io.lettuce:lettuce-core'
+
+    // Utilities
+    implementation 'moe.pine:heroku-addons'
 }
 
 compileJava.dependsOn(processResources)

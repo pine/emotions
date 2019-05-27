@@ -61,7 +61,6 @@ subprojects {
         }
         dependencies {
             dependency 'javax.servlet:javax.servlet-api:4.0.1'
-            dependency "org.projectlombok:lombok:$lombokVersion"
 
             // Guava
             dependency 'com.google.guava:guava:27.0.1-jre'
@@ -77,6 +76,10 @@ subprojects {
 
             // Redis
             dependency "io.lettuce:lettuce-core:$lettuceVersion"
+
+            // Utilities
+            dependency "org.projectlombok:lombok:$lombokVersion"
+            dependency 'moe.pine:heroku-addons:0.2.1'
 
             // Test
             dependency 'junit:junit:4.12'
@@ -99,7 +102,6 @@ subprojects {
         implementation 'com.google.guava:guava'
         implementation 'org.apache.commons:commons-lang3'
         implementation 'org.apache.commons:commons-collections4'
-        implementation 'moe.pine:heroku-addons:0.2.1'
 
         // Test
         testImplementation 'junit:junit'
