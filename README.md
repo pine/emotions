@@ -7,6 +7,7 @@
 ## Requirements
 
 - JDK 11
+- Redis
 
 ## Libraries
 
@@ -55,14 +56,15 @@ $ heroku config:set 'JAVA_OPTS=-XX:+UseStringDeduplication'
 
 # Setup Redis
 $ heroku addons:create heroku-redis:hobby-dev
-$ heroku config | fgrep REDIS_URL
-$ vim conf/app/src/main/resources/application-prod.yml
 
 # Deploy JAR file
 $ ./gradlew build
 $ heroku plugins:install java
 $ heroku deploy:jar --jar app/build/libs/app.jar --jdk 11
 ```
+
+### Monitoring
+Mackerel's service metrics are supported.
 
 ## License
 MIT &copy; [Pine Mizune](https://profile.pine.moe/)
