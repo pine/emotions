@@ -11,6 +11,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -40,6 +41,9 @@ public class MackerelTest {
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Mock
+    private RestTemplateBuilder restTemplateBuilder;
+
+    @Mock
     private RestTemplate restTemplate;
 
     private Mackerel mackerel;
@@ -49,7 +53,8 @@ public class MackerelTest {
 
     @Before
     public void setUp() {
-        mackerel = new Mackerel(restTemplate, API_KEY);
+        when(restTemplateBuilder.build()).thenReturn(restTemplate);
+        mackerel = new Mackerel(restTemplateBuilder, API_KEY);
     }
 
     @Test

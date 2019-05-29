@@ -1,9 +1,9 @@
 package moe.pine.emotions.mackerel;
 
-import lombok.RequiredArgsConstructor;
 import moe.pine.emotions.mackerel.models.Metric;
 import moe.pine.emotions.mackerel.models.Status;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -11,10 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-@RequiredArgsConstructor
 public class Mackerel {
     static final String ENDPOINT = "https://api.mackerelio.com/api/v0/services/app/tsdb";
     static final String API_KEY_HEADER = "X-Api-Key";
@@ -22,11 +20,19 @@ public class Mackerel {
     private final RestTemplate restTemplate;
     private final String apiKey;
 
+    public Mackerel(
+        @Nonnull final RestTemplateBuilder restTemplateBuilder,
+        @Nonnull final String apiKey
+    ) {
+        this.restTemplate = restTemplateBuilder.build();
+        this.apiKey = Objects.requireNonNull(apiKey);
+    }
+
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void send(
         @Nonnull final List<Metric> metrics
     ) {
-        checkNotNull(metrics);
+        Objects.requireNonNull(metrics);
 
         if (CollectionUtils.isEmpty(metrics)) {
             return;
