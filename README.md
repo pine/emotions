@@ -6,7 +6,7 @@
 
 ## Requirements
 
-- JDK 11
+- JDK 11 or later
 - Redis
 
 ## Libraries
