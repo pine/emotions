@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.properties.AppProperties;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,12 +31,9 @@ public class HealthController {
         response.sendRedirect(siteUrl);
     }
 
-    @GetMapping(value = "health", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = "health")
     @ResponseBody
-    public String health(HttpServletResponse response) {
-        response.addHeader(HttpHeaders.PRAGMA, "no-cache");
-        response.addHeader(
-            HttpHeaders.CACHE_CONTROL, "private, no-cache, no-store, must-revalidate");
+    public String health() {
         return "OK";
     }
 }
