@@ -2,7 +2,7 @@ package moe.pine.emotions;
 
 import moe.pine.heroku.addons.HerokuRedis;
 
-public class AppInitializer {
+public final class AppInitializer {
     public static void run() {
         final HerokuRedis redis = HerokuRedis.get();
         if (redis != null) {
