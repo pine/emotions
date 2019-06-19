@@ -30,6 +30,7 @@ dependencies {
 
     // Utilities
     implementation 'moe.pine:heroku-addons'
+    implementation 'moe.pine:spring-cache-interceptors'
 }
 
 compileJava.dependsOn(processResources)

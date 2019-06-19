@@ -31,7 +31,7 @@ public class HealthController {
         response.sendRedirect(siteUrl);
     }
 
-    @GetMapping(value = "health")
+    @GetMapping("health")
     @ResponseBody
     public String health() {
         return "OK";
