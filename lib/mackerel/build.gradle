@@ -2,4 +2,11 @@ dependencies {
     // Spring Framework
     implementation 'org.springframework:spring-web'
     implementation 'org.springframework.boot:spring-boot'
+
+    // Apache Commons
+    implementation 'org.apache.commons:commons-collections4'
+    implementation 'org.apache.commons:commons-lang3'
+
+    // Utilities
+    implementation 'com.google.guava:guava'
 }

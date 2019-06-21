@@ -1,3 +1,11 @@
 dependencies {
+    // Apache Commons
+    implementation 'org.apache.commons:commons-lang3'
+
+    // Twitter4J
     implementation 'org.twitter4j:twitter4j-core'
+
+    // Utilities
+    implementation 'com.google.guava:guava'
+
 }

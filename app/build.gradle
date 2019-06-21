@@ -28,7 +28,14 @@ dependencies {
     // Redis
     implementation 'io.lettuce:lettuce-core'
 
+    // Apache Commons
+    implementation 'org.apache.commons:commons-collections4'
+    implementation 'org.apache.commons:commons-lang3'
+
     // Utilities
+    implementation 'com.google.guava:guava'
+
+    // My libraries
     implementation 'moe.pine:heroku-addons'
     implementation 'moe.pine:spring-cache-interceptors'
 }

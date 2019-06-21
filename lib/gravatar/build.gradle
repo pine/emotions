@@ -1,7 +1,16 @@
 dependencies {
+    // Apache Commons
+    implementation 'org.apache.commons:commons-collections4'
+    implementation 'org.apache.commons:commons-lang3'
     implementation 'commons-codec:commons-codec'
+
+    // XML-RPC
     implementation('org.apache.xmlrpc:xmlrpc-client') {
         exclude group: 'junit', module: 'junit'
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
+
+    // Utilities
+    implementation 'com.google.guava:guava'
+
 }

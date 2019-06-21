@@ -2,4 +2,8 @@ apply plugin: 'org.springframework.boot'
 
 dependencies {
     implementation project(':lib-gravatar')
+
+    // Apache Commons
+    implementation 'org.apache.commons:commons-lang3'
+
 }

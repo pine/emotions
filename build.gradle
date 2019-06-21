@@ -102,11 +102,6 @@ subprojects {
         implementation 'org.slf4j:slf4j-api'
         implementation 'ch.qos.logback:logback-classic'
 
-        // Utilities
-        implementation 'com.google.guava:guava'
-        implementation 'org.apache.commons:commons-lang3'
-        implementation 'org.apache.commons:commons-collections4'
-
         // Test
         testImplementation 'junit:junit'
         testImplementation 'org.mockito:mockito-core'
