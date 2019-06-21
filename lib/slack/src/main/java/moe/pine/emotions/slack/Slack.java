@@ -13,16 +13,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Nonnull;
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 @Slf4j
 public class Slack {
     static final String SLACK_USERS_SET_PHOTO = "https://slack.com/api/users.setPhoto";
 
-    @Nonnull
     private final RestTemplate restTemplate;
 
     public Slack() {
@@ -30,13 +28,13 @@ public class Slack {
     }
 
     @VisibleForTesting
-    Slack(@Nonnull final RestTemplate restTemplate) {
-        this.restTemplate = checkNotNull(restTemplate);
+    Slack(final RestTemplate restTemplate) {
+        this.restTemplate = Objects.requireNonNull(restTemplate);
     }
 
     public void setUserPhoto(
-        @Nonnull final String token,
-        @Nonnull final byte[] image
+        final String token,
+        final byte[] image
     ) {
         checkArgument(StringUtils.isNotEmpty(token), "`token` should not be empty.");
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
