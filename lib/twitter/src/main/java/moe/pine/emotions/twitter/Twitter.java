@@ -8,21 +8,20 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 @Slf4j
 public class Twitter {
     private final twitter4j.Twitter underlying;
 
     public Twitter(
-        @Nonnull final String consumerKey,
-        @Nonnull final String consumerSecret,
-        @Nonnull final String accessToken,
-        @Nonnull final String accessTokenSecret
+        final String consumerKey,
+        final String consumerSecret,
+        final String accessToken,
+        final String accessTokenSecret
     ) {
         checkArgument(StringUtils.isNotEmpty(consumerKey), "`consumerKey` should not be empty.");
         checkArgument(StringUtils.isNotEmpty(consumerSecret), "`consumerSecret` should not be empty.");
@@ -42,15 +41,15 @@ public class Twitter {
 
     @VisibleForTesting
     Twitter(
-        @Nonnull final twitter4j.Twitter twitter
+        final twitter4j.Twitter twitter
     ) {
-        underlying = checkNotNull(twitter);
+        underlying = Objects.requireNonNull(twitter);
     }
 
     /**
      * @see <a href="http://twitter4j.org/javadoc/twitter4j/TwitterImpl.html">TwitterImpl</a>
      */
-    public void updateProfileImage(@Nonnull final byte[] image) {
+    public void updateProfileImage(final byte[] image) {
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
 
         log.info("Updating profile image");
