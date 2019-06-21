@@ -1,8 +1,10 @@
 # emotions &nbsp;[![CircleCI](https://circleci.com/gh/pine/emotions/tree/master.svg?style=shield&circle-token=9aff416dfaefc86bc002a0b7630386b32079fd88)](https://circleci.com/gh/pine/emotions/tree/master) [![codecov](https://codecov.io/gh/pine/emotions/branch/master/graph/badge.svg)](https://codecov.io/gh/pine/emotions)
 :smile: Change avatar's emotion everyday.
-<br>
-<br>
 
+![](images/resized.jpg)<br>
+<sup><sup>&copy; shihina/123RF.COM</sup></sup>
+<br>
+<br>
 
 ## Requirements
 
