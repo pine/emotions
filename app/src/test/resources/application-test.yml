@@ -31,3 +31,6 @@ cloudstorage:
 
 mackerel:
   api-key: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+  graphs:
+    elapsed-time:
+      name: 'elapsed_time'
