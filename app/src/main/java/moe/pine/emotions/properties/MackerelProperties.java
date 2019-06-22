@@ -4,24 +4,31 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
+@Validated
 @ConfigurationProperties("mackerel")
 public class MackerelProperties {
-    private String apiKey;
-    private Graphs graphs;
+    private @NotBlank String apiKey;
+    private @NotNull Graphs graphs;
 
     @Data
+    @Validated
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Graphs {
-        private Graph elapsedTime;
+        private @NotNull Graph elapsedTime;
     }
 
     @Data
+    @Validated
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Graph {
-        private String name;
+        private @NotBlank String name;
     }
 }
