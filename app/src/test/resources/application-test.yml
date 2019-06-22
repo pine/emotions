@@ -1,6 +1,9 @@
 scheduling:
   enabled: false
 
+app:
+  site-url: https://github.com/pine/emotions
+
 gravatar:
   email: example@gmail.com
   password: password
