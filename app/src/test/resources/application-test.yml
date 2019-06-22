@@ -13,7 +13,7 @@ gravatar:
     - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 slack:
-  channels:
+  workspaces:
     - workspace: id
       token: xxxx-0000000000-0000000000-0000000000-xxxxxx
 
