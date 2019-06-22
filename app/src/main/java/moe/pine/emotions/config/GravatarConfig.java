@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Nonnull;
 import java.util.Random;
 
 @Configuration
@@ -17,16 +16,16 @@ import java.util.Random;
 public class GravatarConfig {
     @Bean
     public GravatarClient gravatarClient(
-        @Nonnull final GravatarProperties gravatarProperties
+        final GravatarProperties gravatarProperties
     ) {
         return new GravatarClient(gravatarProperties.getEmail());
     }
 
     @Bean
     public Gravatar gravatar(
-        @Nonnull final GravatarProperties gravatarProperties,
-        @Nonnull final GravatarClient gravatarClient,
-        @Nonnull final Random random
+        final GravatarProperties gravatarProperties,
+        final GravatarClient gravatarClient,
+        final Random random
     ) {
         return new Gravatar(gravatarClient, gravatarProperties.getPassword(), random);
     }

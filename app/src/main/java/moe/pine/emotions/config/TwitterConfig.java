@@ -7,14 +7,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Nonnull;
-
 @Configuration
 @EnableConfigurationProperties(TwitterProperties.class)
 @Slf4j
 public class TwitterConfig {
     @Bean
-    public Twitter twitter(@Nonnull final TwitterProperties twitterProperties) {
+    public Twitter twitter(final TwitterProperties twitterProperties) {
         return new Twitter(
             twitterProperties.getConsumerKey(),
             twitterProperties.getConsumerSecret(),

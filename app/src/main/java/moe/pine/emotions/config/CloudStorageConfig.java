@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 
 @Configuration
@@ -18,8 +17,8 @@ import java.io.IOException;
 public class CloudStorageConfig {
     @Bean
     public CloudStorage cloudStorage(
-        @Nonnull final CloudStorageProperties cloudStorageProperties,
-        @Nonnull final ResourceLoader resourceLoader
+        final CloudStorageProperties cloudStorageProperties,
+        final ResourceLoader resourceLoader
     ) throws IOException {
         final String location = cloudStorageProperties.getCredentials();
         log.info("Loading GCP credentials file '{}'", location);
