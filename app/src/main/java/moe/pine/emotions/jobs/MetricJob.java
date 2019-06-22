@@ -8,13 +8,11 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class MetricJob {
-    @Nonnull
     private final MetricService metricService;
 
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
