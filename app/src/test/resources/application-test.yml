@@ -14,7 +14,7 @@ gravatar:
 
 slack:
   workspaces:
-    - workspace: id
+    - id: workspace-id
       token: xxxx-0000000000-0000000000-0000000000-xxxxxx
 
 twitter:
