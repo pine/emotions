@@ -15,6 +15,7 @@ import org.mockito.junit.MockitoRule;
 import static org.junit.Assert.assertArrayEquals;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("NullableProblems")
 public class CloudStorageTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();

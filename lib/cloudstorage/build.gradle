@@ -1,4 +1,7 @@
 dependencies {
+    // Spring Framework
+    implementation 'org.springframework:spring-core'
+
     // Apache Commons
     implementation 'org.apache.commons:commons-lang3'
 

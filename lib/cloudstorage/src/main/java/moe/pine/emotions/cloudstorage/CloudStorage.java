@@ -9,22 +9,19 @@ import com.google.cloud.storage.StorageOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 @Slf4j
 public class CloudStorage {
-    @Nonnull
     private final Storage storage;
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static CloudStorage fromStream(@Nonnull final InputStream credentialsStream) {
-        checkNotNull(credentialsStream);
+    public static CloudStorage fromStream(final InputStream credentialsStream) {
+        Objects.requireNonNull(credentialsStream);
 
         final GoogleCredentials credentials;
         try {
@@ -37,21 +34,21 @@ public class CloudStorage {
         return new CloudStorage(credentials);
     }
 
-    protected CloudStorage(@Nonnull final GoogleCredentials credentials) {
+    protected CloudStorage(final GoogleCredentials credentials) {
         this(
             StorageOptions.newBuilder()
-                .setCredentials(checkNotNull(credentials))
+                .setCredentials(Objects.requireNonNull(credentials))
                 .build()
                 .getService());
     }
 
-    protected CloudStorage(@Nonnull final Storage storage) {
-        this.storage = checkNotNull(storage);
+    protected CloudStorage(final Storage storage) {
+        this.storage = Objects.requireNonNull(storage);
     }
 
     public byte[] get(
-        @Nonnull final String bucket,
-        @Nonnull final String name
+        final String bucket,
+        final String name
     ) {
         checkArgument(StringUtils.isNotEmpty(bucket), "`bucket` should not be empty");
         checkArgument(StringUtils.isNotEmpty(name), "`name` should not be empty");
