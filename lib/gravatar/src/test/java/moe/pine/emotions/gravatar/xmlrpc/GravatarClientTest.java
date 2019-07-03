@@ -32,7 +32,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("NullableProblems")
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class GravatarClientTest {
     private static final String EMAIL = "example@example.com";
     private static final String ENDPOINT = "https://secure.gravatar.com/xmlrpc?user=23463b99b62a72f26ed677cc556c44e8";
@@ -91,7 +91,6 @@ public class GravatarClientTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`email` should not be empty");
 
-        //noinspection ConstantConditions
         new GravatarClient(null);
     }
 
@@ -100,7 +99,6 @@ public class GravatarClientTest {
         expectedException.expect(NullPointerException.class);
         expectedException.expectMessage("`rpcClient` should not be empty");
 
-        //noinspection ConstantConditions
         new GravatarClient("example@example.com", null, userImageFactory, statusFactory);
     }
 
@@ -184,7 +182,6 @@ public class GravatarClientTest {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`password` should not be empty");
 
-        //noinspection ConstantConditions
         gravatarClient.useUserImage(null, "userImage", Collections.singletonList(EMAIL));
     }
 
