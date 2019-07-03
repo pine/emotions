@@ -3,19 +3,4 @@
   <Match>
     <Class name="~.*Test"/>
   </Match>
-
-  <Match>
-    <Method name="equals"/>
-    <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE"/>
-  </Match>
-
-  <Match>
-    <Method name="hashCode"/>
-    <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE"/>
-  </Match>
-
-  <Match>
-    <Class name="moe.pine.emotions.mackerel.models.Metric$MetricBuilder"/>
-    <Bug pattern="NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"/>
-  </Match>
 </FindBugsFilter>

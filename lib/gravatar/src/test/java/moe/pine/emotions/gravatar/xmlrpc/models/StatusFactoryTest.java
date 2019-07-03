@@ -9,6 +9,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("NullableProblems")
 public class StatusFactoryTest {
     private StatusFactory statusFactory;
 

@@ -2,7 +2,6 @@ package moe.pine.emotions.gravatar.xmlrpc.models;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,8 +11,7 @@ public class UserImageFactory {
     /**
      * @see <a href="https://en.gravatar.com/site/implement/xmlrpc/">XML-RPC API</a>
      */
-    @Nonnull
-    public List<UserImage> from(@Nonnull final Object data) {
+    public List<UserImage> from(final Object data) {
         if (!(data instanceof Map<?, ?>)) {
             throw new IllegalArgumentException(
                 String.format("Unexpected data format :: %s", String.valueOf(data)));

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("NullableProblems")
 public class UserImageFactoryTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();

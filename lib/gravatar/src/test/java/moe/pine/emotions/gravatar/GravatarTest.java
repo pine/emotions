@@ -20,6 +20,7 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("NullableProblems")
 public class GravatarTest {
     private static String PASSWORD = "password";
 
