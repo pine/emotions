@@ -1,6 +1,7 @@
 package moe.pine.emotions.log.utils;
 
-import moe.pine.emotions.log.models.AvatarType;
+import moe.pine.emotions.log.AvatarUpdatedKeyBuilder;
+import moe.pine.emotions.log.AvatarType;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;

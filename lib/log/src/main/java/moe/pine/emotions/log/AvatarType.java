@@ -1,4 +1,4 @@
-package moe.pine.emotions.log.models;
+package moe.pine.emotions.log;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

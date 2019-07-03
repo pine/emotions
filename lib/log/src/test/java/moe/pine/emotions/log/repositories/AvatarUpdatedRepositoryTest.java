@@ -1,7 +1,8 @@
 package moe.pine.emotions.log.repositories;
 
-import moe.pine.emotions.log.models.AvatarType;
-import moe.pine.emotions.log.utils.AvatarUpdatedKeyBuilder;
+import moe.pine.emotions.log.AvatarUpdatedRepository;
+import moe.pine.emotions.log.AvatarType;
+import moe.pine.emotions.log.AvatarUpdatedKeyBuilder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

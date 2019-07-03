@@ -2,7 +2,7 @@ package moe.pine.emotions.jobs;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moe.pine.emotions.log.models.AvatarType;
+import moe.pine.emotions.log.AvatarType;
 import moe.pine.emotions.services.CloudStorageService;
 import moe.pine.emotions.services.GravatarService;
 import moe.pine.emotions.services.MetricService;
