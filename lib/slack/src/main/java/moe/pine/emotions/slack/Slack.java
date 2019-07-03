@@ -1,10 +1,10 @@
 package moe.pine.emotions.slack;
 
-import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.slack.models.Status;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -13,23 +13,22 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Objects;
+import java.time.Duration;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
 @Slf4j
 public class Slack {
+    static final Duration TIMEOUT = Duration.ofSeconds(60);
     static final String SLACK_USERS_SET_PHOTO = "https://slack.com/api/users.setPhoto";
 
     private final RestTemplate restTemplate;
 
-    public Slack() {
-        this(new RestTemplate());
-    }
-
-    @VisibleForTesting
-    Slack(final RestTemplate restTemplate) {
-        this.restTemplate = Objects.requireNonNull(restTemplate);
+    public Slack(final RestTemplateBuilder restTemplateBuilder) {
+        restTemplate = restTemplateBuilder
+            .setReadTimeout(TIMEOUT)
+            .setConnectTimeout(TIMEOUT)
+            .build();
     }
 
     public void setUserPhoto(

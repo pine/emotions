@@ -1,16 +1,18 @@
 package moe.pine.emotions.slack;
 
 import moe.pine.emotions.slack.models.Status;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.powermock.reflect.Whitebox;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
+import static moe.pine.emotions.slack.Slack.TIMEOUT;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
@@ -18,6 +20,7 @@ import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("NullableProblems")
 public class SlackTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -26,14 +29,24 @@ public class SlackTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Mock
+    private RestTemplateBuilder restTemplateBuilder;
+
+    @Mock
     private RestTemplate restTemplate;
 
-    @InjectMocks
     private Slack slack;
+
+    @Before
+    public void setUp() {
+        when(restTemplateBuilder.setConnectTimeout(TIMEOUT)).thenReturn(restTemplateBuilder);
+        when(restTemplateBuilder.setReadTimeout(TIMEOUT)).thenReturn(restTemplateBuilder);
+        when(restTemplateBuilder.build()).thenReturn(restTemplate);
+        slack = new Slack(restTemplateBuilder);
+    }
 
     @Test
     public void constructorTest() {
-        final Slack slack = new Slack();
+        final Slack slack = new Slack(restTemplateBuilder);
         final RestTemplate restTemplate = Whitebox.getInternalState(slack, "restTemplate");
         assertNotNull(restTemplate);
     }
