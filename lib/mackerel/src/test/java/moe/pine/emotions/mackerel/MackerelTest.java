@@ -23,6 +23,7 @@ import java.util.List;
 
 import static moe.pine.emotions.mackerel.Mackerel.API_KEY_HEADER;
 import static moe.pine.emotions.mackerel.Mackerel.ENDPOINT;
+import static moe.pine.emotions.mackerel.Mackerel.TIMEOUT;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("NullableProblems")
 public class MackerelTest {
     private static final String API_KEY = "API_KEY";
 
@@ -53,6 +55,8 @@ public class MackerelTest {
 
     @Before
     public void setUp() {
+        when(restTemplateBuilder.setConnectTimeout(TIMEOUT)).thenReturn(restTemplateBuilder);
+        when(restTemplateBuilder.setReadTimeout(TIMEOUT)).thenReturn(restTemplateBuilder);
         when(restTemplateBuilder.build()).thenReturn(restTemplate);
         mackerel = new Mackerel(restTemplateBuilder, API_KEY);
     }

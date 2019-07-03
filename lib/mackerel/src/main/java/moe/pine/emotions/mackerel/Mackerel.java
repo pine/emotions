@@ -9,28 +9,31 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Nonnull;
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
 public class Mackerel {
     static final String ENDPOINT = "https://api.mackerelio.com/api/v0/services/app/tsdb";
     static final String API_KEY_HEADER = "X-Api-Key";
+    static final Duration TIMEOUT = Duration.ofSeconds(60);
 
     private final RestTemplate restTemplate;
     private final String apiKey;
 
     public Mackerel(
-        @Nonnull final RestTemplateBuilder restTemplateBuilder,
-        @Nonnull final String apiKey
+        final RestTemplateBuilder restTemplateBuilder,
+        final String apiKey
     ) {
-        this.restTemplate = restTemplateBuilder.build();
+        this.restTemplate = restTemplateBuilder
+            .setConnectTimeout(TIMEOUT)
+            .setReadTimeout(TIMEOUT)
+            .build();
         this.apiKey = Objects.requireNonNull(apiKey);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void send(
-        @Nonnull final List<Metric> metrics
+        final List<Metric> metrics
     ) {
         Objects.requireNonNull(metrics);
 
