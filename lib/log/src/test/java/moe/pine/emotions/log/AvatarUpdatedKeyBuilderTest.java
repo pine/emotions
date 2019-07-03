@@ -1,7 +1,5 @@
-package moe.pine.emotions.log.utils;
+package moe.pine.emotions.log;
 
-import moe.pine.emotions.log.AvatarUpdatedKeyBuilder;
-import moe.pine.emotions.log.AvatarType;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -10,6 +8,7 @@ import org.mockito.junit.MockitoRule;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("NullableProblems")
 public class AvatarUpdatedKeyBuilderTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();

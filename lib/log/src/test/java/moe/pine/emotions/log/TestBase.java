@@ -1,4 +1,4 @@
-package moe.pine.emotions.log.repositories;
+package moe.pine.emotions.log;
 
 import org.junit.After;
 import org.junit.Before;
@@ -7,16 +7,14 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import javax.annotation.Nonnull;
-
 import static org.mockito.Mockito.spy;
 
+@SuppressWarnings({"NullableProblems", "WeakerAccess"})
 public class TestBase {
     private static final String REDIS_HOST = "localhost";
     private static final int REDIS_PORT = 6379;
     private static final int REDIS_DATABASE = 1;
 
-    @Nonnull
     protected StringRedisTemplate redisTemplate;
 
     @Before

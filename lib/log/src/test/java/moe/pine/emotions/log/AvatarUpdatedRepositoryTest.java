@@ -1,8 +1,5 @@
-package moe.pine.emotions.log.repositories;
+package moe.pine.emotions.log;
 
-import moe.pine.emotions.log.AvatarUpdatedRepository;
-import moe.pine.emotions.log.AvatarType;
-import moe.pine.emotions.log.AvatarUpdatedKeyBuilder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
+@SuppressWarnings("NullableProblems")
 public class AvatarUpdatedRepositoryTest extends TestBase {
     private static final String GRAVATAR_KEY = "avatar_updated:gravatar";
     private static final String SLACK_KEY = "avatar_updated:slack";
