@@ -97,9 +97,20 @@ public class GravatarClientTest {
     @Test
     public void constructorNullClientExceptionTest() {
         expectedException.expect(NullPointerException.class);
-        expectedException.expectMessage("`rpcClient` should not be empty");
 
         new GravatarClient("example@example.com", null, userImageFactory, statusFactory);
+    }
+
+    @Test
+    public void constructor_nullUserImageFactory() {
+        expectedException.expect(NullPointerException.class);
+        new GravatarClient(EMAIL, xmlRpcClient, null, statusFactory);
+    }
+
+    @Test
+    public void constructor_nullStatusFactory() {
+        expectedException.expect(NullPointerException.class);
+        new GravatarClient(EMAIL, xmlRpcClient, userImageFactory, null);
     }
 
     @Test

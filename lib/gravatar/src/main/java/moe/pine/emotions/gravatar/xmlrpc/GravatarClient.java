@@ -18,9 +18,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @see <a href="https://ja.gravatar.com/site/implement/xmlrpc/">XML-RPC API</a>
@@ -52,12 +52,12 @@ public class GravatarClient {
         final StatusFactory statusFactory
     ) {
         checkArgument(StringUtils.isNotEmpty(email), "`email` should not be empty");
-        checkNotNull(rpcClient, "`rpcClient` should not be empty");
+        Objects.requireNonNull(rpcClient);
 
         this.email = email;
         this.endpoint = "https://secure.gravatar.com/xmlrpc?user=" + DigestUtils.md5Hex(email);
-        this.userImageFactory = userImageFactory;
-        this.statusFactory = statusFactory;
+        this.userImageFactory = Objects.requireNonNull(userImageFactory);
+        this.statusFactory = Objects.requireNonNull(statusFactory);
 
         final URL endpointUrl;
         try {
