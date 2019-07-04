@@ -9,16 +9,13 @@ import moe.pine.emotions.properties.MackerelProperties;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
 @RequiredArgsConstructor
@@ -29,15 +26,15 @@ public class MetricService {
     private final Clock clock;
     private final ZoneId zoneId;
 
-    public void log(
-        @Nonnull final AvatarType avatarType
-    ) {
+    public void log(final AvatarType avatarType) {
+        Objects.requireNonNull(avatarType);
+
         final LocalDateTime now = LocalDateTime.now(clock);
         avatarUpdatedRepository.set(avatarType, now);
     }
 
     public List<Metric> collect() {
-        final List<AvatarType> avatarTypes = Arrays.asList(AvatarType.values());
+        final List<AvatarType> avatarTypes = List.of(AvatarType.values());
         final List<Pair<AvatarType, LocalDateTime>> items =
             avatarUpdatedRepository.mget(avatarTypes);
 
@@ -58,9 +55,8 @@ public class MetricService {
             .collect(Collectors.toUnmodifiableList());
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void send(@Nonnull final List<Metric> metrics) {
-        checkNotNull(metrics);
+    public void send(final List<Metric> metrics) {
+        Objects.requireNonNull(metrics);
 
         mackerel.send(metrics);
     }

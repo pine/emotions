@@ -7,23 +7,16 @@ import moe.pine.emotions.properties.CloudStorageProperties;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nonnull;
 import java.util.Random;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class CloudStorageService {
-    @Nonnull
     private final Random random;
-
-    @Nonnull
     private final CloudStorage cloudStorage;
-
-    @Nonnull
     private final CloudStorageProperties cloudStorageProperties;
 
-    @Nonnull
     @SuppressWarnings("SpellCheckingInspection")
     public byte[] chooseImage() {
         final var images = cloudStorageProperties.getImages();

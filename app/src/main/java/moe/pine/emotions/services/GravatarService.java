@@ -6,17 +6,13 @@ import moe.pine.emotions.gravatar.Gravatar;
 import moe.pine.emotions.properties.GravatarProperties;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class GravatarService {
-    @Nonnull
     private final Gravatar gravatar;
-
-    @Nonnull
     private final GravatarProperties gravatarProperties;
 
     public void chooseImage() {
