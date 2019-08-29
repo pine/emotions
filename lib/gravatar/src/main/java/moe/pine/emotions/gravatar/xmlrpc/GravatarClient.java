@@ -1,7 +1,6 @@
 package moe.pine.emotions.gravatar.xmlrpc;
 
 
-import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -81,7 +80,7 @@ public class GravatarClient {
     public List<UserImage> getUserImages(final String password) {
         checkArgument(StringUtils.isNotEmpty(password), "`password` should not be empty");
 
-        final Map<String, String> params = ImmutableMap.of("password", password);
+        final Map<String, String> params = Map.of("password", password);
         try {
             final Object response = rpcClient.execute("grav.userimages", new Object[]{params});
             return userImageFactory.from(response);
@@ -102,7 +101,7 @@ public class GravatarClient {
         checkArgument(StringUtils.isNotEmpty(userImage), "`userImage` should not be empty");
         checkArgument(CollectionUtils.isNotEmpty(addresses), "`addresses` should not be empty");
 
-        final Map<String, Object> params = ImmutableMap.of(
+        final Map<String, Object> params = Map.of(
             "password", password,
             "userimage", userImage,
             "addresses", addresses
