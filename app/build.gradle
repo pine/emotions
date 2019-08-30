@@ -17,6 +17,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.retry:spring-retry'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -24,6 +25,9 @@ dependencies {
     // Servlet
     implementation 'javax.validation:validation-api'
     compileOnly 'javax.servlet:javax.servlet-api'
+
+    // Micrometer
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 
     // Redis
     implementation 'io.lettuce:lettuce-core'
