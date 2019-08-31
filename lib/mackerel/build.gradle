@@ -9,4 +9,8 @@ dependencies {
 
     // Utilities
     implementation 'com.google.guava:guava'
+
+    // Test
+    testImplementation 'junit:junit'
+    testImplementation 'org.mockito:mockito-core'
 }

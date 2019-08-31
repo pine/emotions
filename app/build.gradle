@@ -42,6 +42,12 @@ dependencies {
     // My libraries
     implementation 'moe.pine:heroku-addons'
     implementation 'moe.pine:spring-cache-interceptors'
+
+    // Test
+    testImplementation 'junit:junit'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.powermock:powermock-api-mockito2'
+    testImplementation 'org.powermock:powermock-module-junit4'
 }
 
 compileJava.dependsOn(processResources)

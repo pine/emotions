@@ -5,5 +5,4 @@ dependencies {
 
     // Apache Commons
     implementation 'org.apache.commons:commons-lang3'
-
 }
