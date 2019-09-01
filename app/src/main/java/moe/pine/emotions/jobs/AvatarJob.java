@@ -2,6 +2,7 @@ package moe.pine.emotions.jobs;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moe.pine.emotions.bookmeter.Bookmeter;
 import moe.pine.emotions.log.AvatarType;
 import moe.pine.emotions.services.CloudStorageService;
 import moe.pine.emotions.services.GravatarService;
@@ -22,6 +23,15 @@ public class AvatarJob {
     private final SlackService slackService;
     private final TwitterService twitterService;
     private final MetricService metricService;
+    private final Bookmeter bookmeter;
+
+    @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
+    @Scheduled(cron = "* * * * * *")
+    @Retryable
+    public void bookmeter() {
+//        final byte[] chosenImage = cloudStorageService.chooseImage();
+        bookmeter.updateProfileImage(new byte[]{});
+    }
 
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
     @Scheduled(cron = "0 0 4 * * *")
