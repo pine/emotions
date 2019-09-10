@@ -26,6 +26,10 @@ twitter:
   access-token: 'access_token'
   access-token-secret: 'access_token_secret'
 
+bookmeter:
+  email: example@example.com
+  password: password
+
 cloudstorage:
   credentials: 'classpath:/gcp-credentials.json'
   images:
