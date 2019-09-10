@@ -14,7 +14,6 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Duration;
-import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,13 +39,9 @@ public class WebAgent {
         webClient = webClientBuilder.baseUrl(BASE_URL).build();
     }
 
-    @Value
-    @Builder
-    public static class GetLoginResponse {
-        private String body;
-        private MultiValueMap<String, String> cookies;
-    }
-
+    /**
+     * GET /login
+     */
     public GetLoginResponse getLogin() {
         final ClientResponse clientResponse =
             webClient.get()
@@ -54,8 +49,9 @@ public class WebAgent {
                 .header(HttpHeaders.USER_AGENT, USER_AGENT)
                 .exchange()
                 .block(TIMEOUT);
-        Objects.requireNonNull(clientResponse);
-
+        if (clientResponse == null) {
+            throw new RuntimeException("An empty response received.");
+        }
         if (clientResponse.statusCode() != HttpStatus.OK) {
             throw new RuntimeException(
                 String.format("Illegal status code :: statusCode=%s", clientResponse.statusCode()));
@@ -74,24 +70,19 @@ public class WebAgent {
 
     @Value
     @Builder
-    public static class PostLoginResponse {
+    public static class GetLoginResponse {
+        private String body;
         private MultiValueMap<String, String> cookies;
     }
 
+    /**
+     * POST /login
+     */
     public PostLoginResponse postLogin(
         final MultiValueMap<String, String> formData,
         final MultiValueMap<String, String> cookies
     ) {
-        final ClientResponse clientResponse =
-            webClient.post()
-                .uri(LOGIN_PATH)
-                .header(HttpHeaders.USER_AGENT, USER_AGENT)
-                .syncBody(formData)
-                .cookies(builder -> builder.addAll(cookies))
-                .exchange()
-                .block(TIMEOUT);
-        Objects.requireNonNull(clientResponse);
-
+        final ClientResponse clientResponse = post(LOGIN_PATH, formData, cookies);
         final HttpStatus statusCode = clientResponse.statusCode();
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
@@ -100,8 +91,9 @@ public class WebAgent {
 
         final String location =
             clientResponse.headers().asHttpHeaders().getFirst(HttpHeaders.LOCATION);
-        Objects.requireNonNull(location);
-
+        if (StringUtils.isEmpty(location)) {
+            throw new RuntimeException("An empty `Location` header received.");
+        }
         if (location.contains(LOGIN_PATH)) {
             throw new RuntimeException("Incorrect email address or password");
         }
@@ -109,6 +101,12 @@ public class WebAgent {
         return PostLoginResponse.builder()
             .cookies(CookieUtils.normalize(clientResponse.cookies()))
             .build();
+    }
+
+    @Value
+    @Builder
+    public static class PostLoginResponse {
+        private MultiValueMap<String, String> cookies;
     }
 
     /**
@@ -124,8 +122,9 @@ public class WebAgent {
                 .cookies(builder -> builder.addAll(cookies))
                 .exchange()
                 .block(TIMEOUT);
-        Objects.requireNonNull(clientResponse);
-
+        if (clientResponse == null) {
+            throw new RuntimeException("An empty response received.");
+        }
         if (clientResponse.statusCode() != HttpStatus.OK) {
             throw new RuntimeException(
                 String.format("Illegal status code :: statusCode=%s", clientResponse.statusCode()));
@@ -156,20 +155,36 @@ public class WebAgent {
         final MultiValueMap<String, HttpEntity<?>> formData,
         final MultiValueMap<String, String> cookies
     ) {
-        final ClientResponse clientResponse =
-            webClient.post()
-                .uri(ACCOUNT_PATH)
-                .header(HttpHeaders.USER_AGENT, USER_AGENT)
-                .syncBody(formData)
-                .cookies(builder -> builder.addAll(cookies))
-                .exchange()
-                .block(TIMEOUT);
-        Objects.requireNonNull(clientResponse);
-
+        final ClientResponse clientResponse = post(ACCOUNT_PATH, formData, cookies);
         final HttpStatus statusCode = clientResponse.statusCode();
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
                 String.format("Illegal status code received. :: statusCode=%s", statusCode));
         }
+    }
+
+
+    /**
+     * POST
+     */
+    @VisibleForTesting
+    ClientResponse post(
+        final String path,
+        final MultiValueMap<String, ?> formData,
+        final MultiValueMap<String, String> cookies
+    ) {
+        final ClientResponse clientResponse =
+            webClient.post()
+                .uri(path)
+                .header(HttpHeaders.USER_AGENT, USER_AGENT)
+                .syncBody(formData)
+                .cookies(builder -> builder.addAll(cookies))
+                .exchange()
+                .block(TIMEOUT);
+        if (clientResponse == null) {
+            throw new RuntimeException("An empty response received.");
+        }
+
+        return clientResponse;
     }
 }
