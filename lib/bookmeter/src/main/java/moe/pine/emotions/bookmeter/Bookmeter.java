@@ -48,8 +48,10 @@ public class Bookmeter {
                 getLoginResponse.getCookies());
         log.debug("Login successful");
 
-        final WebAgent.GetAccountResponse getAccountResponse = webAgent.getAccount(postLoginResponse.getCookies());
-        final Parser.AccountFormData accountFormData = parser.parseAccountForm(getAccountResponse.getBody());
+        final WebAgent.GetAccountResponse getAccountResponse =
+            webAgent.getAccount(postLoginResponse.getCookies());
+        final Parser.AccountFormData accountFormData =
+            parser.parseAccountForm(getAccountResponse.getBody());
         log.debug("Found account form :: formData={}", accountFormData);
 
         webAgent.postAccount(
