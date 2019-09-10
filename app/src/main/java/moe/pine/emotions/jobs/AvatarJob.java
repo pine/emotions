@@ -2,8 +2,8 @@ package moe.pine.emotions.jobs;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moe.pine.emotions.bookmeter.Bookmeter;
 import moe.pine.emotions.log.AvatarType;
+import moe.pine.emotions.services.BookmeterService;
 import moe.pine.emotions.services.CloudStorageService;
 import moe.pine.emotions.services.GravatarService;
 import moe.pine.emotions.services.MetricService;
@@ -23,18 +23,19 @@ public class AvatarJob {
     private final SlackService slackService;
     private final TwitterService twitterService;
     private final MetricService metricService;
-    private final Bookmeter bookmeter;
-
-    @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
-    @Scheduled(cron = "* * * * * *")
-    @Retryable
-    public void bookmeter() {
-//        final byte[] chosenImage = cloudStorageService.chooseImage();
-        bookmeter.updateProfileImage(new byte[]{});
-    }
+    private final BookmeterService bookmeterService;
 
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
     @Scheduled(cron = "0 0 4 * * *")
+    @Retryable
+    public void bookmeter() {
+        final byte[] chosenImage = cloudStorageService.chooseImage();
+        bookmeterService.updateImage(chosenImage);
+        metricService.log(AvatarType.BOOKMETER);
+    }
+
+    @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
+    @Scheduled(cron = "0 10 4 * * *")
     @Retryable
     public void gravatar() {
         gravatarService.chooseImage();
@@ -51,7 +52,7 @@ public class AvatarJob {
     }
 
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
-    @Scheduled(cron = "0 40 4 * * *")
+    @Scheduled(cron = "0 30 4 * * *")
     @Retryable
     public void twitter() {
         final byte[] chosenImage = cloudStorageService.chooseImage();

@@ -9,6 +9,7 @@ public enum AvatarType {
     GRAVATAR("gravatar"),
     SLACK("slack"),
     TWITTER("twitter"),
+    BOOKMETER("bookmeter"),
     ;
 
     private final String id;
