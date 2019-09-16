@@ -15,17 +15,7 @@ class Parser {
             throw new RuntimeException("Login form element not found.");
         }
 
-        final Element authenticityTokenElement = form.selectFirst("[name=\"authenticity_token\"]");
-        if (authenticityTokenElement == null) {
-            throw new RuntimeException("Authenticity token element not found.");
-        }
-
-        final String authenticityToken = authenticityTokenElement.val();
-        if (StringUtils.isEmpty(authenticityToken)) {
-            throw new RuntimeException("`authenticity_token` is not found.");
-        }
-
-        return authenticityToken;
+        return parseAuthenticityToken(form);
     }
 
     @Value
@@ -42,16 +32,33 @@ class Parser {
             throw new RuntimeException("Account form element not found.");
         }
 
-        final Element authenticityTokenElement = form.selectFirst("[name=\"authenticity_token\"]");
+        final Element nameElement = form.selectFirst("[name=\"name\"]");
+        if (nameElement == null) {
+            throw new RuntimeException("Name element not found.");
+        }
+
+        final String name = nameElement.val();
+        if (StringUtils.isEmpty(name)) {
+            throw new RuntimeException("`name` is not found.");
+        }
+
+        return AccountFormData.builder()
+            .authenticityToken(parseAuthenticityToken(form))
+            .name(name)
+            .build();
+    }
+
+    private String parseAuthenticityToken(final Element element) {
+        final Element authenticityTokenElement = element.selectFirst("[name=\"authenticity_token\"]");
         if (authenticityTokenElement == null) {
             throw new RuntimeException("Authenticity token element not found.");
         }
 
-        final Element name = form.selectFirst("[name=\"name\"]");
+        final String authenticityToken = authenticityTokenElement.val();
+        if (StringUtils.isEmpty(authenticityToken)) {
+            throw new RuntimeException("`authenticity_token` is not found.");
+        }
 
-        return AccountFormData.builder()
-            .authenticityToken(authenticityTokenElement.val())
-            .name(name.val())
-            .build();
+        return authenticityToken;
     }
 }
