@@ -21,7 +21,9 @@ import java.time.Duration;
 @RequiredArgsConstructor
 class WebAgent {
     private static final Duration TIMEOUT = Duration.ofSeconds(60L);
-    private static final String BASE_URL = "https://bookmeter.com/";
+
+    @VisibleForTesting
+    static final String BASE_URL = "https://bookmeter.com/";
 
     @VisibleForTesting
     static final String USER_AGENT =
@@ -33,7 +35,7 @@ class WebAgent {
 
     private final WebClient webClient;
 
-    public WebAgent(
+    WebAgent(
         final WebClient.Builder webClientBuilder
     ) {
         this(webClientBuilder, BASE_URL);
@@ -50,7 +52,7 @@ class WebAgent {
     /**
      * GET /login
      */
-    public GetLoginResponse getLogin() {
+    GetLoginResponse getLogin() {
         final ClientResponse clientResponse = get(LOGIN_PATH, null);
         final String body = clientResponse.bodyToMono(String.class).block(TIMEOUT);
         if (StringUtils.isEmpty(body)) {
@@ -65,7 +67,7 @@ class WebAgent {
 
     @Value
     @Builder
-    public static class GetLoginResponse {
+    static class GetLoginResponse {
         private String body;
         private MultiValueMap<String, String> cookies;
     }
@@ -147,7 +149,7 @@ class WebAgent {
     /**
      * GET
      */
-    public ClientResponse get(
+    private ClientResponse get(
         final String path,
         @Nullable final MultiValueMap<String, String> cookies
     ) {
