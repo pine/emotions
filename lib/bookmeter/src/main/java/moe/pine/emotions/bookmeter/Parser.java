@@ -7,13 +7,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-public class Parser {
-    public String parseLoginForm(final String body) {
+class Parser {
+    String parseLoginForm(final String body) {
         final Document document = Jsoup.parse(body);
         final Element form = document.selectFirst("#js_sessions_new_form form");
+        if (form == null) {
+            throw new RuntimeException("Login form element not found.");
+        }
+
         final Element authenticityTokenElement = form.selectFirst("[name=\"authenticity_token\"]");
         if (authenticityTokenElement == null) {
-            throw new RuntimeException();
+            throw new RuntimeException("Authentication token element not found.");
         }
 
         final String authenticityToken = authenticityTokenElement.val();
@@ -26,12 +30,12 @@ public class Parser {
 
     @Value
     @Builder
-    public static class AccountFormData {
+    static class AccountFormData {
         private String authenticityToken;
         private String name;
     }
 
-    public AccountFormData parseAccountForm(final String body) {
+    AccountFormData parseAccountForm(final String body) {
         final Document document = Jsoup.parse(body);
         final Element form = document.selectFirst("#js_account_form");
         final Element authenticityTokenElement = form.selectFirst("[name=\"authenticity_token\"]");
