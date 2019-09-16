@@ -43,6 +43,10 @@ class Parser {
         }
 
         final Element authenticityTokenElement = form.selectFirst("[name=\"authenticity_token\"]");
+        if (authenticityTokenElement == null) {
+            throw new RuntimeException("Authenticity token element not found.");
+        }
+
         final Element name = form.selectFirst("[name=\"name\"]");
 
         return AccountFormData.builder()

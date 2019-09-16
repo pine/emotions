@@ -64,4 +64,14 @@ public class ParserTest {
 
         parser.parseAccountForm("<html><body></body></html>");
     }
+
+
+    @Test
+    public void parseAccountFormTest_noAuthenticityTokenElement() {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage("Authenticity token element not found.");
+
+        parser.parseAccountForm(
+            "<html><body><form id=\"js_account_form\"></form></body></html>");
+    }
 }
