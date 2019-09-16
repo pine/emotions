@@ -169,7 +169,7 @@ class WebAgent {
         }
         if (clientResponse.statusCode() != HttpStatus.OK) {
             throw new RuntimeException(
-                String.format("Illegal status code :: statusCode=%s", clientResponse.statusCode()));
+                String.format("Illegal status code :: statusCode=%d", clientResponse.rawStatusCode()));
         }
 
         return clientResponse;

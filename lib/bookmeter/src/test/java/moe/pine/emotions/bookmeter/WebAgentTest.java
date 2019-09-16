@@ -12,6 +12,7 @@ import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -54,9 +55,9 @@ public class WebAgentTest {
 
     @Test
     public void getLoginTest() throws InterruptedException {
-        final MockResponse mockResponse = new MockResponse();
-        mockResponse.setBody("body");
-        mockResponse.setHeader(HttpHeaders.SET_COOKIE, "name=value");
+        final MockResponse mockResponse = new MockResponse()
+            .setBody("body")
+            .setHeader(HttpHeaders.SET_COOKIE, "name=value");
         mockWebServer.enqueue(mockResponse);
 
         final MultiValueMap<String, String> expectedCookies = new LinkedMultiValueMap<>();
@@ -79,8 +80,21 @@ public class WebAgentTest {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("An empty body received.");
 
-        final MockResponse mockResponse = new MockResponse();
-        mockResponse.setBody(StringUtils.EMPTY);
+        final MockResponse mockResponse = new MockResponse()
+            .setBody(StringUtils.EMPTY);
+        mockWebServer.enqueue(mockResponse);
+
+        webAgent.getLogin();
+    }
+
+    @Test
+    public void getLoginTest_notFound() {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage("Illegal status code :: statusCode=404");
+
+        final MockResponse mockResponse = new MockResponse()
+            .setResponseCode(HttpStatus.NOT_FOUND.value())
+            .setBody("body");
         mockWebServer.enqueue(mockResponse);
 
         webAgent.getLogin();
