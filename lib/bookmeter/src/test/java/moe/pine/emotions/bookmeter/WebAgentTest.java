@@ -3,9 +3,12 @@ package moe.pine.emotions.bookmeter;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,6 +24,9 @@ import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class WebAgentTest {
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     private WebAgent webAgent;
     private MockWebServer mockWebServer;
 
@@ -66,5 +72,17 @@ public class WebAgentTest {
         assertEquals(HttpMethod.GET.name(), recordedRequest.getMethod());
         assertEquals(WebAgent.LOGIN_PATH, recordedRequest.getPath());
         assertEquals(WebAgent.USER_AGENT, recordedRequest.getHeader(HttpHeaders.USER_AGENT));
+    }
+
+    @Test
+    public void getLoginTest_emptyBody() {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage("An empty body received.");
+
+        final MockResponse mockResponse = new MockResponse();
+        mockResponse.setBody(StringUtils.EMPTY);
+        mockWebServer.enqueue(mockResponse);
+
+        webAgent.getLogin();
     }
 }

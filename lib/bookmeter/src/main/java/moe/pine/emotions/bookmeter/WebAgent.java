@@ -56,7 +56,7 @@ class WebAgent {
         final ClientResponse clientResponse = get(LOGIN_PATH, null);
         final String body = clientResponse.bodyToMono(String.class).block(TIMEOUT);
         if (StringUtils.isEmpty(body)) {
-            throw new RuntimeException("An empty body received");
+            throw new RuntimeException("An empty body received.");
         }
 
         return GetLoginResponse.builder()
