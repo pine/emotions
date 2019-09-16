@@ -1,6 +1,7 @@
 package moe.pine.emotions.jobs;
 
 import moe.pine.emotions.log.AvatarType;
+import moe.pine.emotions.services.BookmeterService;
 import moe.pine.emotions.services.CloudStorageService;
 import moe.pine.emotions.services.GravatarService;
 import moe.pine.emotions.services.MetricService;
@@ -21,9 +22,13 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("NullableProblems")
 public class AvatarJobTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+    @Mock
+    private BookmeterService bookmeterService;
 
     @Mock
     private CloudStorageService cloudStorageService;
@@ -45,6 +50,20 @@ public class AvatarJobTest {
 
     @Captor
     private ArgumentCaptor<byte[]> imageBytesCaptor;
+
+    @Test
+    public void bookmeterTest() {
+        final byte[] imageBytes = new byte[]{0x01, 0x02, 0x03};
+
+        when(cloudStorageService.chooseImage()).thenReturn(imageBytes);
+        doNothing().when(bookmeterService).updateImage(imageBytes);
+        doNothing().when(metricService).log(AvatarType.BOOKMETER);
+
+        avatarJob.bookmeter();
+
+        verify(bookmeterService).updateImage(imageBytes);
+        verify(metricService).log(AvatarType.BOOKMETER);
+    }
 
     @Test
     public void gravatarTest() {

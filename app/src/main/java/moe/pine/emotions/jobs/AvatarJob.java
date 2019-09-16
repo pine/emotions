@@ -18,12 +18,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 public class AvatarJob {
+    private final BookmeterService bookmeterService;
     private final CloudStorageService cloudStorageService;
     private final GravatarService gravatarService;
     private final SlackService slackService;
     private final TwitterService twitterService;
     private final MetricService metricService;
-    private final BookmeterService bookmeterService;
 
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
     @Scheduled(cron = "0 0 4 * * *")
