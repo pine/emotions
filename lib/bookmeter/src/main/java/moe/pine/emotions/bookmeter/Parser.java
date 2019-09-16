@@ -17,7 +17,7 @@ class Parser {
 
         final Element authenticityTokenElement = form.selectFirst("[name=\"authenticity_token\"]");
         if (authenticityTokenElement == null) {
-            throw new RuntimeException("Authentication token element not found.");
+            throw new RuntimeException("Authenticity token element not found.");
         }
 
         final String authenticityToken = authenticityTokenElement.val();
