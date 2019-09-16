@@ -1,5 +1,7 @@
 package moe.pine.emotions.bookmeter;
 
+import okhttp3.Cookie;
+import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -98,5 +100,53 @@ public class WebAgentTest {
         mockWebServer.enqueue(mockResponse);
 
         webAgent.getLogin();
+    }
+
+    @Test
+    public void postLoginTest() throws InterruptedException {
+        final MockResponse mockResponse = new MockResponse()
+            .setResponseCode(HttpStatus.FOUND.value())
+            .addHeader(HttpHeaders.LOCATION, WebAgent.BASE_URL)
+            .addHeader(HttpHeaders.SET_COOKIE, "name=value");
+        mockWebServer.enqueue(mockResponse);
+
+        final MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> cookies =
+            new LinkedMultiValueMap<>() {{
+                set("foo", "1");
+            }};
+
+        final MultiValueMap<String, String> responseCookies =
+            new LinkedMultiValueMap<>() {{
+                set("name", "value");
+            }};
+        final WebAgent.PostLoginResponse expected =
+            WebAgent.PostLoginResponse.builder()
+                .cookies(responseCookies)
+                .build();
+
+        final WebAgent.PostLoginResponse actual = webAgent.postLogin(formData, cookies);
+        assertEquals(expected, actual);
+
+        final RecordedRequest recordedRequest = mockWebServer.takeRequest();
+        assertEquals(1, mockWebServer.getRequestCount());
+        assertEquals(HttpMethod.POST.name(), recordedRequest.getMethod());
+        assertEquals(WebAgent.LOGIN_PATH, recordedRequest.getPath());
+        assertEquals(WebAgent.USER_AGENT, recordedRequest.getHeader(HttpHeaders.USER_AGENT));
+        assertEquals("foo=1", recordedRequest.getHeader(HttpHeaders.COOKIE));
+    }
+
+    @Test
+    public void postLoginTest_illegalStatus() {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage("Illegal status code received. :: statusCode=200");
+
+        final MockResponse mockResponse = new MockResponse();
+        mockWebServer.enqueue(mockResponse);
+
+        final MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> cookies = new LinkedMultiValueMap<>();
+
+        webAgent.postLogin(formData, cookies);
     }
 }

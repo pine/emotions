@@ -30,7 +30,10 @@ class WebAgent {
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) "
             + "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36";
 
+    @VisibleForTesting
     static final String LOGIN_PATH = "/login";
+
+    @VisibleForTesting
     static final String ACCOUNT_PATH = "/account";
 
     private final WebClient webClient;
@@ -75,7 +78,7 @@ class WebAgent {
     /**
      * POST /login
      */
-    public PostLoginResponse postLogin(
+    PostLoginResponse postLogin(
         final MultiValueMap<String, String> formData,
         final MultiValueMap<String, String> cookies
     ) {
@@ -83,7 +86,7 @@ class WebAgent {
         final HttpStatus statusCode = clientResponse.statusCode();
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
-                String.format("Illegal status code received. :: statusCode=%s", statusCode));
+                String.format("Illegal status code received. :: statusCode=%s", statusCode.value()));
         }
 
         final String location =
@@ -102,7 +105,7 @@ class WebAgent {
 
     @Value
     @Builder
-    public static class PostLoginResponse {
+    static class PostLoginResponse {
         private MultiValueMap<String, String> cookies;
     }
 
