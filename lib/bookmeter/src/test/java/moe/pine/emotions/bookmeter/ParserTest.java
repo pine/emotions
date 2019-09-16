@@ -24,8 +24,8 @@ public class ParserTest {
     public void parseLoginFormTest() {
         final String token =
             parser.parseLoginForm(
-                "<html><body><div id=\"js_sessions_new_form\"><form>" +
-                    "<input name=\"authenticity_token\" value=\"TOKEN\"></form></div></body></html>");
+                "<html><body><div id=\"js_sessions_new_form\"><form>"
+                    + "<input name=\"authenticity_token\" value=\"TOKEN\"></form></div></body></html>");
 
         assertEquals("TOKEN", token);
     }
@@ -53,8 +53,8 @@ public class ParserTest {
         expectedException.expectMessage("`authenticity_token` is not found.");
 
         parser.parseLoginForm(
-            "<html><body><div id=\"js_sessions_new_form\"><form>" +
-                "<input name=\"authenticity_token\" value=\"\"></form></div></body></html>");
+            "<html><body><div id=\"js_sessions_new_form\"><form>"
+                + "<input name=\"authenticity_token\" value=\"\"></form></div></body></html>");
     }
 
     @Test
