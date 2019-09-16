@@ -1,5 +1,8 @@
 include ':app'
 
+include ':lib-bookmeter'
+project(':lib-bookmeter').projectDir = new File(settingsDir, "/lib/bookmeter")
+
 include ':lib-gravatar'
 project(':lib-gravatar').projectDir = new File(settingsDir, "/lib/gravatar")
 

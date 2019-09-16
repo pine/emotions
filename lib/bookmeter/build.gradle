@@ -1,0 +1,19 @@
+dependencies {
+    // Spring Framework
+    implementation 'org.springframework.data:spring-data-commons'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // Apache Commons
+    implementation 'org.apache.commons:commons-lang3'
+
+    // Guava
+    implementation 'com.google.guava:guava'
+
+    // HTML parser
+    implementation 'org.jsoup:jsoup'
+
+    // Test
+    testImplementation 'junit:junit'
+    testImplementation 'org.mockito:mockito-core'
+}

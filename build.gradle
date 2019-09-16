@@ -78,6 +78,9 @@ subprojects {
             // Redis
             dependency "io.lettuce:lettuce-core:$lettuceVersion"
 
+            // HTML parser
+            dependency 'org.jsoup:jsoup:1.12.1'
+
             // Utilities
             dependency "org.projectlombok:lombok:$lombokVersion"
             dependency 'moe.pine:heroku-addons:0.2.1'
