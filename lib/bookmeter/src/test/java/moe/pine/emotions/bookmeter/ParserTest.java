@@ -58,6 +58,24 @@ public class ParserTest {
     }
 
     @Test
+    public void parseAccountFormTest() {
+        final var expected =
+            Parser.AccountFormData.builder()
+                .authenticityToken("TOKEN")
+                .name("NAME")
+                .build();
+
+        final var actual =
+            parser.parseAccountForm(
+                "<html><body><form id=\"js_account_form\">"
+                    + "<input name=\"name\" value=\"NAME\">"
+                    + "<input name=\"authenticity_token\" value=\"TOKEN\">"
+                    + "</form></body></html>");
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void parseAccountFormTest_noFormElement() {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("Account form element not found.");
