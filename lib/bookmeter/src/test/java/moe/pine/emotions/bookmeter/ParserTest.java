@@ -56,4 +56,12 @@ public class ParserTest {
             "<html><body><div id=\"js_sessions_new_form\"><form>" +
                 "<input name=\"authenticity_token\" value=\"\"></form></div></body></html>");
     }
+
+    @Test
+    public void parseAccountFormTest_noFormElement() {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage("Account form element not found.");
+
+        parser.parseAccountForm("<html><body></body></html>");
+    }
 }

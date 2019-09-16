@@ -38,6 +38,10 @@ class Parser {
     AccountFormData parseAccountForm(final String body) {
         final Document document = Jsoup.parse(body);
         final Element form = document.selectFirst("#js_account_form");
+        if (form == null) {
+            throw new RuntimeException("Account form element not found.");
+        }
+
         final Element authenticityTokenElement = form.selectFirst("[name=\"authenticity_token\"]");
         final Element name = form.selectFirst("[name=\"name\"]");
 
