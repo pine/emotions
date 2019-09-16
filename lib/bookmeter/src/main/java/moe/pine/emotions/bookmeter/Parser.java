@@ -32,19 +32,9 @@ class Parser {
             throw new RuntimeException("Account form element not found.");
         }
 
-        final Element nameElement = form.selectFirst("[name=\"name\"]");
-        if (nameElement == null) {
-            throw new RuntimeException("Name element not found.");
-        }
-
-        final String name = nameElement.val();
-        if (StringUtils.isEmpty(name)) {
-            throw new RuntimeException("`name` is not found.");
-        }
-
         return AccountFormData.builder()
             .authenticityToken(parseAuthenticityToken(form))
-            .name(name)
+            .name(parseName(form))
             .build();
     }
 
@@ -60,5 +50,19 @@ class Parser {
         }
 
         return authenticityToken;
+    }
+
+    private String parseName(final Element element) {
+        final Element nameElement = element.selectFirst("[name=\"name\"]");
+        if (nameElement == null) {
+            throw new RuntimeException("Name element not found.");
+        }
+
+        final String name = nameElement.val();
+        if (StringUtils.isEmpty(name)) {
+            throw new RuntimeException("`name` is not found.");
+        }
+
+        return name;
     }
 }

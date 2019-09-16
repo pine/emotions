@@ -90,6 +90,7 @@ public class ParserTest {
 
         parser.parseAccountForm(
             "<html><body><form id=\"js_account_form\">"
+                + "<input name=\"authenticity_token\" value=\"TOKEN\">"
                 + "</form></body></html>");
     }
 
@@ -101,6 +102,7 @@ public class ParserTest {
         parser.parseAccountForm(
             "<html><body><form id=\"js_account_form\">"
                 + "<input name=\"name\" value=\"\">"
+                + "<input name=\"authenticity_token\" value=\"TOKEN\">"
                 + "</form></body></html>");
     }
 
