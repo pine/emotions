@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,11 +19,9 @@ import java.time.Duration;
 
 @Slf4j
 @RequiredArgsConstructor
-public class WebAgent {
+class WebAgent {
     private static final Duration TIMEOUT = Duration.ofSeconds(60L);
-
-    @VisibleForTesting
-    static final String BASE_URL = "https://bookmeter.com/";
+    private static final String BASE_URL = "https://bookmeter.com/";
 
     @VisibleForTesting
     static final String USER_AGENT =
@@ -36,27 +36,22 @@ public class WebAgent {
     public WebAgent(
         final WebClient.Builder webClientBuilder
     ) {
-        webClient = webClientBuilder.baseUrl(BASE_URL).build();
+        this(webClientBuilder, BASE_URL);
+    }
+
+    @VisibleForTesting
+    WebAgent(
+        final WebClient.Builder webClientBuilder,
+        final String baseUrl
+    ) {
+        webClient = webClientBuilder.baseUrl(baseUrl).build();
     }
 
     /**
      * GET /login
      */
     public GetLoginResponse getLogin() {
-        final ClientResponse clientResponse =
-            webClient.get()
-                .uri(LOGIN_PATH)
-                .header(HttpHeaders.USER_AGENT, USER_AGENT)
-                .exchange()
-                .block(TIMEOUT);
-        if (clientResponse == null) {
-            throw new RuntimeException("An empty response received.");
-        }
-        if (clientResponse.statusCode() != HttpStatus.OK) {
-            throw new RuntimeException(
-                String.format("Illegal status code :: statusCode=%s", clientResponse.statusCode()));
-        }
-
+        final ClientResponse clientResponse = get(LOGIN_PATH, null);
         final String body = clientResponse.bodyToMono(String.class).block(TIMEOUT);
         if (StringUtils.isEmpty(body)) {
             throw new RuntimeException("An empty body received");
@@ -115,21 +110,7 @@ public class WebAgent {
     public GetAccountResponse getAccount(
         final MultiValueMap<String, String> cookies
     ) {
-        final ClientResponse clientResponse =
-            webClient.get()
-                .uri(ACCOUNT_PATH)
-                .header(HttpHeaders.USER_AGENT, USER_AGENT)
-                .cookies(builder -> builder.addAll(cookies))
-                .exchange()
-                .block(TIMEOUT);
-        if (clientResponse == null) {
-            throw new RuntimeException("An empty response received.");
-        }
-        if (clientResponse.statusCode() != HttpStatus.OK) {
-            throw new RuntimeException(
-                String.format("Illegal status code :: statusCode=%s", clientResponse.statusCode()));
-        }
-
+        final ClientResponse clientResponse = get(ACCOUNT_PATH, cookies);
         final String body = clientResponse.bodyToMono(String.class).block(TIMEOUT);
         if (StringUtils.isEmpty(body)) {
             throw new RuntimeException("An empty body received");
@@ -163,12 +144,39 @@ public class WebAgent {
         }
     }
 
+    /**
+     * GET
+     */
+    public ClientResponse get(
+        final String path,
+        @Nullable final MultiValueMap<String, String> cookies
+    ) {
+        final ClientResponse clientResponse =
+            webClient.get()
+                .uri(path)
+                .header(HttpHeaders.USER_AGENT, USER_AGENT)
+                .cookies(builder -> {
+                    if (MapUtils.isNotEmpty(cookies)) {
+                        builder.addAll(cookies);
+                    }
+                })
+                .exchange()
+                .block(TIMEOUT);
+        if (clientResponse == null) {
+            throw new RuntimeException("An empty response received.");
+        }
+        if (clientResponse.statusCode() != HttpStatus.OK) {
+            throw new RuntimeException(
+                String.format("Illegal status code :: statusCode=%s", clientResponse.statusCode()));
+        }
+
+        return clientResponse;
+    }
 
     /**
      * POST
      */
-    @VisibleForTesting
-    ClientResponse post(
+    private ClientResponse post(
         final String path,
         final MultiValueMap<String, ?> formData,
         final MultiValueMap<String, String> cookies
