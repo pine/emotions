@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class WebAgentTest {
     private WebAgent webAgent;
     private MockWebServer mockWebServer;
