@@ -1,7 +1,5 @@
 package moe.pine.emotions.bookmeter;
 
-import okhttp3.Cookie;
-import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -107,25 +105,28 @@ public class WebAgentTest {
         final MockResponse mockResponse = new MockResponse()
             .setResponseCode(HttpStatus.FOUND.value())
             .addHeader(HttpHeaders.LOCATION, WebAgent.BASE_URL)
-            .addHeader(HttpHeaders.SET_COOKIE, "name=value");
+            .addHeader(HttpHeaders.SET_COOKIE, "response-cookie=qwerty");
         mockWebServer.enqueue(mockResponse);
 
-        final MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        final MultiValueMap<String, String> cookies =
+        final MultiValueMap<String, String> formData =
             new LinkedMultiValueMap<>() {{
-                set("foo", "1");
+                set("form-data", "abc");
             }};
-
+        final MultiValueMap<String, String> requestCookies =
+            new LinkedMultiValueMap<>() {{
+                set("request-cookie", "12345");
+            }};
         final MultiValueMap<String, String> responseCookies =
             new LinkedMultiValueMap<>() {{
-                set("name", "value");
+                set("response-cookie", "qwerty");
             }};
+
         final WebAgent.PostLoginResponse expected =
             WebAgent.PostLoginResponse.builder()
                 .cookies(responseCookies)
                 .build();
 
-        final WebAgent.PostLoginResponse actual = webAgent.postLogin(formData, cookies);
+        final WebAgent.PostLoginResponse actual = webAgent.postLogin(formData, requestCookies);
         assertEquals(expected, actual);
 
         final RecordedRequest recordedRequest = mockWebServer.takeRequest();
@@ -133,7 +134,8 @@ public class WebAgentTest {
         assertEquals(HttpMethod.POST.name(), recordedRequest.getMethod());
         assertEquals(WebAgent.LOGIN_PATH, recordedRequest.getPath());
         assertEquals(WebAgent.USER_AGENT, recordedRequest.getHeader(HttpHeaders.USER_AGENT));
-        assertEquals("foo=1", recordedRequest.getHeader(HttpHeaders.COOKIE));
+        assertEquals("request-cookie=12345", recordedRequest.getHeader(HttpHeaders.COOKIE));
+        assertEquals("form-data=abc", recordedRequest.getBody().readUtf8());
     }
 
     @Test
@@ -142,6 +144,21 @@ public class WebAgentTest {
         expectedException.expectMessage("Illegal status code received. :: statusCode=200");
 
         final MockResponse mockResponse = new MockResponse();
+        mockWebServer.enqueue(mockResponse);
+
+        final MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> cookies = new LinkedMultiValueMap<>();
+
+        webAgent.postLogin(formData, cookies);
+    }
+
+    @Test
+    public void postLoginTest_emptyLocationHeader() {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage("An empty `Location` header received.");
+
+        final MockResponse mockResponse = new MockResponse()
+            .setResponseCode(HttpStatus.FOUND.value());
         mockWebServer.enqueue(mockResponse);
 
         final MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
