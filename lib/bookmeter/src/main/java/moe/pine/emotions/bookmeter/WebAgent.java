@@ -112,7 +112,7 @@ class WebAgent {
     /**
      * GET /account
      */
-    public GetAccountResponse getAccount(
+    GetAccountResponse getAccount(
         final MultiValueMap<String, String> cookies
     ) {
         final ClientResponse clientResponse = get(ACCOUNT_PATH, cookies);
@@ -129,7 +129,7 @@ class WebAgent {
 
     @Value
     @Builder
-    public static class GetAccountResponse {
+    static class GetAccountResponse {
         private String body;
         private MultiValueMap<String, String> cookies;
     }

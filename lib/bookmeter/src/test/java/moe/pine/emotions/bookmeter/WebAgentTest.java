@@ -166,4 +166,32 @@ public class WebAgentTest {
 
         webAgent.postLogin(formData, cookies);
     }
+
+    @Test
+    public void getAccountTest() throws InterruptedException {
+        final MockResponse mockResponse = new MockResponse()
+            .setBody("body")
+            .setHeader(HttpHeaders.SET_COOKIE, "res=12345");
+        mockWebServer.enqueue(mockResponse);
+
+        final MultiValueMap<String, String> requestCookies = new LinkedMultiValueMap<>();
+        requestCookies.set("req", "abc");
+
+        final MultiValueMap<String, String> responseCookies = new LinkedMultiValueMap<>();
+        responseCookies.set("res", "12345");
+
+        final WebAgent.GetAccountResponse expected =
+            WebAgent.GetAccountResponse.builder()
+                .body("body")
+                .cookies(responseCookies)
+                .build();
+        final WebAgent.GetAccountResponse actual = webAgent.getAccount(requestCookies);
+        assertEquals(expected, actual);
+
+        final RecordedRequest recordedRequest = mockWebServer.takeRequest();
+        assertEquals(1, mockWebServer.getRequestCount());
+        assertEquals(HttpMethod.GET.name(), recordedRequest.getMethod());
+        assertEquals(WebAgent.ACCOUNT_PATH, recordedRequest.getPath());
+        assertEquals("req=abc", recordedRequest.getHeader(HttpHeaders.COOKIE));
+    }
 }
