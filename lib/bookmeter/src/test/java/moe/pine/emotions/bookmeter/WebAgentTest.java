@@ -194,4 +194,16 @@ public class WebAgentTest {
         assertEquals(WebAgent.ACCOUNT_PATH, recordedRequest.getPath());
         assertEquals("req=abc", recordedRequest.getHeader(HttpHeaders.COOKIE));
     }
+
+    @Test
+    public void getAccountTest_emptyBody()  {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage("An empty body received");
+
+        final MockResponse mockResponse = new MockResponse().setBody("");
+        mockWebServer.enqueue(mockResponse);
+
+        final MultiValueMap<String, String> cookies = new LinkedMultiValueMap<>();
+        webAgent.getAccount(cookies);
+    }
 }
