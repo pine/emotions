@@ -26,7 +26,7 @@ $ ./gradlew :app:bootRun
 
 ## Supported services
 
-- Bookmeter
+- [Bookmeter](https://bookmeter.com/)
 - Gravatar
 - Slack
 - Twitter
