@@ -20,7 +20,8 @@ import java.time.Duration;
 @Slf4j
 @RequiredArgsConstructor
 class WebAgent {
-    private static final Duration TIMEOUT = Duration.ofSeconds(60L);
+    @VisibleForTesting
+    static final Duration TIMEOUT = Duration.ofSeconds(60L);
 
     @VisibleForTesting
     static final String BASE_URL = "https://bookmeter.com/";
@@ -41,15 +42,7 @@ class WebAgent {
     WebAgent(
         final WebClient.Builder webClientBuilder
     ) {
-        this(webClientBuilder, BASE_URL);
-    }
-
-    @VisibleForTesting
-    WebAgent(
-        final WebClient.Builder webClientBuilder,
-        final String baseUrl
-    ) {
-        webClient = webClientBuilder.baseUrl(baseUrl).build();
+        webClient = webClientBuilder.baseUrl(BASE_URL).build();
     }
 
     /**
@@ -181,7 +174,8 @@ class WebAgent {
     /**
      * POST
      */
-    private ClientResponse post(
+    @VisibleForTesting
+    ClientResponse post(
         final String path,
         final MultiValueMap<String, ?> formData,
         final MultiValueMap<String, String> cookies
