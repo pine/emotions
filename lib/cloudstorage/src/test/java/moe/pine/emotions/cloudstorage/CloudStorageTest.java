@@ -15,11 +15,11 @@ import org.mockito.junit.MockitoRule;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertArrayEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 @SuppressWarnings("NullableProblems")
@@ -49,6 +49,7 @@ public class CloudStorageTest {
     @Test
     public void fromStreamTest() throws IOException {
         expectedException.expect(CloudStorageException.class);
+        expectedException.expectCause(instanceOf(IOException.class));
 
         final InputStream inputStream = mock(InputStream.class);
         when(inputStream.read()).thenThrow(IOException.class);
