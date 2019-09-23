@@ -4,6 +4,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -112,6 +113,18 @@ public class CloudStorageTest {
 
         final BlobId blobId = BlobId.of("bucket", "name");
         when(storage.get(blobId)).thenReturn(null);
+
+        cloudStorage.get("bucket", "name");
+    }
+
+    @Test
+    public void getTest_storageException() {
+        expectedException.expect(CloudStorageException.class);
+        expectedException.expectCause(instanceOf(StorageException.class));
+
+        final BlobId blobId = BlobId.of("bucket", "name");
+        when(storage.get(blobId)).thenReturn(blob);
+        when(blob.getContent(any())).thenThrow(StorageException.class);
 
         cloudStorage.get("bucket", "name");
     }
