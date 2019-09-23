@@ -12,7 +12,14 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import static org.junit.Assert.assertArrayEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 @SuppressWarnings("NullableProblems")
@@ -37,6 +44,18 @@ public class CloudStorageTest {
     @Before
     public void setUp() {
         cloudStorage = new CloudStorage(storage);
+    }
+
+    @Test
+    public void fromStreamTest() throws IOException {
+        expectedException.expect(CloudStorageException.class);
+
+        final InputStream inputStream = mock(InputStream.class);
+        when(inputStream.read()).thenThrow(IOException.class);
+        when(inputStream.read(any(byte[].class))).thenThrow(IOException.class);
+        when(inputStream.read(any(byte[].class), anyInt(), anyInt())).thenThrow(IOException.class);
+
+        CloudStorage.fromStream(inputStream);
     }
 
     @Test
