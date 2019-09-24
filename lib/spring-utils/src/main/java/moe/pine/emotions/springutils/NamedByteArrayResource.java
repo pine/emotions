@@ -1,4 +1,4 @@
-package moe.pine.emotions.spring.utils;
+package moe.pine.emotions.springutils;
 
 import org.springframework.core.io.ByteArrayResource;
 

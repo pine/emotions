@@ -3,7 +3,7 @@ package moe.pine.emotions.bookmeter;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import moe.pine.emotions.spring.utils.NamedByteArrayResource;
+import moe.pine.emotions.springutils.NamedByteArrayResource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
