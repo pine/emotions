@@ -9,6 +9,7 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.ByteArrayInputStream;
+import java.time.Duration;
 import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -21,18 +22,24 @@ public class Twitter {
         final String consumerKey,
         final String consumerSecret,
         final String accessToken,
-        final String accessTokenSecret
+        final String accessTokenSecret,
+        final Duration connectionTimeout,
+        final Duration readTimeout
     ) {
         checkArgument(StringUtils.isNotEmpty(consumerKey), "`consumerKey` should not be empty.");
         checkArgument(StringUtils.isNotEmpty(consumerSecret), "`consumerSecret` should not be empty.");
         checkArgument(StringUtils.isNotEmpty(accessToken), "`accessToken` should not be empty.");
         checkArgument(StringUtils.isNotEmpty(accessTokenSecret), "`accessTokenSecret` should not be empty.");
+        Objects.requireNonNull(connectionTimeout);
+        Objects.requireNonNull(readTimeout);
 
         final Configuration conf = new ConfigurationBuilder()
             .setOAuthConsumerKey(consumerKey)
             .setOAuthConsumerSecret(consumerSecret)
             .setOAuthAccessToken(accessToken)
             .setOAuthAccessTokenSecret(accessTokenSecret)
+            .setHttpConnectionTimeout((int) connectionTimeout.toMillis())
+            .setHttpReadTimeout((int) readTimeout.toMillis())
             .build();
 
         final var twitterFactory = new TwitterFactory(conf);

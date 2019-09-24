@@ -12,6 +12,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.conf.Configuration;
 
 import java.io.InputStream;
+import java.time.Duration;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.any;
@@ -38,7 +39,9 @@ public class TwitterTest {
             "consumer_key",
             "consumer_secret",
             "access_token",
-            "access_token_secret"
+            "access_token_secret",
+            Duration.ofSeconds(60),
+            Duration.ofSeconds(120)
         );
 
         final twitter4j.Twitter underlying =
@@ -61,7 +64,9 @@ public class TwitterTest {
             "",
             "consumer_secret",
             "access_token",
-            "access_token_secret"
+            "access_token_secret",
+            Duration.ofSeconds(60),
+            Duration.ofSeconds(120)
         );
     }
 
@@ -74,7 +79,9 @@ public class TwitterTest {
             "consumer_key",
             "",
             "access_token",
-            "access_token_secret"
+            "access_token_secret",
+            Duration.ofSeconds(60),
+            Duration.ofSeconds(120)
         );
     }
 
@@ -87,7 +94,9 @@ public class TwitterTest {
             "consumer_key",
             "consumer_secret",
             "",
-            "access_token_secret"
+            "access_token_secret",
+            Duration.ofSeconds(60),
+            Duration.ofSeconds(120)
         );
     }
 
@@ -100,7 +109,9 @@ public class TwitterTest {
             "consumer_key",
             "consumer_secret",
             "access_token",
-            ""
+            "",
+            Duration.ofSeconds(60),
+            Duration.ofSeconds(120)
         );
     }
 

@@ -17,7 +17,9 @@ public class TwitterConfig {
             twitterProperties.getConsumerKey(),
             twitterProperties.getConsumerSecret(),
             twitterProperties.getAccessToken(),
-            twitterProperties.getAccessTokenSecret()
+            twitterProperties.getAccessTokenSecret(),
+            twitterProperties.getConnectionTimeout(),
+            twitterProperties.getReadTimeout()
         );
     }
 }
