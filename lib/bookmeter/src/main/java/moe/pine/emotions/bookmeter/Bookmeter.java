@@ -13,13 +13,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.time.Duration;
-
 @Slf4j
 public class Bookmeter {
     private final String email;
     private final String password;
-    private final WebAgent webAgent;
+    private final Fetcher fetcher;
     private final Parser parser;
 
     public Bookmeter(
@@ -29,32 +27,32 @@ public class Bookmeter {
     ) {
         this.email = email;
         this.password = password;
-        this.webAgent = new WebAgent(webClientBuilder);
+        this.fetcher = new Fetcher(webClientBuilder);
         this.parser = new Parser();
     }
 
     @SneakyThrows
     public void updateProfileImage(final byte[] image) {
-        final WebAgent.GetLoginResponse getLoginResponse = webAgent.getLogin();
+        final Fetcher.GetLoginResponse getLoginResponse = fetcher.getLogin();
         final String authenticityToken = parser.parseLoginForm(getLoginResponse.getBody());
         if (StringUtils.isEmpty(authenticityToken)) {
             throw new RuntimeException("`authenticity_token` is not found.");
         }
         log.debug("Found authenticity token :: authenticityToken={}", authenticityToken);
 
-        final WebAgent.PostLoginResponse postLoginResponse =
-            webAgent.postLogin(
+        final Fetcher.PostLoginResponse postLoginResponse =
+            fetcher.postLogin(
                 buildLoginFormData(authenticityToken),
                 getLoginResponse.getCookies());
         log.debug("Login successful");
 
-        final WebAgent.GetAccountResponse getAccountResponse =
-            webAgent.getAccount(postLoginResponse.getCookies());
+        final Fetcher.GetAccountResponse getAccountResponse =
+            fetcher.getAccount(postLoginResponse.getCookies());
         final Parser.AccountFormData accountFormData =
             parser.parseAccountForm(getAccountResponse.getBody());
         log.debug("Found account form :: formData={}", accountFormData);
 
-        webAgent.postAccount(
+        fetcher.postAccount(
             buildAccountFormData(accountFormData, image),
             getAccountResponse.getCookies());
         log.debug("Update profile image successful");

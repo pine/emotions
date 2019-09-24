@@ -19,7 +19,7 @@ import java.time.Duration;
 
 @Slf4j
 @RequiredArgsConstructor
-class WebAgent {
+class Fetcher {
     @VisibleForTesting
     static final Duration TIMEOUT = Duration.ofSeconds(60L);
 
@@ -39,7 +39,7 @@ class WebAgent {
 
     private final WebClient webClient;
 
-    WebAgent(
+    Fetcher(
         final WebClient.Builder webClientBuilder
     ) {
         webClient = webClientBuilder.baseUrl(BASE_URL).build();

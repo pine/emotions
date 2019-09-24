@@ -28,8 +28,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import static moe.pine.emotions.bookmeter.WebAgent.TIMEOUT;
-import static moe.pine.emotions.bookmeter.WebAgent.USER_AGENT;
+import static moe.pine.emotions.bookmeter.Fetcher.TIMEOUT;
+import static moe.pine.emotions.bookmeter.Fetcher.USER_AGENT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,7 +40,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SuppressWarnings({"NullableProblems", "ConstantConditions"})
-public class WebAgentTest {
+public class FetcherTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
@@ -51,7 +51,7 @@ public class WebAgentTest {
     private WebClient.Builder webClientBuilder;
 
     private WebClient webClient;
-    private WebAgent webAgent;
+    private Fetcher fetcher;
     private MockWebServer mockWebServer;
 
     @Before
@@ -65,7 +65,7 @@ public class WebAgentTest {
         when(webClientBuilder.baseUrl(anyString())).thenReturn(webClientBuilder);
         when(webClientBuilder.build()).thenReturn(webClient);
 
-        webAgent = new WebAgent(webClientBuilder);
+        fetcher = new Fetcher(webClientBuilder);
     }
 
     @After
@@ -75,13 +75,13 @@ public class WebAgentTest {
 
     @Test
     public void constructorTest() {
-        final WebAgent webAgent = new WebAgent(WebClient.builder());
-        final WebClient webClient = Whitebox.getInternalState(webAgent, "webClient");
+        final Fetcher fetcher = new Fetcher(WebClient.builder());
+        final WebClient webClient = Whitebox.getInternalState(fetcher, "webClient");
         final UriBuilderFactory uriBuilderFactory =
             Whitebox.getInternalState(webClient, "uriBuilderFactory");
 
         final String actual = uriBuilderFactory.uriString("").build().toString();
-        assertEquals(WebAgent.BASE_URL, actual);
+        assertEquals(Fetcher.BASE_URL, actual);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class WebAgentTest {
         final MultiValueMap<String, String> expectedCookies = new LinkedMultiValueMap<>();
         expectedCookies.set("name", "value");
 
-        final WebAgent.GetLoginResponse getLoginResponse = webAgent.getLogin();
+        final Fetcher.GetLoginResponse getLoginResponse = fetcher.getLogin();
         assertEquals("body", getLoginResponse.getBody());
         assertEquals(expectedCookies, getLoginResponse.getCookies());
 
@@ -102,7 +102,7 @@ public class WebAgentTest {
             mockWebServer.takeRequest(1L, TimeUnit.SECONDS);
         assertEquals(1, mockWebServer.getRequestCount());
         assertEquals(HttpMethod.GET.name(), recordedRequest.getMethod());
-        assertEquals(WebAgent.LOGIN_PATH, recordedRequest.getPath());
+        assertEquals(Fetcher.LOGIN_PATH, recordedRequest.getPath());
         assertEquals(USER_AGENT, recordedRequest.getHeader(HttpHeaders.USER_AGENT));
     }
 
@@ -115,7 +115,7 @@ public class WebAgentTest {
             .setBody(StringUtils.EMPTY);
         mockWebServer.enqueue(mockResponse);
 
-        webAgent.getLogin();
+        fetcher.getLogin();
     }
 
     @Test
@@ -128,14 +128,14 @@ public class WebAgentTest {
             .setBody("body");
         mockWebServer.enqueue(mockResponse);
 
-        webAgent.getLogin();
+        fetcher.getLogin();
     }
 
     @Test
     public void postLoginTest() throws InterruptedException {
         final MockResponse mockResponse = new MockResponse()
             .setResponseCode(HttpStatus.FOUND.value())
-            .addHeader(HttpHeaders.LOCATION, WebAgent.BASE_URL)
+            .addHeader(HttpHeaders.LOCATION, Fetcher.BASE_URL)
             .addHeader(HttpHeaders.SET_COOKIE, "response-cookie=qwerty");
         mockWebServer.enqueue(mockResponse);
 
@@ -152,18 +152,18 @@ public class WebAgentTest {
                 set("response-cookie", "qwerty");
             }};
 
-        final WebAgent.PostLoginResponse expected =
-            WebAgent.PostLoginResponse.builder()
+        final Fetcher.PostLoginResponse expected =
+            Fetcher.PostLoginResponse.builder()
                 .cookies(responseCookies)
                 .build();
 
-        final WebAgent.PostLoginResponse actual = webAgent.postLogin(formData, requestCookies);
+        final Fetcher.PostLoginResponse actual = fetcher.postLogin(formData, requestCookies);
         assertEquals(expected, actual);
 
         final RecordedRequest recordedRequest = mockWebServer.takeRequest();
         assertEquals(1, mockWebServer.getRequestCount());
         assertEquals(HttpMethod.POST.name(), recordedRequest.getMethod());
-        assertEquals(WebAgent.LOGIN_PATH, recordedRequest.getPath());
+        assertEquals(Fetcher.LOGIN_PATH, recordedRequest.getPath());
         assertEquals(USER_AGENT, recordedRequest.getHeader(HttpHeaders.USER_AGENT));
         assertEquals("request-cookie=12345", recordedRequest.getHeader(HttpHeaders.COOKIE));
         assertEquals("form-data=abc", recordedRequest.getBody().readUtf8());
@@ -180,7 +180,7 @@ public class WebAgentTest {
         final MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         final MultiValueMap<String, String> cookies = new LinkedMultiValueMap<>();
 
-        webAgent.postLogin(formData, cookies);
+        fetcher.postLogin(formData, cookies);
     }
 
     @Test
@@ -195,7 +195,7 @@ public class WebAgentTest {
         final MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         final MultiValueMap<String, String> cookies = new LinkedMultiValueMap<>();
 
-        webAgent.postLogin(formData, cookies);
+        fetcher.postLogin(formData, cookies);
     }
 
     @Test
@@ -211,18 +211,18 @@ public class WebAgentTest {
         final MultiValueMap<String, String> responseCookies = new LinkedMultiValueMap<>();
         responseCookies.set("res", "12345");
 
-        final WebAgent.GetAccountResponse expected =
-            WebAgent.GetAccountResponse.builder()
+        final Fetcher.GetAccountResponse expected =
+            Fetcher.GetAccountResponse.builder()
                 .body("body")
                 .cookies(responseCookies)
                 .build();
-        final WebAgent.GetAccountResponse actual = webAgent.getAccount(requestCookies);
+        final Fetcher.GetAccountResponse actual = fetcher.getAccount(requestCookies);
         assertEquals(expected, actual);
 
         final RecordedRequest recordedRequest = mockWebServer.takeRequest();
         assertEquals(1, mockWebServer.getRequestCount());
         assertEquals(HttpMethod.GET.name(), recordedRequest.getMethod());
-        assertEquals(WebAgent.ACCOUNT_PATH, recordedRequest.getPath());
+        assertEquals(Fetcher.ACCOUNT_PATH, recordedRequest.getPath());
         assertEquals("req=abc", recordedRequest.getHeader(HttpHeaders.COOKIE));
     }
 
@@ -235,7 +235,7 @@ public class WebAgentTest {
         mockWebServer.enqueue(mockResponse);
 
         final MultiValueMap<String, String> cookies = new LinkedMultiValueMap<>();
-        webAgent.getAccount(cookies);
+        fetcher.getAccount(cookies);
     }
 
     @Test
@@ -261,7 +261,7 @@ public class WebAgentTest {
         when(requestHeadersSpec.exchange()).thenReturn(clientResponseMono);
         when(clientResponseMono.block(TIMEOUT)).thenReturn(clientResponse);
 
-        final ClientResponse actual = webAgent.post(path, formData, cookies);
+        final ClientResponse actual = fetcher.post(path, formData, cookies);
         assertSame(clientResponse, actual);
 
         final ArgumentCaptor<Consumer<MultiValueMap<String, String>>> consumerCaptor =
