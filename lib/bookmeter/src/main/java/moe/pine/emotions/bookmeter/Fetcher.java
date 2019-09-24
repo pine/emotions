@@ -130,7 +130,7 @@ class Fetcher {
     /**
      * POST /account
      */
-    public void postAccount(
+    void postAccount(
         final MultiValueMap<String, HttpEntity<?>> formData,
         final MultiValueMap<String, String> cookies
     ) {
