@@ -3,8 +3,8 @@ package moe.pine.emotions.bookmeter;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import moe.pine.emotions.spring.utils.NamedByteArrayResource;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
@@ -82,12 +82,7 @@ public class Bookmeter {
         builder.part("authenticity_token", accountFormData.getAuthenticityToken());
         builder.part("name", accountFormData.getName());
 
-        final Resource resource = new ByteArrayResource(image) {
-            @Override
-            public String getFilename() {
-                return "image.png";
-            }
-        };
+        final Resource resource = new NamedByteArrayResource(image, "image.png");
         builder.part("icon", resource, MediaType.IMAGE_PNG);
 
         return builder.build();

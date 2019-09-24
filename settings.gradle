@@ -1,10 +1,8 @@
 include ':app'
 
-include ':lib-bookmeter'
-project(':lib-bookmeter').projectDir = new File(settingsDir, "/lib/bookmeter")
 
-include ':lib-gravatar'
-project(':lib-gravatar').projectDir = new File(settingsDir, "/lib/gravatar")
+// Utilities
+//~~~~~~~~~~~~~~~~~~~~~
 
 include ':lib-log'
 project(':lib-log').projectDir = new File(settingsDir, '/lib/log')
@@ -14,6 +12,19 @@ project(':lib-mackerel').projectDir = new File(settingsDir, '/lib/mackerel')
 
 include ':lib-cloudstorage'
 project(':lib-cloudstorage').projectDir = new File(settingsDir, "/lib/cloudstorage")
+
+include ':lib-spring-utils'
+project(':lib-spring-utils').projectDir = new File(settingsDir, "/lib/spring-utils")
+
+
+// Supported services
+//~~~~~~~~~~~~~~~~~~~~~
+
+include ':lib-bookmeter'
+project(':lib-bookmeter').projectDir = new File(settingsDir, "/lib/bookmeter")
+
+include ':lib-gravatar'
+project(':lib-gravatar').projectDir = new File(settingsDir, "/lib/gravatar")
 
 include ':lib-slack'
 project(':lib-slack').projectDir = new File(settingsDir, "/lib/slack")
