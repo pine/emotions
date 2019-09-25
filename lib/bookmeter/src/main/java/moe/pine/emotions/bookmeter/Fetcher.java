@@ -150,7 +150,8 @@ class Fetcher {
     /**
      * GET
      */
-    private ClientResponse get(
+    @VisibleForTesting
+    ClientResponse get(
         final String path,
         @Nullable final MultiValueMap<String, String> cookies
     ) {
@@ -165,9 +166,8 @@ class Fetcher {
                 })
                 .exchange()
                 .block(TIMEOUT);
-        if (clientResponse == null) {
-            throw new RuntimeException("An empty response received.");
-        }
+        Objects.requireNonNull(clientResponse);
+
         if (clientResponse.statusCode() != HttpStatus.OK) {
             throw new RuntimeException(
                 String.format("Illegal status code :: statusCode=%d", clientResponse.rawStatusCode()));

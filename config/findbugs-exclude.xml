@@ -6,7 +6,10 @@
 
   <Match>
     <Class name="moe.pine.emotions.bookmeter.Fetcher"/>
-    <Method name="post"/>
+    <Or>
+      <Method name="get"/>
+      <Method name="post"/>
+    </Or>
     <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
   </Match>
 </FindBugsFilter>
