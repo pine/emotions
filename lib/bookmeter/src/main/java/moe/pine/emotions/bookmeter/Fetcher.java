@@ -77,6 +77,8 @@ class Fetcher {
     ) {
         final ClientResponse clientResponse = post(LOGIN_PATH, formData, cookies);
         final HttpStatus statusCode = clientResponse.statusCode();
+        clientResponse.bodyToMono(Void.class).block(TIMEOUT);
+
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
                 String.format("Illegal status code received. :: statusCode=%s", statusCode.value()));
@@ -136,6 +138,8 @@ class Fetcher {
     ) {
         final ClientResponse clientResponse = post(ACCOUNT_PATH, formData, cookies);
         final HttpStatus statusCode = clientResponse.statusCode();
+        clientResponse.bodyToMono(Void.class).block(TIMEOUT);
+
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
                 String.format("Illegal status code received. :: statusCode=%s", statusCode));
