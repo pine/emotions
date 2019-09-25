@@ -16,6 +16,7 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Duration;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -192,10 +193,7 @@ class Fetcher {
                 .cookies(builder -> builder.addAll(cookies))
                 .exchange()
                 .block(TIMEOUT);
-        if (clientResponse == null) {
-            throw new RuntimeException("An empty response received.");
-        }
 
-        return clientResponse;
+        return Objects.requireNonNull(clientResponse);
     }
 }
