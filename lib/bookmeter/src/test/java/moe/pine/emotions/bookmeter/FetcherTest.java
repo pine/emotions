@@ -3,7 +3,9 @@ package moe.pine.emotions.bookmeter;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+import org.apache.commons.fileupload.MultipartStream;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.powermock.reflect.Whitebox;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -236,6 +239,40 @@ public class FetcherTest {
 
         final MultiValueMap<String, String> cookies = new LinkedMultiValueMap<>();
         fetcher.getAccount(cookies);
+    }
+
+    @Test
+    public void postAccountTest() throws InterruptedException {
+        final MockResponse mockResponse = new MockResponse()
+            .setResponseCode(HttpStatus.SEE_OTHER.value());
+        mockWebServer.enqueue(mockResponse);
+
+        final MultiValueMap<String, HttpEntity<?>> formData = new LinkedMultiValueMap<>();
+        formData.set("foo", new HttpEntity<>("1"));
+
+        final MultiValueMap<String, String> cookies = new LinkedMultiValueMap<>();
+        cookies.set("bar", "2");
+
+        fetcher.postAccount(formData, cookies);
+
+        final RecordedRequest recordedRequest = mockWebServer.takeRequest();
+        assertEquals(1, mockWebServer.getRequestCount());
+        assertEquals(HttpMethod.POST.name(), recordedRequest.getMethod());
+        assertEquals(Fetcher.ACCOUNT_PATH, recordedRequest.getPath());
+        assertEquals("bar=2", recordedRequest.getHeader(HttpHeaders.COOKIE));
+
+        final ContentType contentType =
+            ContentType.parse(recordedRequest.getHeader(HttpHeaders.CONTENT_TYPE));
+        final String boundary = contentType.getParameter("boundary");
+
+        /*
+        TODO
+        new MultipartStream
+
+        System.out.println(recordedRequest.getHeader(HttpHeaders.CONTENT_TYPE));
+        System.out.println(recordedRequest.getBody().readUtf8());
+
+         */
     }
 
     @Test

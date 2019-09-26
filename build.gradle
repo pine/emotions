@@ -74,8 +74,10 @@ subprojects {
 
             // Apache Commons
             dependency 'commons-codec:commons-codec:1.11'
+            dependency 'commons-fileupload:commons-fileupload:1.4'
             dependency 'org.apache.commons:commons-lang3:3.8.1'
             dependency 'org.apache.commons:commons-collections4:4.3'
+            dependency 'org.apache.httpcomponents:httpclient:4.5.10'
 
             // Redis
             dependency "io.lettuce:lettuce-core:$lettuceVersion"

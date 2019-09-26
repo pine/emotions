@@ -143,7 +143,7 @@ class Fetcher {
 
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
-                String.format("Illegal status code received. :: statusCode=%s", statusCode));
+                String.format("Illegal status code received. :: statusCode=%s", clientResponse.rawStatusCode()));
         }
     }
 
