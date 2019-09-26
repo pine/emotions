@@ -110,7 +110,7 @@ public class FetcherTest {
     }
 
     @Test
-    public void getLoginTest_emptyBody() {
+    public void getLoginTest_emptyBody() throws InterruptedException {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("An empty body received.");
 
@@ -122,7 +122,7 @@ public class FetcherTest {
     }
 
     @Test
-    public void getLoginTest_notFound() {
+    public void getLoginTest_notFound() throws InterruptedException {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("Illegal status code :: statusCode=404");
 
@@ -230,7 +230,7 @@ public class FetcherTest {
     }
 
     @Test
-    public void getAccountTest_emptyBody() {
+    public void getAccountTest_emptyBody() throws InterruptedException {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("An empty body received");
 

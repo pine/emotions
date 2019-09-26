@@ -49,9 +49,18 @@ class Fetcher {
     /**
      * GET /login
      */
-    GetLoginResponse getLogin() {
+    GetLoginResponse getLogin() throws InterruptedException {
         final ClientResponse clientResponse = get(LOGIN_PATH, null);
-        final String body = clientResponse.bodyToMono(String.class).block(TIMEOUT);
+        final String body;
+        try {
+            body = clientResponse.bodyToMono(String.class).block(TIMEOUT);
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof InterruptedException) {
+                throw (InterruptedException) e.getCause();
+            }
+            throw e;
+        }
+
         if (StringUtils.isEmpty(body)) {
             throw new RuntimeException("An empty body received.");
         }
@@ -110,7 +119,7 @@ class Fetcher {
      */
     GetAccountResponse getAccount(
         final MultiValueMap<String, String> cookies
-    ) {
+    ) throws InterruptedException {
         final ClientResponse clientResponse = get(ACCOUNT_PATH, cookies);
         final String body = clientResponse.bodyToMono(String.class).block(TIMEOUT);
         if (StringUtils.isEmpty(body)) {
@@ -143,7 +152,8 @@ class Fetcher {
 
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
-                String.format("Illegal status code received. :: statusCode=%s", clientResponse.rawStatusCode()));
+                String.format("Illegal status code received. :: statusCode=%s",
+                    clientResponse.rawStatusCode()));
         }
     }
 
@@ -154,18 +164,27 @@ class Fetcher {
     ClientResponse get(
         final String path,
         @Nullable final MultiValueMap<String, String> cookies
-    ) {
-        final ClientResponse clientResponse =
-            webClient.get()
-                .uri(path)
-                .header(HttpHeaders.USER_AGENT, USER_AGENT)
-                .cookies(builder -> {
-                    if (MapUtils.isNotEmpty(cookies)) {
-                        builder.addAll(cookies);
-                    }
-                })
-                .exchange()
-                .block(TIMEOUT);
+    ) throws InterruptedException {
+        final ClientResponse clientResponse;
+        try {
+            clientResponse =
+                webClient.get()
+                    .uri(path)
+                    .header(HttpHeaders.USER_AGENT, USER_AGENT)
+                    .cookies(builder -> {
+                        if (MapUtils.isNotEmpty(cookies)) {
+                            builder.addAll(cookies);
+                        }
+                    })
+                    .exchange()
+                    .block(TIMEOUT);
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof InterruptedException) {
+                throw (InterruptedException) e.getCause();
+            }
+            throw e;
+        }
+
         Objects.requireNonNull(clientResponse);
 
         if (clientResponse.statusCode() != HttpStatus.OK) {
