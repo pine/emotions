@@ -25,10 +25,20 @@ public class Bookmeter {
         final String password,
         final WebClient.Builder webClientBuilder
     ) {
+        this(email, password, new Fetcher(webClientBuilder), new Parser());
+    }
+
+    @VisibleForTesting
+    Bookmeter(
+        final String email,
+        final String password,
+        final Fetcher fetcher,
+        final Parser parser
+    ) {
         this.email = email;
         this.password = password;
-        this.fetcher = new Fetcher(webClientBuilder);
-        this.parser = new Parser();
+        this.fetcher = fetcher;
+        this.parser = parser;
     }
 
     @SneakyThrows
