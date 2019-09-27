@@ -14,6 +14,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -46,21 +47,24 @@ class Fetcher {
         webClient = webClientBuilder.baseUrl(BASE_URL).build();
     }
 
-    /**
-     * GET /login
-     */
-    GetLoginResponse getLogin() throws InterruptedException {
-        final ClientResponse clientResponse = get(LOGIN_PATH, null);
-        final String body;
+    @Nullable
+    <T> T unwrap(final Mono<T> mono) throws InterruptedException {
         try {
-            body = clientResponse.bodyToMono(String.class).block(TIMEOUT);
+            return mono.block(TIMEOUT);
         } catch (RuntimeException e) {
             if (e.getCause() instanceof InterruptedException) {
                 throw (InterruptedException) e.getCause();
             }
             throw e;
         }
+    }
 
+    /**
+     * GET /login
+     */
+    GetLoginResponse getLogin() throws InterruptedException {
+        final ClientResponse clientResponse = get(LOGIN_PATH, null);
+        final String body = unwrap(clientResponse.bodyToMono(String.class));
         if (StringUtils.isEmpty(body)) {
             throw new RuntimeException("An empty body received.");
         }
@@ -165,26 +169,16 @@ class Fetcher {
         final String path,
         @Nullable final MultiValueMap<String, String> cookies
     ) throws InterruptedException {
-        final ClientResponse clientResponse;
-        try {
-            clientResponse =
-                webClient.get()
-                    .uri(path)
-                    .header(HttpHeaders.USER_AGENT, USER_AGENT)
-                    .cookies(builder -> {
-                        if (MapUtils.isNotEmpty(cookies)) {
-                            builder.addAll(cookies);
-                        }
-                    })
-                    .exchange()
-                    .block(TIMEOUT);
-        } catch (RuntimeException e) {
-            if (e.getCause() instanceof InterruptedException) {
-                throw (InterruptedException) e.getCause();
-            }
-            throw e;
-        }
-
+        final ClientResponse clientResponse = unwrap(
+            webClient.get()
+                .uri(path)
+                .header(HttpHeaders.USER_AGENT, USER_AGENT)
+                .cookies(builder -> {
+                    if (MapUtils.isNotEmpty(cookies)) {
+                        builder.addAll(cookies);
+                    }
+                })
+                .exchange());
         Objects.requireNonNull(clientResponse);
 
         if (clientResponse.statusCode() != HttpStatus.OK) {
