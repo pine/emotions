@@ -173,6 +173,21 @@ public class FetcherTest {
     }
 
     @Test
+    public void postLoginTest_incorrectEmailOrPassword() throws InterruptedException {
+        expectedException.expect(RuntimeException.class);
+
+        final MockResponse mockResponse = new MockResponse()
+            .setResponseCode(HttpStatus.FOUND.value())
+            .addHeader(HttpHeaders.LOCATION, Fetcher.LOGIN_PATH);
+        mockWebServer.enqueue(mockResponse);
+
+        final MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> cookies = new LinkedMultiValueMap<>();
+
+        fetcher.postLogin(formData, cookies);
+    }
+
+    @Test
     public void postLoginTest_illegalStatus() {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("Illegal status code received. :: statusCode=200");
