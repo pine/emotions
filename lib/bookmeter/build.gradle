@@ -1,4 +1,5 @@
 dependencies {
+    implementation project(':lib-reactor-utils')
     implementation project(':lib-spring-utils')
 
     // Spring Framework

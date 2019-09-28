@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import moe.pine.emotions.reactorutils.MonoUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
@@ -47,24 +48,12 @@ class Fetcher {
         webClient = webClientBuilder.baseUrl(BASE_URL).build();
     }
 
-    @Nullable
-    <T> T unwrap(final Mono<T> mono) throws InterruptedException {
-        try {
-            return mono.block(TIMEOUT);
-        } catch (RuntimeException e) {
-            if (e.getCause() instanceof InterruptedException) {
-                throw (InterruptedException) e.getCause();
-            }
-            throw e;
-        }
-    }
-
     /**
      * GET /login
      */
     GetLoginResponse getLogin() throws InterruptedException {
         final ClientResponse clientResponse = get(LOGIN_PATH, null);
-        final String body = unwrap(clientResponse.bodyToMono(String.class));
+        final String body = MonoUtils.unwrap(clientResponse.bodyToMono(String.class), TIMEOUT);
         if (StringUtils.isEmpty(body)) {
             throw new RuntimeException("An empty body received.");
         }
@@ -169,7 +158,7 @@ class Fetcher {
         final String path,
         @Nullable final MultiValueMap<String, String> cookies
     ) throws InterruptedException {
-        final ClientResponse clientResponse = unwrap(
+        final ClientResponse clientResponse = MonoUtils.unwrap(
             webClient.get()
                 .uri(path)
                 .header(HttpHeaders.USER_AGENT, USER_AGENT)
@@ -178,7 +167,7 @@ class Fetcher {
                         builder.addAll(cookies);
                     }
                 })
-                .exchange());
+                .exchange(), TIMEOUT);
         Objects.requireNonNull(clientResponse);
 
         if (clientResponse.statusCode() != HttpStatus.OK) {

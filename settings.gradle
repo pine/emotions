@@ -13,6 +13,9 @@ project(':lib-mackerel').projectDir = new File(settingsDir, '/lib/mackerel')
 include ':lib-cloudstorage'
 project(':lib-cloudstorage').projectDir = new File(settingsDir, "/lib/cloudstorage")
 
+include ':lib-reactor-utils'
+project(':lib-reactor-utils').projectDir = new File(settingsDir, "/lib/reactor-utils")
+
 include ':lib-spring-utils'
 project(':lib-spring-utils').projectDir = new File(settingsDir, "/lib/spring-utils")
 
