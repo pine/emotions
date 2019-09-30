@@ -1,5 +1,6 @@
 package moe.pine.emotions.jobs;
 
+import lombok.SneakyThrows;
 import moe.pine.emotions.log.AvatarType;
 import moe.pine.emotions.services.BookmeterService;
 import moe.pine.emotions.services.CloudStorageService;
@@ -52,6 +53,7 @@ public class AvatarJobTest {
     private ArgumentCaptor<byte[]> imageBytesCaptor;
 
     @Test
+    @SneakyThrows
     public void bookmeterTest() {
         final byte[] imageBytes = new byte[]{0x01, 0x02, 0x03};
 

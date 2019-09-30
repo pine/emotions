@@ -28,7 +28,7 @@ public class AvatarJob {
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
     @Scheduled(cron = "0 0 4 * * *")
     @Retryable
-    public void bookmeter() {
+    public void bookmeter() throws InterruptedException {
         final byte[] chosenImage = cloudStorageService.chooseImage();
         bookmeterService.updateImage(chosenImage);
         metricService.log(AvatarType.BOOKMETER);

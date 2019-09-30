@@ -1,5 +1,6 @@
 package moe.pine.emotions.services;
 
+import lombok.SneakyThrows;
 import moe.pine.emotions.bookmeter.Bookmeter;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,6 +30,7 @@ public class BookmeterServiceTest {
     private BookmeterService bookmeterService;
 
     @Test
+    @SneakyThrows
     public void updateImageTest() {
         final byte[] imageBytes = new byte[]{0x00, 0x01, 0x02};
 
@@ -40,6 +42,7 @@ public class BookmeterServiceTest {
     }
 
     @Test
+    @SneakyThrows
     public void updateImageTest_nullImage() {
         expectedException.expectMessage("`image` should not be empty.");
         expectedException.expect(IllegalArgumentException.class);

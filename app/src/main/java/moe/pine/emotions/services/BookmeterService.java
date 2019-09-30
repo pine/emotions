@@ -12,7 +12,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class BookmeterService {
     private final Bookmeter bookmeter;
 
-    public void updateImage(final byte[] image) {
+    public void updateImage(final byte[] image) throws InterruptedException {
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
 
         bookmeter.updateProfileImage(image);

@@ -1,7 +1,6 @@
 package moe.pine.emotions.bookmeter;
 
 import com.google.common.annotations.VisibleForTesting;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.springutils.NamedByteArrayResource;
 import org.apache.commons.lang3.StringUtils;
@@ -41,8 +40,7 @@ public class Bookmeter {
         this.parser = parser;
     }
 
-    @SneakyThrows
-    public void updateProfileImage(final byte[] image) {
+    public void updateProfileImage(final byte[] image) throws InterruptedException {
         final Fetcher.GetLoginResponse getLoginResponse = fetcher.getLogin();
         final String authenticityToken = parser.parseLoginForm(getLoginResponse.getBody());
         if (StringUtils.isEmpty(authenticityToken)) {
