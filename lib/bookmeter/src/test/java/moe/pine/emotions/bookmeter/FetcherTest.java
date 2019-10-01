@@ -320,6 +320,25 @@ public class FetcherTest {
 
     @Test
     @SneakyThrows
+    public void postAccountTest_illegalStatus() {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage("Illegal status code received. :: statusCode=200");
+
+        final MockResponse mockResponse = new MockResponse()
+            .setResponseCode(HttpStatus.OK.value());
+        mockWebServer.enqueue(mockResponse);
+
+        final MultiValueMap<String, HttpEntity<?>> formData = new LinkedMultiValueMap<>();
+        formData.set("foo", new HttpEntity<>("1"));
+
+        final MultiValueMap<String, String> cookies = new LinkedMultiValueMap<>();
+        cookies.set("bar", "2");
+
+        fetcher.postAccount(formData, cookies);
+    }
+
+    @Test
+    @SneakyThrows
     @SuppressWarnings({"unchecked", "UnassignedFluxMonoInstance"})
     public void postTest() {
         final String path = "/foobar";
