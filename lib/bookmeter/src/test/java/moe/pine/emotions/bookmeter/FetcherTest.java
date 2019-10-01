@@ -1,9 +1,9 @@
 package moe.pine.emotions.bookmeter;
 
+import lombok.SneakyThrows;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import org.apache.commons.fileupload.MultipartStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.junit.After;
@@ -188,6 +188,7 @@ public class FetcherTest {
     }
 
     @Test
+    @SneakyThrows
     public void postLoginTest_illegalStatus() {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("Illegal status code received. :: statusCode=200");
@@ -202,6 +203,7 @@ public class FetcherTest {
     }
 
     @Test
+    @SneakyThrows
     public void postLoginTest_emptyLocationHeader() {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("An empty `Location` header received.");

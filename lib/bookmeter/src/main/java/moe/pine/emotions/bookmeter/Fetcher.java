@@ -15,7 +15,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -77,10 +76,10 @@ class Fetcher {
     PostLoginResponse postLogin(
         final MultiValueMap<String, String> formData,
         final MultiValueMap<String, String> cookies
-    ) {
+    ) throws InterruptedException {
         final ClientResponse clientResponse = post(LOGIN_PATH, formData, cookies);
         final HttpStatus statusCode = clientResponse.statusCode();
-        clientResponse.bodyToMono(Void.class).block(TIMEOUT);
+        MonoUtils.unwrap(clientResponse.bodyToMono(Void.class), TIMEOUT);
 
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
@@ -114,7 +113,7 @@ class Fetcher {
         final MultiValueMap<String, String> cookies
     ) throws InterruptedException {
         final ClientResponse clientResponse = get(ACCOUNT_PATH, cookies);
-        final String body = clientResponse.bodyToMono(String.class).block(TIMEOUT);
+        final String body = MonoUtils.unwrap(clientResponse.bodyToMono(String.class), TIMEOUT);
         if (StringUtils.isEmpty(body)) {
             throw new RuntimeException("An empty body received");
         }
