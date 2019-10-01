@@ -4,6 +4,9 @@ import lombok.SneakyThrows;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+import org.apache.commons.fileupload.FileItemHeaders;
+import org.apache.commons.fileupload.FileUpload;
+import org.apache.commons.fileupload.MultipartStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.junit.After;
@@ -27,13 +30,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilderFactory;
 import reactor.core.publisher.Mono;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import static moe.pine.emotions.bookmeter.Fetcher.TIMEOUT;
 import static moe.pine.emotions.bookmeter.Fetcher.USER_AGENT;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -286,15 +293,29 @@ public class FetcherTest {
         final ContentType contentType =
             ContentType.parse(recordedRequest.getHeader(HttpHeaders.CONTENT_TYPE));
         final String boundary = contentType.getParameter("boundary");
+        assertNotNull(boundary);
 
-        /*
-        TODO
-        new MultipartStream
+        final String body = recordedRequest.getBody().readUtf8();
+        System.out.println(body);
 
-        System.out.println(recordedRequest.getHeader(HttpHeaders.CONTENT_TYPE));
-        System.out.println(recordedRequest.getBody().readUtf8());
+        final var multipartStream =
+            new MultipartStream(
+                new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)),
+                boundary.getBytes(StandardCharsets.UTF_8), 4096, null);
 
-         */
+        final String headerText = multipartStream.readHeaders();
+        final var fileUpload = new FileUpload() {
+            public FileItemHeaders getParsedHeaders(String headerPart) {
+                return super.getParsedHeaders(headerPart);
+            }
+        };
+
+        final var headers = fileUpload.getParsedHeaders(headerText);
+        assertEquals("form-data; name=\"foo\"", headers.getHeader("Content-Disposition"));
+
+        final var outputStream = new ByteArrayOutputStream();
+        multipartStream.readBodyData(outputStream);
+        assertEquals("1", outputStream.toString(StandardCharsets.UTF_8));
     }
 
     @Test
