@@ -137,10 +137,10 @@ class Fetcher {
     void postAccount(
         final MultiValueMap<String, HttpEntity<?>> formData,
         final MultiValueMap<String, String> cookies
-    ) {
+    ) throws InterruptedException {
         final ClientResponse clientResponse = post(ACCOUNT_PATH, formData, cookies);
         final HttpStatus statusCode = clientResponse.statusCode();
-        clientResponse.bodyToMono(Void.class).block(TIMEOUT);
+        MonoUtils.unwrap(clientResponse.bodyToMono(Void.class), TIMEOUT);
 
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
@@ -185,15 +185,14 @@ class Fetcher {
         final String path,
         final MultiValueMap<String, ?> formData,
         final MultiValueMap<String, String> cookies
-    ) {
-        final ClientResponse clientResponse =
+    ) throws InterruptedException {
+        final ClientResponse clientResponse = MonoUtils.unwrap(
             webClient.post()
                 .uri(path)
                 .header(HttpHeaders.USER_AGENT, USER_AGENT)
                 .syncBody(formData)
                 .cookies(builder -> builder.addAll(cookies))
-                .exchange()
-                .block(TIMEOUT);
+                .exchange(), TIMEOUT);
 
         return Objects.requireNonNull(clientResponse);
     }

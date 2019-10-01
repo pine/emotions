@@ -135,7 +135,8 @@ public class FetcherTest {
     }
 
     @Test
-    public void postLoginTest() throws InterruptedException {
+    @SneakyThrows
+    public void postLoginTest() {
         final MockResponse mockResponse = new MockResponse()
             .setResponseCode(HttpStatus.FOUND.value())
             .addHeader(HttpHeaders.LOCATION, Fetcher.BASE_URL)
@@ -173,7 +174,8 @@ public class FetcherTest {
     }
 
     @Test
-    public void postLoginTest_incorrectEmailOrPassword() throws InterruptedException {
+    @SneakyThrows
+    public void postLoginTest_incorrectEmailOrPassword() {
         expectedException.expect(RuntimeException.class);
 
         final MockResponse mockResponse = new MockResponse()
@@ -219,7 +221,8 @@ public class FetcherTest {
     }
 
     @Test
-    public void getAccountTest() throws InterruptedException {
+    @SneakyThrows
+    public void getAccountTest() {
         final MockResponse mockResponse = new MockResponse()
             .setBody("body")
             .setHeader(HttpHeaders.SET_COOKIE, "res=12345");
@@ -247,7 +250,8 @@ public class FetcherTest {
     }
 
     @Test
-    public void getAccountTest_emptyBody() throws InterruptedException {
+    @SneakyThrows
+    public void getAccountTest_emptyBody() {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("An empty body received");
 
@@ -259,7 +263,8 @@ public class FetcherTest {
     }
 
     @Test
-    public void postAccountTest() throws InterruptedException {
+    @SneakyThrows
+    public void postAccountTest() {
         final MockResponse mockResponse = new MockResponse()
             .setResponseCode(HttpStatus.SEE_OTHER.value());
         mockWebServer.enqueue(mockResponse);
@@ -293,6 +298,7 @@ public class FetcherTest {
     }
 
     @Test
+    @SneakyThrows
     @SuppressWarnings({"unchecked", "UnassignedFluxMonoInstance"})
     public void postTest() {
         final String path = "/foobar";
