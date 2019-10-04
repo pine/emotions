@@ -18,13 +18,19 @@ public class Bookmeter {
     private final String password;
     private final Fetcher fetcher;
     private final Parser parser;
+    private final FormDataBuilder formDataBuilder;
 
     public Bookmeter(
         final String email,
         final String password,
         final WebClient.Builder webClientBuilder
     ) {
-        this(email, password, new Fetcher(webClientBuilder), new Parser());
+        this(
+            email,
+            password,
+            new Fetcher(webClientBuilder),
+            new Parser(),
+            new FormDataBuilder());
     }
 
     @VisibleForTesting
@@ -32,12 +38,14 @@ public class Bookmeter {
         final String email,
         final String password,
         final Fetcher fetcher,
-        final Parser parser
+        final Parser parser,
+        final FormDataBuilder formDataBuilder
     ) {
         this.email = email;
         this.password = password;
         this.fetcher = fetcher;
         this.parser = parser;
+        this.formDataBuilder = formDataBuilder;
     }
 
     public void updateProfileImage(final byte[] image) throws InterruptedException {
