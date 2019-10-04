@@ -30,7 +30,7 @@ public class Bookmeter {
             password,
             new Fetcher(webClientBuilder),
             new Parser(),
-            new FormDataBuilder());
+            new FormDataBuilder(email, password));
     }
 
     @VisibleForTesting
