@@ -8,14 +8,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Slf4j
 public class Bookmeter {
-    private final String email;
-    private final String password;
     private final Fetcher fetcher;
     private final Parser parser;
     private final FormDataBuilder formDataBuilder;
@@ -26,8 +23,6 @@ public class Bookmeter {
         final WebClient.Builder webClientBuilder
     ) {
         this(
-            email,
-            password,
             new Fetcher(webClientBuilder),
             new Parser(),
             new FormDataBuilder(email, password));
@@ -35,14 +30,10 @@ public class Bookmeter {
 
     @VisibleForTesting
     Bookmeter(
-        final String email,
-        final String password,
         final Fetcher fetcher,
         final Parser parser,
         final FormDataBuilder formDataBuilder
     ) {
-        this.email = email;
-        this.password = password;
         this.fetcher = fetcher;
         this.parser = parser;
         this.formDataBuilder = formDataBuilder;
@@ -58,7 +49,7 @@ public class Bookmeter {
 
         final Fetcher.PostLoginResponse postLoginResponse =
             fetcher.postLogin(
-                buildLoginFormData(authenticityToken),
+                formDataBuilder.buildLoginFormData(authenticityToken),
                 getLoginResponse.getCookies());
         log.debug("Login successful");
 
@@ -72,19 +63,6 @@ public class Bookmeter {
             buildAccountFormData(accountFormData, image),
             getAccountResponse.getCookies());
         log.debug("Update profile image successful");
-    }
-
-    @VisibleForTesting
-    MultiValueMap<String, String> buildLoginFormData(final String authenticityToken) {
-        final MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("utf8", "✓");
-        formData.add("authenticity_token", authenticityToken);
-        formData.add("session[email_address]", email);
-        formData.add("session[password]", password);
-        formData.add("session[keep]", "0");
-        formData.add("session[keep]", "1");
-
-        return formData;
     }
 
     @VisibleForTesting
