@@ -12,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("NullableProblems")
 public class FormDataBuilderTest {
     private static final String EMAIL = "example@gmail.com";
     private static final String PASSWORD = "password";
