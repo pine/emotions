@@ -2,13 +2,7 @@ package moe.pine.emotions.bookmeter;
 
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
-import moe.pine.emotions.springutils.NamedByteArrayResource;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.MediaType;
-import org.springframework.http.client.MultipartBodyBuilder;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Slf4j
@@ -60,25 +54,11 @@ public class Bookmeter {
         log.debug("Found account form :: formData={}", accountFormData);
 
         fetcher.postAccount(
-            buildAccountFormData(accountFormData, image),
+            formDataBuilder.buildAccountFormData(
+                accountFormData.getAuthenticityToken(),
+                accountFormData.getName(),
+                image),
             getAccountResponse.getCookies());
         log.debug("Update profile image successful");
-    }
-
-    @VisibleForTesting
-    MultiValueMap<String, HttpEntity<?>> buildAccountFormData(
-        final Parser.AccountFormData accountFormData,
-        final byte[] image
-    ) {
-        final MultipartBodyBuilder builder = new MultipartBodyBuilder();
-        builder.part("utf8", "✓");
-        builder.part("_method", "put");
-        builder.part("authenticity_token", accountFormData.getAuthenticityToken());
-        builder.part("name", accountFormData.getName());
-
-        final Resource resource = new NamedByteArrayResource(image, "image.png");
-        builder.part("icon", resource, MediaType.IMAGE_PNG);
-
-        return builder.build();
     }
 }
