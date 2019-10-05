@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Objects;
+
 @Slf4j
 public class Bookmeter {
     private final Fetcher fetcher;
@@ -28,9 +30,9 @@ public class Bookmeter {
         final Parser parser,
         final FormDataBuilder formDataBuilder
     ) {
-        this.fetcher = fetcher;
-        this.parser = parser;
-        this.formDataBuilder = formDataBuilder;
+        this.fetcher = Objects.requireNonNull(fetcher);
+        this.parser = Objects.requireNonNull(parser);
+        this.formDataBuilder = Objects.requireNonNull(formDataBuilder);
     }
 
     public void updateProfileImage(final byte[] image) throws InterruptedException {
