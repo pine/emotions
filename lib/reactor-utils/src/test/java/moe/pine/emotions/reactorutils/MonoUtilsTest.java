@@ -95,7 +95,7 @@ public class MonoUtilsTest {
 
         final Mono<String> mono = mock(Mono.class);
         final Duration timeout = Duration.ofSeconds(1L);
-        final Exception e = Exceptions.propagate(new InterruptedException());
+        final Exception e = new RuntimeException(new InterruptedException());
         when(mono.block(timeout)).thenThrow(e);
 
         MonoUtils.unwrap(mono, timeout);

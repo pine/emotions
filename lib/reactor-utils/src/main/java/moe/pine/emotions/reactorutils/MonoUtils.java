@@ -10,7 +10,7 @@ public class MonoUtils {
     public <T> T unwrap(final Mono<T> mono) throws InterruptedException {
         try {
             return mono.block();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (e.getCause() instanceof InterruptedException) {
                 throw (InterruptedException) e.getCause();
             }
@@ -21,7 +21,7 @@ public class MonoUtils {
     public <T> T unwrap(final Mono<T> mono, final Duration timeout) throws InterruptedException {
         try {
             return mono.block(timeout);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (e.getCause() instanceof InterruptedException) {
                 throw (InterruptedException) e.getCause();
             }
