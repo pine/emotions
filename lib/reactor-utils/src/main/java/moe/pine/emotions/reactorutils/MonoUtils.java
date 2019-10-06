@@ -1,7 +1,6 @@
 package moe.pine.emotions.reactorutils;
 
 import lombok.experimental.UtilityClass;
-import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -12,9 +11,8 @@ public class MonoUtils {
         try {
             return mono.block();
         } catch (Exception e) {
-            final Throwable unwrapped = Exceptions.unwrap(e);
-            if (unwrapped instanceof InterruptedException) {
-                throw (InterruptedException) unwrapped;
+            if (e.getCause() instanceof InterruptedException) {
+                throw (InterruptedException) e.getCause();
             }
             throw e;
         }
@@ -24,9 +22,8 @@ public class MonoUtils {
         try {
             return mono.block(timeout);
         } catch (Exception e) {
-            final Throwable unwrapped = Exceptions.unwrap(e);
-            if (unwrapped instanceof InterruptedException) {
-                throw (InterruptedException) unwrapped;
+            if (e.getCause() instanceof InterruptedException) {
+                throw (InterruptedException) e.getCause();
             }
             throw e;
         }

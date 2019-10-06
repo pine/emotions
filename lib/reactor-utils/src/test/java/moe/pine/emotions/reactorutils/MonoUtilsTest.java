@@ -36,16 +36,28 @@ public class MonoUtilsTest {
     @Test
     @SneakyThrows
     @SuppressWarnings("unchecked")
-    public void unwrapTest_interruptedException() {
-        expectedException.expect(InterruptedException.class);
+    public void unwrapTest_exception() {
+        expectedException.expect(RuntimeException.class);
 
         final Mono<String> mono = mock(Mono.class);
-        final Exception e = Exceptions.propagate(new InterruptedException());
+        final Exception e = new RuntimeException(new Exception());
         when(mono.block()).thenThrow(e);
 
         MonoUtils.unwrap(mono);
     }
 
+    @Test
+    @SneakyThrows
+    @SuppressWarnings("unchecked")
+    public void unwrapTest_interruptedException() {
+        expectedException.expect(InterruptedException.class);
+
+        final Mono<String> mono = mock(Mono.class);
+        final Exception e = new RuntimeException(new InterruptedException());
+        when(mono.block()).thenThrow(e);
+
+        MonoUtils.unwrap(mono);
+    }
 
     @Test
     @SneakyThrows
@@ -59,6 +71,20 @@ public class MonoUtilsTest {
 
         verify(mono, never()).block();
         verify(mono).block(timeout);
+    }
+
+    @Test
+    @SneakyThrows
+    @SuppressWarnings("unchecked")
+    public void unwrapTest_timeoutException() {
+        expectedException.expect(RuntimeException.class);
+
+        final Mono<String> mono = mock(Mono.class);
+        final Duration timeout = Duration.ofSeconds(1L);
+        final Exception e = new RuntimeException(new Exception());
+        when(mono.block(timeout)).thenThrow(e);
+
+        MonoUtils.unwrap(mono, timeout);
     }
 
     @Test
