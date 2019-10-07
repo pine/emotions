@@ -39,7 +39,7 @@ public class Bookmeter {
         final Fetcher.GetLoginResponse getLoginResponse = fetcher.getLogin();
         final String authenticityToken = parser.parseLoginForm(getLoginResponse.getBody());
         if (StringUtils.isEmpty(authenticityToken)) {
-            throw new RuntimeException("`authenticity_token` is not found.");
+            throw new RuntimeException("`authenticityToken` is not found.");
         }
         log.debug("Found authenticity token :: authenticityToken={}", authenticityToken);
 
