@@ -79,7 +79,7 @@ class Fetcher {
     ) throws InterruptedException {
         final ClientResponse clientResponse = post(LOGIN_PATH, formData, cookies);
         final HttpStatus statusCode = clientResponse.statusCode();
-        MonoUtils.unwrap(clientResponse.bodyToMono(Void.class), TIMEOUT);
+        MonoUtils.unwrap(clientResponse.bodyToMono(String.class), TIMEOUT);
 
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
@@ -140,7 +140,7 @@ class Fetcher {
     ) throws InterruptedException {
         final ClientResponse clientResponse = post(ACCOUNT_PATH, formData, cookies);
         final HttpStatus statusCode = clientResponse.statusCode();
-        MonoUtils.unwrap(clientResponse.bodyToMono(Void.class), TIMEOUT);
+        MonoUtils.unwrap(clientResponse.bodyToMono(String.class), TIMEOUT);
 
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
