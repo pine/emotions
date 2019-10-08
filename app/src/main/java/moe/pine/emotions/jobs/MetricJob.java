@@ -1,7 +1,7 @@
 package moe.pine.emotions.jobs;
 
 import lombok.RequiredArgsConstructor;
-import moe.pine.emotions.mackerel.models.Metric;
+import moe.pine.emotions.mackerel.Metric;
 import moe.pine.emotions.services.MetricService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.retry.annotation.Retryable;

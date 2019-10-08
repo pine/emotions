@@ -1,4 +1,4 @@
-package moe.pine.emotions.mackerel.models;
+package moe.pine.emotions.mackerel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Status {
+class Status {
     private boolean success;
 }

@@ -1,7 +1,5 @@
 package moe.pine.emotions.mackerel;
 
-import moe.pine.emotions.mackerel.models.Metric;
-import moe.pine.emotions.mackerel.models.Status;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;

@@ -1,6 +1,6 @@
 package moe.pine.emotions.jobs;
 
-import moe.pine.emotions.mackerel.models.Metric;
+import moe.pine.emotions.mackerel.Metric;
 import moe.pine.emotions.services.MetricService;
 import org.junit.Rule;
 import org.junit.Test;

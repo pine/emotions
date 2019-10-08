@@ -1,7 +1,5 @@
 package moe.pine.emotions.mackerel;
 
-import moe.pine.emotions.mackerel.models.Metric;
-import moe.pine.emotions.mackerel.models.Status;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
