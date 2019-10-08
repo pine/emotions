@@ -28,8 +28,10 @@ $ ./gradlew :app:bootRun
 
 - [Bookmeter](https://bookmeter.com/)
 - [Gravatar](https://gravatar.com/)
-- Slack
-- Twitter
+  - [GitHub](https://github.com/)
+  - [Qiita](https://qiita.com/)
+- [Slack](https://slack.com)
+- [Twitter](https://twitter.com)
 
 ## Development
 ### JDK
