@@ -4,14 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.slack.models.Status;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Duration;
 
@@ -20,15 +19,20 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Slf4j
 public class Slack {
     static final Duration TIMEOUT = Duration.ofSeconds(60);
+    static final String BASE_URL = "https://slack.com/";
     static final String SLACK_USERS_SET_PHOTO = "https://slack.com/api/users.setPhoto";
 
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
-    public Slack(final RestTemplateBuilder restTemplateBuilder) {
-        restTemplate = restTemplateBuilder
-            .setReadTimeout(TIMEOUT)
-            .setConnectTimeout(TIMEOUT)
-            .build();
+    public Slack(final WebClient.Builder webClientBuilder) {
+        this(webClientBuilder, BASE_URL);
+    }
+
+    Slack(
+        final WebClient.Builder webClientBuilder,
+        final String baseUrl
+    ) {
+        this.webClient = webClientBuilder.baseUrl(baseUrl).build();
     }
 
     public void setUserPhoto(
