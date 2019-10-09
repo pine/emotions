@@ -45,7 +45,7 @@ public class AvatarJob {
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true")
     @Scheduled(cron = "0 20 4 * * *")
     @Retryable
-    public void slack() {
+    public void slack() throws InterruptedException {
         final byte[] chosenImage = cloudStorageService.chooseImage();
         slackService.updateImage(chosenImage);
         metricService.log(AvatarType.SLACK);

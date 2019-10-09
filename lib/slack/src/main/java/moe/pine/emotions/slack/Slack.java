@@ -1,12 +1,12 @@
 package moe.pine.emotions.slack;
 
 import lombok.extern.slf4j.Slf4j;
+import moe.pine.emotions.reactorutils.MonoUtils;
 import moe.pine.emotions.slack.models.Status;
+import moe.pine.emotions.springutils.NamedByteArrayResource;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class Slack {
     static final Duration TIMEOUT = Duration.ofSeconds(60);
     static final String BASE_URL = "https://slack.com/";
-    static final String SLACK_USERS_SET_PHOTO = "https://slack.com/api/users.setPhoto";
+    static final String USERS_SET_PHOTO_PATH = "https://slack.com/api/users.setPhoto";
 
     private final WebClient webClient;
 
@@ -38,29 +38,27 @@ public class Slack {
     public void setUserPhoto(
         final String token,
         final byte[] image
-    ) {
+    ) throws InterruptedException {
         checkArgument(StringUtils.isNotEmpty(token), "`token` should not be empty.");
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
 
-        final var headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-
         final var body = new MultipartBodyBuilder();
-        final Resource resource = new ByteArrayResource(image) {
-            @Override
-            public String getFilename() {
-                return "image.png";
-            }
-        };
+        final Resource resource = new NamedByteArrayResource(image, "image.png");
         body.part("image", resource, MediaType.IMAGE_PNG);
 
-        final HttpEntity<?> request = new HttpEntity<>(body.build(), headers);
-        final Status status = restTemplate.postForObject(SLACK_USERS_SET_PHOTO, request, Status.class);
+        final Status status = MonoUtils.unwrap(
+            webClient.post()
+                .uri(USERS_SET_PHOTO_PATH)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .syncBody(body.build())
+                .retrieve()
+                .bodyToMono(Status.class), TIMEOUT);
 
         if (status == null) {
             throw new SlackException("Failed to call users.setPhoto API. An empty response received.");
         }
+
         if (!status.isOk()) {
             throw new SlackException(String.format(
                 "Failed to call users.setPhoto API :: ok=%s, error=%s",
