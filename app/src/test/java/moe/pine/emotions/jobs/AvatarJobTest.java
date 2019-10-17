@@ -79,6 +79,7 @@ public class AvatarJobTest {
     }
 
     @Test
+    @SneakyThrows
     public void slackTest() {
         final byte[] imageBytes = new byte[]{0x01, 0x02, 0x03};
 

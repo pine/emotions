@@ -1,5 +1,6 @@
 package moe.pine.emotions.services;
 
+import lombok.SneakyThrows;
 import moe.pine.emotions.properties.SlackProperties;
 import moe.pine.emotions.slack.Slack;
 import org.junit.Rule;
@@ -39,6 +40,7 @@ public class SlackServiceTest {
     private SlackService slackService;
 
     @Test
+    @SneakyThrows
     public void updateImageTest() {
         final byte[] imageBytes = new byte[]{0x00, 0x01, 0x02};
         final List<SlackProperties.Workspace> workspaces =
@@ -63,6 +65,7 @@ public class SlackServiceTest {
     }
 
     @Test
+    @SneakyThrows
     @SuppressWarnings("ConstantConditions")
     public void updateImageNullImageTest() {
         expectedException.expect(IllegalArgumentException.class);
@@ -78,6 +81,7 @@ public class SlackServiceTest {
     }
 
     @Test
+    @SneakyThrows
     public void updateImageEmptyImageTest() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`image` should not be empty.");

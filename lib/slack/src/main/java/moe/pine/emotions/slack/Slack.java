@@ -2,7 +2,6 @@ package moe.pine.emotions.slack;
 
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.reactorutils.MonoUtils;
-import moe.pine.emotions.slack.models.Status;
 import moe.pine.emotions.springutils.NamedByteArrayResource;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;

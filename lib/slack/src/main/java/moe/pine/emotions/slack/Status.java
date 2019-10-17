@@ -1,4 +1,4 @@
-package moe.pine.emotions.slack.models;
+package moe.pine.emotions.slack;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import org.springframework.lang.Nullable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Status {
+class Status {
     private boolean ok;
 
     @Nullable
