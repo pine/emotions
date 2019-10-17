@@ -14,7 +14,9 @@ dependencies {
 
     // Test
     testImplementation 'com.squareup.okhttp3:mockwebserver'
+    testImplementation 'commons-fileupload:commons-fileupload'
     testImplementation 'junit:junit'
+    testImplementation 'org.apache.httpcomponents:httpclient'
     testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.powermock:powermock-reflect'
 }
