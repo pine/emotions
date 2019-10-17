@@ -18,9 +18,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 @Slf4j
 public class Slack {
-    static final Duration TIMEOUT = Duration.ofSeconds(60);
-    static final String BASE_URL = "https://slack.com/";
-    static final String USERS_SET_PHOTO_PATH = "https://slack.com/api/users.setPhoto";
+    private static final Duration TIMEOUT = Duration.ofSeconds(60);
+
+    static final String BASE_URL = "https://slack.com";
+    static final String USERS_SET_PHOTO_PATH = "/api/users.setPhoto";
 
     private final WebClient webClient;
 

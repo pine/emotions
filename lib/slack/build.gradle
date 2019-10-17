@@ -13,6 +13,7 @@ dependencies {
     implementation 'com.google.guava:guava'
 
     // Test
+    testImplementation 'com.squareup.okhttp3:mockwebserver'
     testImplementation 'junit:junit'
     testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.powermock:powermock-reflect'
