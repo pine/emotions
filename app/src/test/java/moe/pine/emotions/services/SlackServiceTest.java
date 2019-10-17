@@ -22,7 +22,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
+@SuppressWarnings({"ConstantConditions", "ResultOfMethodCallIgnored", "NullableProblems"})
 public class SlackServiceTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -66,7 +66,6 @@ public class SlackServiceTest {
 
     @Test
     @SneakyThrows
-    @SuppressWarnings("ConstantConditions")
     public void updateImageNullImageTest() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`image` should not be empty.");
