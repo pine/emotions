@@ -84,7 +84,7 @@ public class MackerelTest {
 
         final HttpEntity<?> entity = entityCaptor.getValue();
         final HttpHeaders headers = entity.getHeaders();
-        assertEquals(MediaType.APPLICATION_JSON_UTF8, headers.getContentType());
+        assertEquals(MediaType.APPLICATION_JSON, headers.getContentType());
         assertEquals(API_KEY, headers.getFirst(API_KEY_HEADER));
         assertEquals(metrics, entity.getBody());
     }

@@ -40,7 +40,7 @@ public class Mackerel {
         }
 
         final var headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set(API_KEY_HEADER, apiKey);
 
         final HttpEntity<?> request = new HttpEntity<>(metrics, headers);
