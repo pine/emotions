@@ -25,9 +25,11 @@ public class TestBase {
         final var factory = new LettuceConnectionFactory(configuration);
         factory.afterPropertiesSet();
 
-        redisTemplate = spy(new StringRedisTemplate());
+        final var redisTemplate = new StringRedisTemplate();
         redisTemplate.setConnectionFactory(factory);
         redisTemplate.afterPropertiesSet();
+
+        this.redisTemplate = spy(redisTemplate);
     }
 
     @After
