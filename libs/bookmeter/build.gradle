@@ -18,10 +18,12 @@ dependencies {
     implementation 'org.jsoup:jsoup'
 
     // Test
+    testImplementation 'com.squareup.okhttp3:okhttp'
     testImplementation 'com.squareup.okhttp3:mockwebserver'
     testImplementation 'commons-fileupload:commons-fileupload'
     testImplementation 'junit:junit'
     testImplementation 'org.apache.httpcomponents:httpclient'
+    testImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.powermock:powermock-reflect'
 }
