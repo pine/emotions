@@ -1,10 +1,16 @@
-package moe.pine.emotions.slack.models;
+package moe.pine.emotions.slack;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
 @Data
-public class Status {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+class Status {
     private boolean ok;
 
     @Nullable

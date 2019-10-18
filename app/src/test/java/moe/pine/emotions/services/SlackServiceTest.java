@@ -1,5 +1,6 @@
 package moe.pine.emotions.services;
 
+import lombok.SneakyThrows;
 import moe.pine.emotions.properties.SlackProperties;
 import moe.pine.emotions.slack.Slack;
 import org.junit.Rule;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
+@SuppressWarnings({"ConstantConditions", "ResultOfMethodCallIgnored", "NullableProblems"})
 public class SlackServiceTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -39,6 +40,7 @@ public class SlackServiceTest {
     private SlackService slackService;
 
     @Test
+    @SneakyThrows
     public void updateImageTest() {
         final byte[] imageBytes = new byte[]{0x00, 0x01, 0x02};
         final List<SlackProperties.Workspace> workspaces =
@@ -63,7 +65,7 @@ public class SlackServiceTest {
     }
 
     @Test
-    @SuppressWarnings("ConstantConditions")
+    @SneakyThrows
     public void updateImageNullImageTest() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`image` should not be empty.");
@@ -78,6 +80,7 @@ public class SlackServiceTest {
     }
 
     @Test
+    @SneakyThrows
     public void updateImageEmptyImageTest() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("`image` should not be empty.");

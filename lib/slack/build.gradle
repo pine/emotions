@@ -1,6 +1,10 @@
 dependencies {
+    implementation project(':lib-reactor-utils')
+    implementation project(':lib-spring-utils')
+
+    // Spring Framework
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework:spring-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     // Apache Commons
     implementation 'org.apache.commons:commons-lang3'
@@ -9,7 +13,10 @@ dependencies {
     implementation 'com.google.guava:guava'
 
     // Test
+    testImplementation 'com.squareup.okhttp3:mockwebserver'
+    testImplementation 'commons-fileupload:commons-fileupload'
     testImplementation 'junit:junit'
+    testImplementation 'org.apache.httpcomponents:httpclient'
     testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.powermock:powermock-reflect'
 }

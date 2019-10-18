@@ -3,17 +3,17 @@ package moe.pine.emotions.config;
 import moe.pine.emotions.properties.SlackProperties;
 import moe.pine.emotions.slack.Slack;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @EnableConfigurationProperties(SlackProperties.class)
 public class SlackConfig {
     @Bean
     public Slack slack(
-        final RestTemplateBuilder restTemplateBuilder
+        final WebClient.Builder webClientBuilder
     ) {
-        return new Slack(restTemplateBuilder);
+        return new Slack(webClientBuilder);
     }
 }

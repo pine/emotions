@@ -16,10 +16,11 @@ public class SlackService {
     private final Slack slack;
     private final SlackProperties slackProperties;
 
-    public void updateImage(final byte[] image) {
+    public void updateImage(final byte[] image) throws InterruptedException {
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
 
-        slackProperties.getWorkspaces()
-            .forEach(workspace -> slack.setUserPhoto(workspace.getToken(), image));
+        for (var workspace : slackProperties.getWorkspaces()) {
+            slack.setUserPhoto(workspace.getToken(), image);
+        }
     }
 }
