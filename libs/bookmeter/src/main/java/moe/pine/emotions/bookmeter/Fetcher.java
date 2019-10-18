@@ -190,7 +190,7 @@ class Fetcher {
             webClient.post()
                 .uri(path)
                 .header(HttpHeaders.USER_AGENT, USER_AGENT)
-                .syncBody(formData)
+                .bodyValue(formData)
                 .cookies(builder -> builder.addAll(cookies))
                 .exchange(), TIMEOUT);
 

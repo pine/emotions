@@ -51,7 +51,7 @@ public class Slack {
                 .uri(USERS_SET_PHOTO_PATH)
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                .syncBody(body.build())
+                .bodyValue(body.build())
                 .retrieve()
                 .bodyToMono(Status.class), TIMEOUT);
 

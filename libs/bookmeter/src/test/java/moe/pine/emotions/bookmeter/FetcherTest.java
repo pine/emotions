@@ -356,7 +356,7 @@ public class FetcherTest {
         when(webClient.post()).thenReturn(requestBodyUriSpec);
         when(requestBodyUriSpec.uri(path)).thenReturn(requestBodyUriSpec);
         when(requestBodyUriSpec.header(HttpHeaders.USER_AGENT, USER_AGENT)).thenReturn(requestBodyUriSpec);
-        when(requestBodyUriSpec.syncBody(formData)).thenReturn(requestHeadersSpec);
+        when(requestBodyUriSpec.bodyValue(formData)).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.cookies(any())).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.exchange()).thenReturn(clientResponseMono);
         when(clientResponseMono.block(TIMEOUT)).thenReturn(clientResponse);
@@ -370,7 +370,7 @@ public class FetcherTest {
         verify(webClient).post();
         verify(requestBodyUriSpec).uri(path);
         verify(requestBodyUriSpec).header(HttpHeaders.USER_AGENT, USER_AGENT);
-        verify(requestBodyUriSpec).syncBody(formData);
+        verify(requestBodyUriSpec).bodyValue(formData);
         verify(requestHeadersSpec).cookies(consumerCaptor.capture());
         verify(requestHeadersSpec).exchange();
         verify(clientResponseMono).block(TIMEOUT);
