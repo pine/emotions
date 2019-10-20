@@ -208,21 +208,22 @@ class Fetcher {
 
     /**
      * Monkey patch to a broken bookmeter's Set-Cookie header
-     * <p>
-     * e.g. `set-cookie: _session_id_elk=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx; domain=.bookmeter.com; path=/; Max-Age=1; HttpOnly`
      */
     private void patchBrokenCookies(final ClientResponse clientResponse) {
         try {
             clientResponse.cookies();
         } catch (IllegalArgumentException e) {
-            final ClientHttpResponse clientHttpResponse = Whitebox.getInternalState(clientResponse, "response");
-            final HttpClientResponse httpClientResponse = Whitebox.getInternalState(clientHttpResponse, "response");
+            final ClientHttpResponse clientHttpResponse =
+                Whitebox.getInternalState(clientResponse, "response");
+            final HttpClientResponse httpClientResponse =
+                Whitebox.getInternalState(clientHttpResponse, "response");
             final Object responseState = Whitebox.getInternalState(httpClientResponse, "responseState");
             final Cookies cookieHolder = Whitebox.getInternalState(responseState, "cookieHolder");
             final Map<CharSequence, Set<Cookie>> cachedCookies = cookieHolder.getCachedCookies();
 
             cachedCookies.forEach((key, value) -> {
                 value.forEach(cookie -> {
+                    // XXX: set-cookie: _session_id_elk=xxx; domain=.bookmeter.com; path=/; Max-Age=1; HttpOnly
                     if (StringUtils.startsWith(cookie.domain(), ".")) {
                         cookie.setDomain(cookie.domain().substring(1));
                     }
