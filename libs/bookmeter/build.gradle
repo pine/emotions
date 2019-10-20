@@ -17,6 +17,9 @@ dependencies {
     // HTML parser
     implementation 'org.jsoup:jsoup'
 
+    // PowerMock
+    implementation 'org.powermock:powermock-reflect'
+
     // Test
     testImplementation 'com.squareup.okhttp3:okhttp'
     testImplementation 'com.squareup.okhttp3:mockwebserver'
@@ -25,5 +28,4 @@ dependencies {
     testImplementation 'org.apache.httpcomponents:httpclient'
     testImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     testImplementation 'org.mockito:mockito-core'
-    testImplementation 'org.powermock:powermock-reflect'
 }

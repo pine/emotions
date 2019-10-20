@@ -1,6 +1,7 @@
 package moe.pine.emotions.bookmeter;
 
 import com.google.common.annotations.VisibleForTesting;
+import io.netty.handler.codec.http.cookie.Cookie;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
@@ -8,16 +9,22 @@ import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.reactorutils.MonoUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.powermock.reflect.Whitebox;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.client.reactive.ClientHttpResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.Cookies;
+import reactor.netty.http.client.HttpClientResponse;
 
 import java.time.Duration;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -174,6 +181,7 @@ class Fetcher {
                 String.format("Illegal status code :: statusCode=%d", clientResponse.rawStatusCode()));
         }
 
+        patchBrokenCookies(clientResponse);
         return clientResponse;
     }
 
@@ -194,6 +202,32 @@ class Fetcher {
                 .cookies(builder -> builder.addAll(cookies))
                 .exchange(), TIMEOUT);
 
+        patchBrokenCookies(clientResponse);
         return Objects.requireNonNull(clientResponse);
+    }
+
+    /**
+     * Monkey patch to a broken bookmeter's Set-Cookie header
+     * <p>
+     * e.g. `set-cookie: _session_id_elk=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx; domain=.bookmeter.com; path=/; Max-Age=1; HttpOnly`
+     */
+    private void patchBrokenCookies(final ClientResponse clientResponse) {
+        try {
+            clientResponse.cookies();
+        } catch (IllegalArgumentException e) {
+            final ClientHttpResponse clientHttpResponse = Whitebox.getInternalState(clientResponse, "response");
+            final HttpClientResponse httpClientResponse = Whitebox.getInternalState(clientHttpResponse, "response");
+            final Object responseState = Whitebox.getInternalState(httpClientResponse, "responseState");
+            final Cookies cookieHolder = Whitebox.getInternalState(responseState, "cookieHolder");
+            final Map<CharSequence, Set<Cookie>> cachedCookies = cookieHolder.getCachedCookies();
+
+            cachedCookies.forEach((key, value) -> {
+                value.forEach(cookie -> {
+                    if (StringUtils.startsWith(cookie.domain(), ".")) {
+                        cookie.setDomain(cookie.domain().substring(1));
+                    }
+                });
+            });
+        }
     }
 }
