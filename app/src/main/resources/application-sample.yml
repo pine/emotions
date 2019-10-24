@@ -1,8 +1,36 @@
+spring:
+  redis:
+    database: 0
+
 scheduling:
   enabled: true
 
 app:
   site-url: https://www.example.com/
+
+
+# Cloud services
+# ---------------------------
+
+cloudstorage:
+  credentials: 'classpath:/gcp-credentials.json'
+  images:
+    - bucket: bucket
+      name: name
+
+mackerel:
+  api-key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  graphs:
+    elapsed-time:
+      name: 'elapsed_time'
+
+
+# Supported services
+# ---------------------------
+
+bookmeter:
+  email: example@gmail.com
+  password: password
 
 gravatar:
   email: example@gmail.com
@@ -26,14 +54,3 @@ twitter:
   access-token: 'access_token'
   access-token-secret: 'access_token_secret'
 
-cloudstorage:
-  credentials: 'classpath:/gcp-credentials.json'
-  images:
-    - bucket: bucket
-      name: name
-
-mackerel:
-  api-key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-  graphs:
-    elapsed-time:
-      name: 'elapsed_time'
