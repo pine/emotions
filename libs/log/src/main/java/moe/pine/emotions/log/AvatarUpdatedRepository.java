@@ -3,6 +3,7 @@ package moe.pine.emotions.log;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -12,6 +13,7 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -30,6 +32,21 @@ public class AvatarUpdatedRepository {
         final String key = keyBuilder.buildKey(avatarType);
         final long value = updatedAt.atZone(zoneId).toEpochSecond();
         redisTemplate.opsForValue().set(key, String.valueOf(value));
+    }
+
+    public Optional<LocalDateTime> get(final AvatarType avatarType) {
+        Objects.requireNonNull(avatarType);
+
+        final String key =  keyBuilder.buildKey(avatarType);
+        final String value = redisTemplate.opsForValue().get(key);
+        if (StringUtils.isEmpty(value)) {
+            return Optional.empty();
+        }
+
+        final long epochSeconds = Long.parseLong(value);
+        final Instant instant = Instant.ofEpochSecond(epochSeconds);
+        final LocalDateTime updatedAt = LocalDateTime.ofInstant(instant, zoneId);
+        return Optional.of(updatedAt);
     }
 
     public List<Pair<AvatarType, LocalDateTime>> mget(
