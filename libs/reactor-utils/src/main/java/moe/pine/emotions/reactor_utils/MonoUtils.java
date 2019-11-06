@@ -1,4 +1,4 @@
-package moe.pine.emotions.reactorutils;
+package moe.pine.emotions.reactor_utils;
 
 import lombok.experimental.UtilityClass;
 import reactor.core.publisher.Mono;

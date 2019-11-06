@@ -1,10 +1,9 @@
-package moe.pine.emotions.reactorutils;
+package moe.pine.emotions.reactor_utils;
 
 import lombok.SneakyThrows;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
