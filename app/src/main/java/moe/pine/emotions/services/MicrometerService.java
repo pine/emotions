@@ -38,22 +38,23 @@ public class MicrometerService {
 
         for (var avatarType : AvatarType.values()) {
             final String name = String.format("%s.%s", metric.getName(), avatarType.getId());
-            Gauge.builder(name, () -> measure(avatarType).orElse(null))
+            Gauge.builder(name, avatarType, this::measure)
+                .strongReference(true)
                 .register(meterRegistry);
         }
     }
 
 
     @VisibleForTesting
-    Optional<Long> measure(final AvatarType avatarType) {
+    Double measure(final AvatarType avatarType) {
         final Optional<LocalDateTime> updatedAtOpt = avatarUpdatedRepository.get(avatarType);
         if (updatedAtOpt.isEmpty()) {
-            return Optional.empty();
+            return Double.NaN;
         }
 
         final LocalDateTime updatedAt = updatedAtOpt.get();
         final long updatedAtEpoch = updatedAt.atZone(zoneId).toEpochSecond();
         final long now = clock.instant().getEpochSecond();
-        return Optional.of(now - updatedAtEpoch);
+        return (double) (now - updatedAtEpoch);
     }
 }
