@@ -1,8 +1,33 @@
-scheduling:
-  enabled: false
+# App configuration
+# ---------------------------
 
 app:
   site-url: https://github.com/pine/emotions
+
+scheduling:
+  enabled: false
+
+micrometer:
+  metrics:
+    elapsed_time:
+      name: 'elapsed_time'
+
+
+# Cloud services
+# ---------------------------
+
+cloudstorage:
+  credentials: 'classpath:/gcp-credentials.json'
+  images:
+    - bucket: bucket
+      name: name
+
+mackerel:
+  api-key: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+  graphs:
+    elapsed-time:
+      name: 'elapsed_time'
+
 
 gravatar:
   email: example@gmail.com
@@ -32,14 +57,3 @@ bookmeter:
   email: example@example.com
   password: password
 
-cloudstorage:
-  credentials: 'classpath:/gcp-credentials.json'
-  images:
-    - bucket: bucket
-      name: name
-
-mackerel:
-  api-key: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-  graphs:
-    elapsed-time:
-      name: 'elapsed_time'
