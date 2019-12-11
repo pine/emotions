@@ -27,13 +27,6 @@
   <!-- Twitter4J -->
   <logger name="twitter4j" level="INFO"/>
 
-  <!-- Undertow -->
-  <logger name="org.xnio" level="WARN"/>
-  <logger name="io.undertow" level="INFO"/>
-  <logger name="io.undertow.session" level="WARN"/>
-  <logger name="io.undertow.websockets.jsr" level="ERROR"/>
-  <logger name="io.undertow.request.security" level="WARN"/>
-
   <root>
     <level value="DEBUG"/>
     <appender-ref ref="CONSOLE"/>

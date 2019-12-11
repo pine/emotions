@@ -4,3 +4,7 @@ spring:
   output:
     ansi:
       enabled: always
+
+logging:
+  level:
+    org.eclipse.jetty: WARN
