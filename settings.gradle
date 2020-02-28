@@ -1,15 +1,15 @@
 include ':app'
 
 for (File f : file('libs').listFiles()) {
-  if (f.directory) {
-    include(":lib-${f.name}")
-    project(":lib-${f.name}").projectDir = f
-  }
+    if (f.directory) {
+        include(":lib-${f.name}")
+        project(":lib-${f.name}").projectDir = f
+    }
 }
 
 for (File f : file('tools').listFiles()) {
-  if (f.directory) {
-    include(":tool-${f.name}")
-    project(":tool-${f.name}").projectDir = f
-  }
+    if (f.directory) {
+        include(":tool-${f.name}")
+        project(":tool-${f.name}").projectDir = f
+    }
 }
