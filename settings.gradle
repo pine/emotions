@@ -1,39 +1,15 @@
 include ':app'
 
+for (File f : file('libs').listFiles()) {
+  if (f.directory) {
+    include(":lib-${f.name}")
+    project(":lib-${f.name}").projectDir = f
+  }
+}
 
-// Utilities
-//~~~~~~~~~~~~~~~~~~~~~
-
-include ':lib-log'
-project(':lib-log').projectDir = new File(settingsDir, '/libs/log')
-
-include ':lib-mackerel'
-project(':lib-mackerel').projectDir = new File(settingsDir, '/libs/mackerel')
-
-include ':lib-cloudstorage'
-project(':lib-cloudstorage').projectDir = new File(settingsDir, "/libs/cloudstorage")
-
-include ':lib-reactor-utils'
-project(':lib-reactor-utils').projectDir = new File(settingsDir, "/libs/reactor-utils")
-
-include ':lib-spring-utils'
-project(':lib-spring-utils').projectDir = new File(settingsDir, "/libs/spring-utils")
-
-
-// Supported services
-//~~~~~~~~~~~~~~~~~~~~~
-
-include ':lib-bookmeter'
-project(':lib-bookmeter').projectDir = new File(settingsDir, "/libs/bookmeter")
-
-include ':lib-gravatar'
-project(':lib-gravatar').projectDir = new File(settingsDir, "/libs/gravatar")
-
-include ':lib-slack'
-project(':lib-slack').projectDir = new File(settingsDir, "/libs/slack")
-
-include ':lib-twitter'
-project(':lib-twitter').projectDir = new File(settingsDir, "/libs/twitter")
-
-include ':tool-gravatar'
-project(':tool-gravatar').projectDir = new File(settingsDir, "/tools/gravatar")
+for (File f : file('tools').listFiles()) {
+  if (f.directory) {
+    include(":tool-${f.name}")
+    project(":tool-${f.name}").projectDir = f
+  }
+}
