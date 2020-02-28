@@ -1,27 +1,29 @@
 package moe.pine.emotions.properties;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
+import lombok.experimental.NonFinal;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Data
+@Value
+@NonFinal
 @Validated
+@ConstructorBinding
 @ConfigurationProperties("slack")
 public class SlackProperties {
-    private @NotNull List<Workspace> workspaces;
+    @NotNull List<Workspace> workspaces;
 
-    @Data
+    @Value
+    @NonFinal
     @Validated
-    @NoArgsConstructor
-    @AllArgsConstructor
+    @ConstructorBinding
     public static class Workspace {
-        private @NotBlank String id;
-        private @NotBlank String token;
+        @NotBlank String id;
+        @NotBlank String token;
     }
 }
