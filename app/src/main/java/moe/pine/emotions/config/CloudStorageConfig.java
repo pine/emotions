@@ -17,13 +17,13 @@ import java.io.IOException;
 public class CloudStorageConfig {
     @Bean
     public CloudStorage cloudStorage(
-        final CloudStorageProperties cloudStorageProperties,
-        final ResourceLoader resourceLoader
+        CloudStorageProperties cloudStorageProperties,
+        ResourceLoader resourceLoader
     ) throws IOException {
-        final String location = cloudStorageProperties.getCredentials();
+        String location = cloudStorageProperties.getCredentials();
         log.info("Loading GCP credentials file '{}'", location);
 
-        final Resource resource = resourceLoader.getResource(location);
+        Resource resource = resourceLoader.getResource(location);
         return CloudStorage.fromStream(resource.getInputStream());
     }
 }

@@ -32,7 +32,7 @@ public class AppConfig {
 
     @Bean
     public TaskExecutor taskExecutor() {
-        final var executor = new ThreadPoolTaskExecutor();
+        var executor = new ThreadPoolTaskExecutor();
         executor.setWaitForTasksToCompleteOnShutdown(true);
         executor.setAwaitTerminationSeconds(60);
         return executor;

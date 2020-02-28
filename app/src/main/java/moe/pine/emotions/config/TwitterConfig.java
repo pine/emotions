@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class TwitterConfig {
     @Bean
-    public Twitter twitter(final TwitterProperties twitterProperties) {
+    public Twitter twitter(TwitterProperties twitterProperties) {
         return new Twitter(
             twitterProperties.getConsumerKey(),
             twitterProperties.getConsumerSecret(),

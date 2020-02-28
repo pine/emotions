@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class CacheConfig {
     @Bean
     public CacheInterceptor noCacheInterceptor() {
-        final var cachePolicy = new CachePolicyBuilder()
+        var cachePolicy = new CachePolicyBuilder()
             .private_()
             .noCache()
             .noStore()

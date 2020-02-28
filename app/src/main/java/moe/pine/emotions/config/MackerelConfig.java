@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 public class MackerelConfig {
     @Bean
     public Mackerel mackerel(
-        final RestTemplateBuilder restTemplateBuilder,
-        final MackerelProperties mackerelProperties
+        RestTemplateBuilder restTemplateBuilder,
+        MackerelProperties mackerelProperties
     ) {
         return new Mackerel(
             restTemplateBuilder,

@@ -16,16 +16,16 @@ import java.util.Random;
 public class GravatarConfig {
     @Bean
     public GravatarClient gravatarClient(
-        final GravatarProperties gravatarProperties
+        GravatarProperties gravatarProperties
     ) {
         return new GravatarClient(gravatarProperties.getEmail());
     }
 
     @Bean
     public Gravatar gravatar(
-        final GravatarProperties gravatarProperties,
-        final GravatarClient gravatarClient,
-        final Random random
+        GravatarProperties gravatarProperties,
+        GravatarClient gravatarClient,
+        Random random
     ) {
         return new Gravatar(gravatarClient, gravatarProperties.getPassword(), random);
     }

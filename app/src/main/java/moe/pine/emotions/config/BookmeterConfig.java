@@ -12,8 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class BookmeterConfig {
     @Bean
     public Bookmeter bookmeter(
-        final WebClient.Builder webClientBuilder,
-        final BookmeterProperties bookmeterProperties
+        WebClient.Builder webClientBuilder,
+        BookmeterProperties bookmeterProperties
     ) {
         return new Bookmeter(
             bookmeterProperties.getEmail(),

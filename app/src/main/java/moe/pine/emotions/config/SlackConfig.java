@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class SlackConfig {
     @Bean
     public Slack slack(
-        final WebClient.Builder webClientBuilder
+        WebClient.Builder webClientBuilder
     ) {
         return new Slack(webClientBuilder);
     }

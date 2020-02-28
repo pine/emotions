@@ -17,9 +17,9 @@ public class LogConfig {
 
     @Bean
     public AvatarUpdatedRepository avatarUpdatedRepository(
-        final StringRedisTemplate redisTemplate,
-        final AvatarUpdatedKeyBuilder keyBuilder,
-        final ZoneId zoneId
+        StringRedisTemplate redisTemplate,
+        AvatarUpdatedKeyBuilder keyBuilder,
+        ZoneId zoneId
     ) {
         return new AvatarUpdatedRepository(
             redisTemplate,
