@@ -18,7 +18,7 @@ public class AppInitializerTest {
     @Test
     @SneakyThrows
     public void runTest() {
-        final HerokuRedis redis = mock(HerokuRedis.class);
+        HerokuRedis redis = mock(HerokuRedis.class);
         when(redis.getHost()).thenReturn("host");
         when(redis.getPassword()).thenReturn("password");
         when(redis.getPort()).thenReturn(12345);
