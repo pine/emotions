@@ -1,34 +1,36 @@
 package moe.pine.emotions.properties;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
+import lombok.experimental.NonFinal;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Value
+@NonFinal
 @Validated
+@ConstructorBinding
 @ConfigurationProperties("mackerel")
 public class MackerelProperties {
-    private @NotBlank String apiKey;
-    private @NotNull Graphs graphs;
+    @NotBlank String apiKey;
+    @NotNull Graphs graphs;
 
-    @Data
+    @Value
+    @NonFinal
     @Validated
-    @NoArgsConstructor
-    @AllArgsConstructor
+    @ConstructorBinding
     public static class Graphs {
-        private @NotNull Graph elapsedTime;
+        @NotNull Graph elapsedTime;
     }
 
-    @Data
+    @Value
+    @NonFinal
     @Validated
-    @NoArgsConstructor
-    @AllArgsConstructor
+    @ConstructorBinding
     public static class Graph {
-        private @NotBlank String name;
+        @NotBlank String name;
     }
 }
