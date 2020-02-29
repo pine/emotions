@@ -19,8 +19,8 @@ public class HealthController {
     private final AppProperties appProperties;
 
     @GetMapping("")
-    public void home(final HttpServletResponse response) throws IOException {
-        final String siteUrl = appProperties.getSiteUrl();
+    public void home(HttpServletResponse response) throws IOException {
+        String siteUrl = appProperties.getSiteUrl();
         if (StringUtils.isEmpty(siteUrl)) {
             response.sendError(
                 HttpStatus.NOT_FOUND.value(),

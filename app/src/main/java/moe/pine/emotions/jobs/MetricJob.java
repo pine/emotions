@@ -19,7 +19,7 @@ public class MetricJob {
     @Scheduled(cron = "0 * * * * *")
     @Retryable
     public void send() {
-        final List<Metric> metrics = metricService.collect();
+        List<Metric> metrics = metricService.collect();
         metricService.send(metrics);
     }
 }

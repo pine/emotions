@@ -29,7 +29,7 @@ public class AvatarJob {
     @Scheduled(cron = "0 0 4 * * *")
     @Retryable
     public void bookmeter() throws InterruptedException {
-        final byte[] chosenImage = cloudStorageService.chooseImage();
+        byte[] chosenImage = cloudStorageService.chooseImage();
         bookmeterService.updateImage(chosenImage);
         metricService.log(AvatarType.BOOKMETER);
     }
@@ -46,7 +46,7 @@ public class AvatarJob {
     @Scheduled(cron = "0 20 4 * * *")
     @Retryable
     public void slack() throws InterruptedException {
-        final byte[] chosenImage = cloudStorageService.chooseImage();
+        byte[] chosenImage = cloudStorageService.chooseImage();
         slackService.updateImage(chosenImage);
         metricService.log(AvatarType.SLACK);
     }
@@ -55,7 +55,7 @@ public class AvatarJob {
     @Scheduled(cron = "0 30 4 * * *")
     @Retryable
     public void twitter() {
-        final byte[] chosenImage = cloudStorageService.chooseImage();
+        byte[] chosenImage = cloudStorageService.chooseImage();
         twitterService.updateImage(chosenImage);
         metricService.log(AvatarType.TWITTER);
     }
