@@ -19,13 +19,13 @@ public class CloudStorageService {
 
     @SuppressWarnings("SpellCheckingInspection")
     public byte[] chooseImage() {
-        final var images = cloudStorageProperties.getImages();
+        var images = cloudStorageProperties.getImages();
         if (CollectionUtils.isEmpty(images)) {
             throw new RuntimeException("`cloudstorage`.`images` should not be empty");
         }
 
-        final int chosen = random.nextInt(images.size());
-        final var chosenImage = images.get(chosen);
+        int chosen = random.nextInt(images.size());
+        var chosenImage = images.get(chosen);
 
         return cloudStorage.get(chosenImage.getBucket(), chosenImage.getName());
     }
