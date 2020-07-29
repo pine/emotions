@@ -21,6 +21,7 @@ public class SlackService {
 
         for (var workspace : slackProperties.getWorkspaces()) {
             slack.setUserPhoto(workspace.getToken(), image);
+            log.info("Updated Slack user photo. [workspace.id={}]", workspace.getId());
         }
     }
 }
