@@ -1,31 +1,42 @@
 package moe.pine.emotions.log;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.lang.Nullable;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import static org.mockito.Mockito.spy;
 
-@SuppressWarnings({"WeakerAccess", "JUnitTestCaseWithNoTests", "NotNullFieldNotInitialized"})
+@SuppressWarnings({"WeakerAccess", "JUnitTestCaseWithNoTests", "NotNullFieldNotInitialized", "rawtypes"})
 public class TestBase {
+    private static final String REDIS_IMAGE = "redis:6.0.6";
+    private static final String REDIS_HOST = "localhost";
+    private static final int REDIS_PORT = 6379;
     private static final int REDIS_DATABASE = 1;
 
     protected StringRedisTemplate redisTemplate;
 
-    @Rule
-    @SuppressWarnings("rawtypes")
-    public GenericContainer redis = new GenericContainer(DockerImageName.parse("redis:6.0.6"))
-        .withExposedPorts(6379);
+    @Nullable
+    private GenericContainer container;
 
     @Before
     public void setUp() {
-        final var configuration = new RedisStandaloneConfiguration(redis.getHost(), redis.getFirstMappedPort());
+        final RedisStandaloneConfiguration configuration;
+        if (StringUtils.isNotEmpty(System.getenv("CI"))) {
+            configuration = new RedisStandaloneConfiguration(REDIS_HOST, REDIS_PORT);
+        } else {
+            container = new GenericContainer(DockerImageName.parse(REDIS_IMAGE))
+                .withExposedPorts(REDIS_PORT);
+            container.start();
+
+            configuration = new RedisStandaloneConfiguration(container.getHost(), container.getFirstMappedPort());
+        }
         configuration.setDatabase(REDIS_DATABASE);
 
         final var factory = new LettuceConnectionFactory(configuration);
@@ -44,5 +55,10 @@ public class TestBase {
             connection.flushDb();
             return null;
         });
+
+        if (container != null) {
+            container.close();
+            container = null;
+        }
     }
 }
