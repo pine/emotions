@@ -2,24 +2,30 @@ package moe.pine.emotions.log;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import static org.mockito.Mockito.spy;
 
-@SuppressWarnings({"NullableProblems", "WeakerAccess"})
+@SuppressWarnings({"WeakerAccess", "JUnitTestCaseWithNoTests", "NotNullFieldNotInitialized"})
 public class TestBase {
-    private static final String REDIS_HOST = "localhost";
-    private static final int REDIS_PORT = 6379;
     private static final int REDIS_DATABASE = 1;
 
     protected StringRedisTemplate redisTemplate;
 
+    @Rule
+    @SuppressWarnings("rawtypes")
+    public GenericContainer redis = new GenericContainer(DockerImageName.parse("redis:6.0.6"))
+        .withExposedPorts(6379);
+
     @Before
     public void setUp() {
-        final var configuration = new RedisStandaloneConfiguration(REDIS_HOST, REDIS_PORT);
+        final var configuration = new RedisStandaloneConfiguration(redis.getHost(), redis.getFirstMappedPort());
         configuration.setDatabase(REDIS_DATABASE);
 
         final var factory = new LettuceConnectionFactory(configuration);

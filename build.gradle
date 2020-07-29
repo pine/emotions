@@ -17,7 +17,7 @@ buildscript {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
         classpath 'io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE'
         classpath 'io.spring.gradle:propdeps-plugin:0.0.9.RELEASE'
-        classpath 'gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.11'
+        classpath 'gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.4.4'
         classpath 'net.rdrei.android.buildtimetracker:gradle-plugin:0.11.0'
     }
 }
@@ -63,6 +63,7 @@ subprojects {
             mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
             mavenBom "com.google.cloud:google-cloud-bom:$googleCloudBomVersion"
             mavenBom "org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"
+            mavenBom 'org.testcontainers:testcontainers-bom:1.15.0-rc1'
         }
         dependencies {
             dependency 'javax.servlet:javax.servlet-api:4.0.1'
@@ -128,7 +129,7 @@ subprojects {
         excludeFilter = file("${project.rootDir}/config/findbugs-exclude.xml")
         spotbugsTest.enabled = false
     }
-    tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    spotbugsMain {
         reports {
             xml.enabled = false
             html.enabled = true
@@ -164,9 +165,9 @@ jacocoTestReport {
         html.enabled = true
     }
 
-    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
-    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
-    classDirectories = files(subprojects.sourceSets.main.output)
+    additionalSourceDirs.setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
+    sourceDirectories.setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
+    classDirectories.setFrom(files(subprojects.sourceSets.main.output))
 }
 
 

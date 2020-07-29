@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-@SuppressWarnings("NullableProblems")
 public class AvatarUpdatedRepositoryTest extends TestBase {
     private static final String GRAVATAR_KEY = "avatar_updated:gravatar";
     private static final String SLACK_KEY = "avatar_updated:slack";
@@ -33,6 +32,7 @@ public class AvatarUpdatedRepositoryTest extends TestBase {
     private AvatarUpdatedRepository avatarUpdatedRepository;
 
     @Before
+    @Override
     public void setUp() {
         super.setUp();
 

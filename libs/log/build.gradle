@@ -15,4 +15,7 @@ dependencies {
     // Test
     testImplementation 'junit:junit'
     testImplementation 'org.mockito:mockito-core'
+
+    // Testcontainers
+    testImplementation 'org.testcontainers:testcontainers'
 }
