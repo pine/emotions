@@ -1,7 +1,7 @@
 buildscript {
     ext {
         googleCloudBomVersion = '0.110.0-alpha'
-        springBootVersion = '2.2.5.RELEASE'
+        springBootVersion = '2.3.2.RELEASE'
         kotlinVersion = '1.3.50'
         lombokVersion = '1.18.6'
         lettuceVersion = '5.1.6.RELEASE'
@@ -67,6 +67,7 @@ subprojects {
         }
         dependencies {
             dependency 'javax.servlet:javax.servlet-api:4.0.1'
+            dependency 'org.hibernate:hibernate-validator:6.1.5.Final'
 
             // Guava
             dependency 'com.google.guava:guava:27.0.1-jre'
