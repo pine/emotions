@@ -9,7 +9,6 @@ jobs:
       TERM: dumb
       YARN_SILENT: 1
     steps:
-      - setup_remote_docker
       - checkout
       - run:
           name: Checkout submodule
