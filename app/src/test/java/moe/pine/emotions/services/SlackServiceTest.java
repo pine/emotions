@@ -42,7 +42,7 @@ public class SlackServiceTest {
     @Test
     @SneakyThrows
     public void updateImageTest() {
-        final byte[] imageBytes = new byte[]{0x00, 0x01, 0x02};
+        final byte[] imageBytes = {0x00, 0x01, 0x02};
         final List<SlackProperties.Workspace> workspaces =
             List.of(
                 new SlackProperties.Workspace("workspace1", "token1"),
