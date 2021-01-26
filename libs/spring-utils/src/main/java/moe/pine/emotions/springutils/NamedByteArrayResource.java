@@ -14,14 +14,4 @@ public class NamedByteArrayResource extends ByteArrayResource {
     public String getFilename() {
         return filename;
     }
-
-    @Override
-    public boolean equals(Object other) {
-        return super.equals(other);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }
