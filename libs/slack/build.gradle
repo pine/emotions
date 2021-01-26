@@ -5,6 +5,9 @@ dependencies {
     // Spring Framework
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 
     // Apache Commons
     implementation 'org.apache.commons:commons-lang3'
@@ -15,8 +18,6 @@ dependencies {
     // Test
     testImplementation 'com.squareup.okhttp3:mockwebserver'
     testImplementation 'commons-fileupload:commons-fileupload'
-    testImplementation 'junit:junit'
     testImplementation 'org.apache.httpcomponents:httpclient'
-    testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.powermock:powermock-reflect'
 }

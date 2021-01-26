@@ -2,7 +2,6 @@ package moe.pine.emotions.slack;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -10,13 +9,9 @@ import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.MultipartStream;
 import org.apache.http.entity.ContentType;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -30,29 +25,24 @@ import java.util.concurrent.TimeUnit;
 
 import static moe.pine.emotions.slack.Slack.BASE_URL;
 import static moe.pine.emotions.slack.Slack.USERS_SET_PHOTO_PATH;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings({"NullableProblems", "ConstantConditions"})
+@SuppressWarnings("ConstantConditions")
 public class SlackTest {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     private MockWebServer mockWebServer;
     private Slack slack;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         mockWebServer = new MockWebServer();
         slack = new Slack(
@@ -60,9 +50,8 @@ public class SlackTest {
             mockWebServer.url("").toString());
     }
 
-    @After
-    @SneakyThrows
-    public void tearDown() {
+    @AfterEach
+    public void tearDown() throws Exception {
         mockWebServer.shutdown();
     }
 
@@ -81,8 +70,7 @@ public class SlackTest {
     }
 
     @Test
-    @SneakyThrows
-    public void setUserPhotoTest() {
+    public void setUserPhotoTest() throws Exception {
         final MockResponse mockResponse = new MockResponse();
         final Status status = Status.builder().ok(true).build();
         final String json = OBJECT_MAPPER.writeValueAsString(status);
@@ -90,7 +78,7 @@ public class SlackTest {
         mockResponse.setBody(json);
         mockWebServer.enqueue(mockResponse);
 
-        final byte[] image = new byte[]{0x01, 0x02, 0x03};
+        final byte[] image = {0x01, 0x02, 0x03};
         slack.setUserPhoto("token", image);
 
         assertEquals(1, mockWebServer.getRequestCount());
@@ -114,6 +102,7 @@ public class SlackTest {
 
         final String headerText = multipartStream.readHeaders();
         final var fileUpload = new FileUpload() {
+            @Override
             public FileItemHeaders getParsedHeaders(String headerPart) {
                 return super.getParsedHeaders(headerPart);
             }
@@ -129,38 +118,43 @@ public class SlackTest {
     }
 
     @Test
-    @SneakyThrows
     public void setUserPhotoTest_emptyToken() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`token` should not be empty.");
+        final IllegalArgumentException exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                slack.setUserPhoto("", new byte[]{0x00});
+            });
 
-        slack.setUserPhoto("", new byte[]{0x00});
+        assertEquals("`token` should not be empty.", exception.getMessage());
     }
 
     @Test
-    @SneakyThrows
     public void setUserPhotoTest_nullToken() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`token` should not be empty.");
+        final IllegalArgumentException exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                slack.setUserPhoto(null, new byte[]{0x00});
+            });
 
-        slack.setUserPhoto(null, new byte[]{0x00});
+        assertEquals("`token` should not be empty.", exception.getMessage());
     }
 
     @Test
-    @SneakyThrows
+    @SuppressWarnings("ZeroLengthArrayAllocation")
     public void setUserPhotoTest_emptyImage() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`image` should not be empty.");
+        final IllegalArgumentException exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                slack.setUserPhoto("token", new byte[]{});
+            });
 
-        slack.setUserPhoto("token", new byte[]{});
+        assertEquals("`image` should not be empty.", exception.getMessage());
     }
 
     @Test
-    @SneakyThrows
     public void setUserPhotoTest_nullImage() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`image` should not be empty.");
+        final IllegalArgumentException exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                slack.setUserPhoto("token", null);
+            });
 
-        slack.setUserPhoto("token", null);
+        assertEquals("`image` should not be empty.", exception.getMessage());
     }
 }
