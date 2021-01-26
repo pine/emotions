@@ -19,4 +19,10 @@ public class NamedByteArrayResource extends ByteArrayResource {
     public boolean equals(Object other) {
         return super.equals(other);
     }
+
+    @Override
+    @SuppressWarnings("RedundantMethodOverride")
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
