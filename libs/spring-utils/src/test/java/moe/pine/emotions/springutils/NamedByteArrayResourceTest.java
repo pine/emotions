@@ -1,9 +1,10 @@
 package moe.pine.emotions.springutils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 public class NamedByteArrayResourceTest {
     @Test
@@ -13,7 +14,7 @@ public class NamedByteArrayResourceTest {
         final var resource = new NamedByteArrayResource(bytes, filename);
 
         assertEquals(filename, resource.getFilename());
-        assertEquals(bytes, resource.getByteArray());
+        assertArrayEquals(bytes, resource.getByteArray());
     }
 
     @Test
