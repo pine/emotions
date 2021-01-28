@@ -1,30 +1,32 @@
 package moe.pine.emotions.twitter;
 
 import lombok.SneakyThrows;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import org.powermock.reflect.Whitebox;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.Configuration;
 
 import java.io.InputStream;
 import java.time.Duration;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
+@SuppressWarnings({
+    "CodeBlock2Expr",
+    "ConstantConditions",
+    "UnnecessaryFullyQualifiedName",
+})
 public class TwitterTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public static final byte[] EMPTY_BYTES = {};
 
     @Mock
     private twitter4j.Twitter underlying;
@@ -45,7 +47,9 @@ public class TwitterTest {
         );
 
         final twitter4j.Twitter underlying =
-            Whitebox.getInternalState(twitter, "underlying");
+            (twitter4j.Twitter) ReflectionTestUtils.getField(twitter, "underlying");
+        assertNotNull(underlying);
+
         final Configuration configuration = underlying.getConfiguration();
         final AccessToken accessToken = underlying.getOAuthAccessToken();
 
@@ -57,62 +61,70 @@ public class TwitterTest {
 
     @Test
     public void constructorEmptyConsumerKeyTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`consumerKey` should not be empty.");
+        final IllegalArgumentException exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                new Twitter(
+                    "",
+                    "consumer_secret",
+                    "access_token",
+                    "access_token_secret",
+                    Duration.ofSeconds(60),
+                    Duration.ofSeconds(120)
+                );
+            });
 
-        new Twitter(
-            "",
-            "consumer_secret",
-            "access_token",
-            "access_token_secret",
-            Duration.ofSeconds(60),
-            Duration.ofSeconds(120)
-        );
+        assertEquals("`consumerKey` should not be empty.", exception.getMessage());
     }
 
     @Test
     public void constructorEmptyConsumerSecretTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`consumerSecret` should not be empty.");
+        final IllegalArgumentException exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                new Twitter(
+                    "consumer_key",
+                    "",
+                    "access_token",
+                    "access_token_secret",
+                    Duration.ofSeconds(60),
+                    Duration.ofSeconds(120)
+                );
+            });
 
-        new Twitter(
-            "consumer_key",
-            "",
-            "access_token",
-            "access_token_secret",
-            Duration.ofSeconds(60),
-            Duration.ofSeconds(120)
-        );
+        assertEquals("`consumerSecret` should not be empty.", exception.getMessage());
     }
 
     @Test
     public void constructorEmptyAccessTokenTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`accessToken` should not be empty.");
+        final IllegalArgumentException exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                new Twitter(
+                    "consumer_key",
+                    "consumer_secret",
+                    "",
+                    "access_token_secret",
+                    Duration.ofSeconds(60),
+                    Duration.ofSeconds(120)
+                );
+            });
 
-        new Twitter(
-            "consumer_key",
-            "consumer_secret",
-            "",
-            "access_token_secret",
-            Duration.ofSeconds(60),
-            Duration.ofSeconds(120)
-        );
+        assertEquals("`accessToken` should not be empty.", exception.getMessage());
     }
 
     @Test
     public void constructorEmptyAccessTokenSecretTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`accessTokenSecret` should not be empty.");
+        final IllegalArgumentException exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                new Twitter(
+                    "consumer_key",
+                    "consumer_secret",
+                    "access_token",
+                    "",
+                    Duration.ofSeconds(60),
+                    Duration.ofSeconds(120)
+                );
+            });
 
-        new Twitter(
-            "consumer_key",
-            "consumer_secret",
-            "access_token",
-            "",
-            Duration.ofSeconds(60),
-            Duration.ofSeconds(120)
-        );
+        assertEquals("`accessTokenSecret` should not be empty.", exception.getMessage());
     }
 
     @Test
@@ -120,29 +132,32 @@ public class TwitterTest {
     public void updateProfileImageTest() {
         final Twitter twitter = new Twitter(underlying);
 
-        when(underlying.updateProfileImage((InputStream) any())).thenReturn(user);
+        when(underlying.updateProfileImage(any(InputStream.class))).thenReturn(user);
 
         twitter.updateProfileImage(new byte[]{0x01, 0x02, 0x03});
-        verify(underlying).updateProfileImage((InputStream) any());
+        verify(underlying).updateProfileImage(any(InputStream.class));
     }
 
     @Test
     public void updateProfileImageEmptyImageTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`image` should not be empty.");
+        final IllegalArgumentException exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                final Twitter twitter = new Twitter(underlying);
+                twitter.updateProfileImage(EMPTY_BYTES);
+            });
 
-        final Twitter twitter = new Twitter(underlying);
-        twitter.updateProfileImage(new byte[]{});
+        assertEquals("`image` should not be empty.", exception.getMessage());
     }
 
     @Test
     public void updateProfileImageNullImageTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`image` should not be empty.");
+        final IllegalArgumentException exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                final Twitter twitter = new Twitter(underlying);
 
-        final Twitter twitter = new Twitter(underlying);
+                twitter.updateProfileImage(null);
+            });
 
-        //noinspection ConstantConditions
-        twitter.updateProfileImage(null);
+        assertEquals("`image` should not be empty.", exception.getMessage());
     }
 }
