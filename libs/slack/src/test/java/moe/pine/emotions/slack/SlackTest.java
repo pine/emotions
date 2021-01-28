@@ -12,10 +12,10 @@ import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.powermock.reflect.Whitebox;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.ByteArrayInputStream;
@@ -34,7 +34,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({
+    "ConstantConditions",
+    "ZeroLengthArrayAllocation",
+})
 public class SlackTest {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -62,7 +65,7 @@ public class SlackTest {
         when(webClientBuilder.build()).thenReturn(WebClient.create());
 
         final Slack slack = new Slack(webClientBuilder);
-        final WebClient webClient = Whitebox.getInternalState(slack, "webClient");
+        final WebClient webClient = (WebClient) ReflectionTestUtils.getField(slack, "webClient");
         assertNotNull(webClient);
 
         verify(webClientBuilder).baseUrl(BASE_URL);
@@ -138,7 +141,6 @@ public class SlackTest {
     }
 
     @Test
-    @SuppressWarnings("ZeroLengthArrayAllocation")
     public void setUserPhotoTest_emptyImage() {
         final IllegalArgumentException exception =
             assertThrows(IllegalArgumentException.class, () -> {

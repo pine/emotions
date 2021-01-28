@@ -24,10 +24,9 @@ import static org.mockito.Mockito.when;
     "CodeBlock2Expr",
     "ConstantConditions",
     "UnnecessaryFullyQualifiedName",
+    "ZeroLengthArrayAllocation"
 })
 public class TwitterTest {
-    public static final byte[] EMPTY_BYTES = {};
-
     @Mock
     private twitter4j.Twitter underlying;
 
@@ -143,7 +142,7 @@ public class TwitterTest {
         final IllegalArgumentException exception =
             assertThrows(IllegalArgumentException.class, () -> {
                 final Twitter twitter = new Twitter(underlying);
-                twitter.updateProfileImage(EMPTY_BYTES);
+                twitter.updateProfileImage(new byte[]{});
             });
 
         assertEquals("`image` should not be empty.", exception.getMessage());
