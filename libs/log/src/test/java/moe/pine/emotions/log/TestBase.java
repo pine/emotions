@@ -1,8 +1,8 @@
 package moe.pine.emotions.log;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisCallback;
@@ -13,7 +13,12 @@ import org.testcontainers.utility.DockerImageName;
 
 import static org.mockito.Mockito.spy;
 
-@SuppressWarnings({"WeakerAccess", "JUnitTestCaseWithNoTests", "NotNullFieldNotInitialized", "rawtypes"})
+@SuppressWarnings({
+    "JUnitTestCaseWithNoTests",
+    "NotNullFieldNotInitialized",
+    "WeakerAccess",
+    "rawtypes",
+})
 public class TestBase {
     private static final String REDIS_IMAGE = "redis:6.0.6";
     private static final String REDIS_HOST = "localhost";
@@ -25,7 +30,7 @@ public class TestBase {
     @Nullable
     private GenericContainer container;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         final RedisStandaloneConfiguration configuration;
         if (StringUtils.isNotEmpty(System.getenv("CI"))) {
@@ -49,7 +54,7 @@ public class TestBase {
         this.redisTemplate = spy(redisTemplate);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         redisTemplate.execute((RedisCallback<Void>) connection -> {
             connection.flushDb();

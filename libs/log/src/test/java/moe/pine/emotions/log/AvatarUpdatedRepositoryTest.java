@@ -1,37 +1,33 @@
 package moe.pine.emotions.log;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
+@ExtendWith(MockitoExtension.class)
 public class AvatarUpdatedRepositoryTest extends TestBase {
     private static final String GRAVATAR_KEY = "avatar_updated:gravatar";
     private static final String SLACK_KEY = "avatar_updated:slack";
     private static final String TWITTER_KEY = "avatar_updated:twitter";
     private static final ZoneId ZONE_ID = ZoneId.of("Asia/Tokyo");
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
     @Mock
     private AvatarUpdatedKeyBuilder keyBuilder;
 
     private AvatarUpdatedRepository avatarUpdatedRepository;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

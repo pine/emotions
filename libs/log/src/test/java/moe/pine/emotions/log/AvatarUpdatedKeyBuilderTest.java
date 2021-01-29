@@ -1,18 +1,15 @@
 package moe.pine.emotions.log;
 
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SuppressWarnings("NullableProblems")
+
+@ExtendWith(MockitoExtension.class)
 public class AvatarUpdatedKeyBuilderTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
     @InjectMocks
     private AvatarUpdatedKeyBuilder keyBuilder;
 

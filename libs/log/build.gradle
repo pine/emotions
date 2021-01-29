@@ -1,6 +1,9 @@
 dependencies {
     // Spring Framework
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 
     // Redis
     testImplementation 'io.lettuce:lettuce-core'
@@ -11,10 +14,6 @@ dependencies {
 
     // Utilities
     implementation 'com.google.guava:guava'
-
-    // Test
-    testImplementation 'junit:junit'
-    testImplementation 'org.mockito:mockito-core'
 
     // Testcontainers
     testImplementation 'org.testcontainers:testcontainers'
