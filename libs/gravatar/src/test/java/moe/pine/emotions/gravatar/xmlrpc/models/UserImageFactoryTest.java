@@ -1,26 +1,25 @@
 package moe.pine.emotions.gravatar.xmlrpc.models;
 
 import com.google.common.collect.Maps;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SuppressWarnings("NullableProblems")
+
+@SuppressWarnings({
+    "ConstantConditions",
+    "ZeroLengthArrayAllocation",
+})
+@ExtendWith(MockitoExtension.class)
 public class UserImageFactoryTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @InjectMocks
     private UserImageFactory userImageFactory;
@@ -44,62 +43,75 @@ public class UserImageFactoryTest {
 
     @Test
     public void fromNonMapTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Unexpected data format :: ");
+        final Exception exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                userImageFactory.from(List.<Integer>of());
+            });
 
-        userImageFactory.from(Collections.<Integer>emptyList());
+        assertTrue(exception.getMessage().startsWith("Unexpected data format ::"));
     }
 
     @Test
-    @SuppressWarnings("ConstantConditions")
     public void fromNullTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Unexpected data format :: null");
+        final Exception exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                userImageFactory.from(null);
+            });
 
-        userImageFactory.from(null);
+        assertEquals("Unexpected data format :: null", exception.getMessage());
     }
 
     @Test
     public void fromInvalidKeyTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Unexpected data format ::");
+        final Exception exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                userImageFactory.from(Map.of(1, new Object[]{0, "foo"}));
+            });
 
-        userImageFactory.from(Map.of(1, new Object[]{0, "foo"}));
+        assertTrue(exception.getMessage().startsWith("Unexpected data format ::"));
     }
 
     @Test
     public void fromInvalidValueTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Unexpected data format ::");
+        final Exception exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                userImageFactory.from(Map.of("foo", true));
+            });
 
-        userImageFactory.from(Map.of("foo", true));
+        assertTrue(exception.getMessage().startsWith("Unexpected data format ::"));
     }
 
     @Test
     public void fromNullValueTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Unexpected data format ::");
-
         final Map<String, Object> data = Maps.newHashMap();
         data.put("foo", null);
 
-        userImageFactory.from(data);
+        final Exception exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                userImageFactory.from(data);
+            });
+
+        assertTrue(exception.getMessage().startsWith("Unexpected data format ::"));
     }
 
     @Test
     public void fromInvalidValueLengthTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Unexpected array length :: expected=2, actual=0");
+        final Exception exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                userImageFactory.from(Map.of("foo", new Object[]{}));
+            });
 
-        userImageFactory.from(Map.of("foo", new Object[]{}));
+        assertEquals("Unexpected array length :: expected=2, actual=0", exception.getMessage());
     }
 
     @Test
     public void fromInvalidValueTypeTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Unexpected data format :: ");
+        final Exception exception =
+            assertThrows(IllegalArgumentException.class, () -> {
+                userImageFactory.from(Map.of("foo", new Object[]{0, 1}));
+            });
 
-        userImageFactory.from(Map.of("foo", new Object[]{0, 1}));
+        assertTrue(exception.getMessage().startsWith("Unexpected data format :: "));
     }
 
 }

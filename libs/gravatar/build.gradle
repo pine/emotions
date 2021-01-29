@@ -1,6 +1,9 @@
 dependencies {
     // Spring Framework
-    implementation 'org.springframework:spring-core'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 
     // Apache Commons
     implementation 'org.apache.commons:commons-collections4'
@@ -15,8 +18,4 @@ dependencies {
 
     // Utilities
     implementation 'com.google.guava:guava'
-
-    // Test
-    testImplementation 'junit:junit'
-    testImplementation 'org.mockito:mockito-core'
 }

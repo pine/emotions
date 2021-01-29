@@ -1,19 +1,19 @@
 package moe.pine.emotions.gravatar.xmlrpc.models;
 
 import com.google.common.collect.ImmutableMap;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings("NullableProblems")
 public class StatusFactoryTest {
     private StatusFactory statusFactory;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         statusFactory = new StatusFactory();
     }
@@ -30,18 +30,24 @@ public class StatusFactoryTest {
         assertEquals(expected, actual);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void fromNonMapTest() {
-        statusFactory.from(Collections.<Integer>emptyList());
+        assertThrows(IllegalArgumentException.class, () -> {
+            statusFactory.from(Collections.<Integer>emptyList());
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void fromInvalidKeyTest() {
-        statusFactory.from(ImmutableMap.of(1, true));
+        assertThrows(IllegalArgumentException.class, () -> {
+            statusFactory.from(ImmutableMap.of(1, true));
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void fromInvalidValueTest() {
-        statusFactory.from(ImmutableMap.of("foo", 1));
+        assertThrows(IllegalArgumentException.class, () -> {
+            statusFactory.from(ImmutableMap.of("foo", 1));
+        });
     }
 }
