@@ -46,11 +46,7 @@ public class MetricService {
                 final long updatedAt = item.getValue().atZone(zoneId).toEpochSecond();
                 final BigDecimal value = BigDecimal.valueOf(now - updatedAt);
 
-                return Metric.builder()
-                    .name(name)
-                    .time(now)
-                    .value(value)
-                    .build();
+                return new Metric(name, now, value);
             })
             .collect(Collectors.toUnmodifiableList());
     }

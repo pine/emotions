@@ -99,13 +99,7 @@ public class MetricServiceTest {
     @Test
     public void sendTest() {
         final List<Metric> metrics =
-            List.of(
-                Metric.builder()
-                    .name("metric-1")
-                    .time(1L)
-                    .value(BigDecimal.ONE)
-                    .build()
-            );
+            List.of(new Metric("metric-1", 1L, BigDecimal.ONE));
 
         doNothing().when(mackerel).send(metrics);
 

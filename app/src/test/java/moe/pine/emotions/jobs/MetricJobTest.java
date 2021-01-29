@@ -30,16 +30,8 @@ public class MetricJobTest {
     public void sendTest() {
         final List<Metric> metrics =
             List.of(
-                Metric.builder()
-                    .name("metric1")
-                    .time(1L)
-                    .value(BigDecimal.ONE)
-                    .build(),
-                Metric.builder()
-                    .name("metric2")
-                    .time(2L)
-                    .value(BigDecimal.valueOf(2L))
-                    .build()
+                new Metric("metric1", 1L, BigDecimal.ONE),
+                new Metric("metric2", 2L, BigDecimal.valueOf(2L))
             );
 
         when(metricService.collect()).thenReturn(metrics);

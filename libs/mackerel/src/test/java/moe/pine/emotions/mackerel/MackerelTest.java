@@ -30,7 +30,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("NullableProblems")
 public class MackerelTest {
     private static final String API_KEY = "API_KEY";
 
@@ -63,16 +62,9 @@ public class MackerelTest {
     public void sendTest() {
         final List<Metric> metrics =
             List.of(
-                Metric.builder()
-                    .name("metric-1")
-                    .time(1L)
-                    .value(BigDecimal.ONE)
-                    .build(),
-                Metric.builder()
-                    .name("metric-2")
-                    .time(2L)
-                    .value(BigDecimal.valueOf(2L))
-                    .build());
+                new Metric("metric-1", 1L, BigDecimal.ONE),
+                new Metric("metric-2", 2L, BigDecimal.valueOf(2L))
+            );
         final Status status = Status.builder().success(true).build();
 
         when(restTemplate.postForObject(eq(ENDPOINT), entityCaptor.capture(), eq(Status.class)))
@@ -109,12 +101,7 @@ public class MackerelTest {
         expectedException.expectMessage("Failed to call Mackerel API. An empty response received.");
 
         final List<Metric> metrics =
-            List.of(
-                Metric.builder()
-                    .name("metric-1")
-                    .time(1L)
-                    .value(BigDecimal.ONE)
-                    .build());
+            List.of(new Metric("metric-1", 1L, BigDecimal.ONE));
 
         when(restTemplate.postForObject(eq(ENDPOINT), any(), eq(Status.class)))
             .thenReturn(null);
@@ -130,12 +117,7 @@ public class MackerelTest {
         expectedException.expectMessage("Failed to call Mackerel API :: success=false, metrics=");
 
         final List<Metric> metrics =
-            List.of(
-                Metric.builder()
-                    .name("metric-1")
-                    .time(1L)
-                    .value(BigDecimal.ONE)
-                    .build());
+            List.of(new Metric("metric-1", 1L, BigDecimal.ONE));
         final Status status = Status.builder().success(false).build();
 
         when(restTemplate.postForObject(eq(ENDPOINT), any(), eq(Status.class)))
