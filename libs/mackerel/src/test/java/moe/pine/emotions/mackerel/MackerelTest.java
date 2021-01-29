@@ -31,6 +31,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("ConstantConditions")
 public class MackerelTest {
     private static final String API_KEY = "API_KEY";
 
@@ -77,7 +78,6 @@ public class MackerelTest {
     }
 
     @Test
-    @SuppressWarnings("ConstantConditions")
     public void sendTest_nullMetrics() {
         assertThrows(NullPointerException.class, () -> mackerel.send(null));
     }
