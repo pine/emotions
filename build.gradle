@@ -45,6 +45,10 @@ allprojects {
         options.compilerArgs << '-Xlint:deprecation'
     }
 
+    test {
+        useJUnitPlatform()
+    }
+
 
     // ----- JaCoCo ---------------------------------------
 
@@ -95,7 +99,6 @@ subprojects {
             dependency 'moe.pine:spring-cache-interceptors:0.1.2'
 
             // Test
-            dependency 'junit:junit:4.12'
             dependency 'org.mockito:mockito-core:2.24.5'
             dependency "org.powermock:powermock-reflect:$powermockVersion"
             dependency "org.powermock:powermock-api-mockito2:$powermockVersion"
@@ -179,8 +182,8 @@ apply plugin: 'build-time-tracker'
 buildtimetracker {
     reporters {
         summary {
-          ordered true
-          barstyle 'ascii'
+            ordered true
+            barstyle 'ascii'
         }
     }
 }
