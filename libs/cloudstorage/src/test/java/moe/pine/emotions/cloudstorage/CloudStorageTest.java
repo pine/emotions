@@ -5,32 +5,25 @@ import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageException;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertArrayEquals;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("NullableProblems")
+@ExtendWith(MockitoExtension.class)
 public class CloudStorageTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     @Mock
     private Storage storage;
 
@@ -42,22 +35,21 @@ public class CloudStorageTest {
 
     private CloudStorage cloudStorage;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         cloudStorage = new CloudStorage(storage);
     }
 
     @Test
     public void fromStreamTest() throws IOException {
-        expectedException.expect(CloudStorageException.class);
-        expectedException.expectCause(instanceOf(IOException.class));
-
         final InputStream inputStream = mock(InputStream.class);
-        when(inputStream.read()).thenThrow(IOException.class);
-        when(inputStream.read(any(byte[].class))).thenThrow(IOException.class);
-        when(inputStream.read(any(byte[].class), anyInt(), anyInt())).thenThrow(IOException.class);
+        lenient().when(inputStream.read()).thenThrow(IOException.class);
+        lenient().when(inputStream.read(any(byte[].class))).thenThrow(IOException.class);
+        lenient().when(inputStream.read(any(byte[].class), anyInt(), anyInt())).thenThrow(IOException.class);
 
-        CloudStorage.fromStream(inputStream);
+        assertThatThrownBy(() -> CloudStorage.fromStream(inputStream))
+            .isInstanceOf(CloudStorageException.class)
+            .hasCauseInstanceOf(IOException.class);
     }
 
     @Test
@@ -78,54 +70,52 @@ public class CloudStorageTest {
 
     @Test
     public void getTest_emptyBucket() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`bucket` should not be empty");
-        cloudStorage.get("", "name");
+        assertThatThrownBy(() -> cloudStorage.get("", "name"))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageStartingWith("`bucket` should not be empty");
     }
 
     @Test
     @SuppressWarnings("ConstantConditions")
     public void getTest_nullBucket() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`bucket` should not be empty");
-        cloudStorage.get(null, "name");
+        assertThatThrownBy(() -> cloudStorage.get(null, "name"))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageStartingWith("`bucket` should not be empty");
     }
 
     @Test
     public void getTest_emptyName() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`name` should not be empty");
-        cloudStorage.get("bucket", "");
+        assertThatThrownBy(() -> cloudStorage.get("bucket", ""))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageStartingWith("`name` should not be empty");
     }
 
     @Test
     @SuppressWarnings("ConstantConditions")
     public void getTest_nullName() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`name` should not be empty");
-        cloudStorage.get("bucket", null);
+        assertThatThrownBy(() -> cloudStorage.get("bucket", null))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageStartingWith("`name` should not be empty");
     }
 
     @Test
     public void getTest_blobNotFound() {
-        expectedException.expect(CloudStorageException.class);
-        expectedException.expectMessage("Not found :: blobId=");
-
         final BlobId blobId = BlobId.of("bucket", "name");
         when(storage.get(blobId)).thenReturn(null);
 
-        cloudStorage.get("bucket", "name");
+        assertThatThrownBy(() -> cloudStorage.get("bucket", "name"))
+            .isInstanceOf(CloudStorageException.class)
+            .hasMessageStartingWith("Not found :: blobId=");
     }
 
     @Test
     public void getTest_storageException() {
-        expectedException.expect(CloudStorageException.class);
-        expectedException.expectCause(instanceOf(StorageException.class));
-
         final BlobId blobId = BlobId.of("bucket", "name");
         when(storage.get(blobId)).thenReturn(blob);
         when(blob.getContent(any())).thenThrow(StorageException.class);
 
-        cloudStorage.get("bucket", "name");
+        assertThatThrownBy(() -> cloudStorage.get("bucket", "name"))
+            .isInstanceOf(CloudStorageException.class)
+            .hasCauseInstanceOf(StorageException.class);
     }
 }

@@ -1,6 +1,6 @@
 dependencies {
     // Spring Framework
-    implementation 'org.springframework:spring-core'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
@@ -10,8 +10,4 @@ dependencies {
 
     // GCP
     implementation 'com.google.cloud:google-cloud-storage'
-
-    // Test
-    testImplementation 'junit:junit'
-    testImplementation 'org.mockito:mockito-core'
 }
