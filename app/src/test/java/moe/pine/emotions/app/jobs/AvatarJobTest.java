@@ -1,33 +1,28 @@
 package moe.pine.emotions.app.jobs;
 
-import lombok.SneakyThrows;
-import moe.pine.emotions.log.AvatarType;
 import moe.pine.emotions.app.services.BookmeterService;
 import moe.pine.emotions.app.services.CloudStorageService;
 import moe.pine.emotions.app.services.GravatarService;
 import moe.pine.emotions.app.services.MetricService;
 import moe.pine.emotions.app.services.SlackService;
 import moe.pine.emotions.app.services.TwitterService;
-import org.junit.Rule;
-import org.junit.Test;
+import moe.pine.emotions.log.AvatarType;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("NullableProblems")
+@ExtendWith(MockitoExtension.class)
 public class AvatarJobTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
     @Mock
     private BookmeterService bookmeterService;
 
@@ -53,9 +48,8 @@ public class AvatarJobTest {
     private ArgumentCaptor<byte[]> imageBytesCaptor;
 
     @Test
-    @SneakyThrows
-    public void bookmeterTest() {
-        final byte[] imageBytes = new byte[]{0x01, 0x02, 0x03};
+    public void bookmeterTest() throws Exception {
+        final byte[] imageBytes = {0x01, 0x02, 0x03};
 
         when(cloudStorageService.chooseImage()).thenReturn(imageBytes);
         doNothing().when(bookmeterService).updateImage(imageBytes);
@@ -79,9 +73,8 @@ public class AvatarJobTest {
     }
 
     @Test
-    @SneakyThrows
-    public void slackTest() {
-        final byte[] imageBytes = new byte[]{0x01, 0x02, 0x03};
+    public void slackTest() throws Exception {
+        final byte[] imageBytes = {0x01, 0x02, 0x03};
 
         when(cloudStorageService.chooseImage()).thenReturn(imageBytes);
         doNothing().when(slackService).updateImage(imageBytesCaptor.capture());
@@ -98,7 +91,7 @@ public class AvatarJobTest {
 
     @Test
     public void twitterTest() {
-        final byte[] imageBytes = new byte[]{0x01, 0x02, 0x03};
+        final byte[] imageBytes = {0x01, 0x02, 0x03};
 
         when(cloudStorageService.chooseImage()).thenReturn(imageBytes);
         doNothing().when(twitterService).updateImage(imageBytesCaptor.capture());

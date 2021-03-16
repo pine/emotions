@@ -1,13 +1,12 @@
 package moe.pine.emotions.app.jobs;
 
-import moe.pine.emotions.mackerel.Metric;
 import moe.pine.emotions.app.services.MetricService;
-import org.junit.Rule;
-import org.junit.Test;
+import moe.pine.emotions.mackerel.Metric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,10 +15,8 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class MetricJobTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
     @Mock
     private MetricService metricService;
 

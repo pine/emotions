@@ -1,15 +1,12 @@
 package moe.pine.emotions.app.controllers;
 
-import lombok.SneakyThrows;
 import moe.pine.emotions.app.properties.AppProperties;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -21,8 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class HealthControllerTest {
     @Autowired
@@ -32,9 +28,7 @@ public class HealthControllerTest {
     private AppProperties appProperties;
 
     @Test
-    @SneakyThrows
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void homeTest() {
+    public void homeTest() throws Exception {
         when(appProperties.getSiteUrl()).thenReturn("https://www.example.com");
 
         mvc.perform(MockMvcRequestBuilders.get("/"))
@@ -45,9 +39,7 @@ public class HealthControllerTest {
     }
 
     @Test
-    @SneakyThrows
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void homeTest_notFound() {
+    public void homeTest_notFound() throws Exception {
         when(appProperties.getSiteUrl()).thenReturn(null);
 
         mvc.perform(MockMvcRequestBuilders.get("/"))
@@ -57,8 +49,7 @@ public class HealthControllerTest {
     }
 
     @Test
-    @SneakyThrows
-    public void healthTest() {
+    public void healthTest() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/health"))
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("OK")));

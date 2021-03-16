@@ -26,7 +26,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.retry:spring-retry'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    //    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 
     // Servlet
     implementation 'javax.validation:validation-api'
@@ -51,8 +53,6 @@ dependencies {
     implementation 'moe.pine:spring-cache-interceptors'
 
     // Test
-    testImplementation 'junit:junit'
-    testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.powermock:powermock-api-mockito2'
     testImplementation 'org.powermock:powermock-module-junit4'
 }
