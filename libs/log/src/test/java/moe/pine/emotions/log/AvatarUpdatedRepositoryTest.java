@@ -50,7 +50,7 @@ public class AvatarUpdatedRepositoryTest extends TestBase {
         verify(keyBuilder).buildKey(AvatarType.GRAVATAR);
         verify(redisTemplate).opsForValue();
 
-        final String value = redisTemplate.opsForValue().get(GRAVATAR_KEY);
+        final String value = redisTemplate.opsForValue().get(GRAVATAR_KEY).block();
         assertNotNull(value);
 
         final long epochSeconds = Long.parseLong(value);
@@ -69,9 +69,9 @@ public class AvatarUpdatedRepositoryTest extends TestBase {
         when(keyBuilder.buildKey(AvatarType.SLACK)).thenReturn(SLACK_KEY);
         when(keyBuilder.buildKey(AvatarType.TWITTER)).thenReturn(TWITTER_KEY);
 
-        redisTemplate.opsForValue().set(GRAVATAR_KEY, String.valueOf(1557737172L));
-        redisTemplate.opsForValue().set(SLACK_KEY, String.valueOf(1557738119L));
-        redisTemplate.opsForValue().set(TWITTER_KEY, String.valueOf(1557670564L));
+        redisTemplate.opsForValue().set(GRAVATAR_KEY, String.valueOf(1557737172L)).block();
+        redisTemplate.opsForValue().set(SLACK_KEY, String.valueOf(1557738119L)).block();
+        redisTemplate.opsForValue().set(TWITTER_KEY, String.valueOf(1557670564L)).block();
 
         final var items = avatarUpdatedRepository.mget(avatarTypes);
         assertEquals(3, items.size());

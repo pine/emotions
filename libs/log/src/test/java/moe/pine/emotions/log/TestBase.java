@@ -5,8 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.lang.Nullable;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
@@ -25,7 +24,7 @@ public class TestBase {
     private static final int REDIS_PORT = 6379;
     private static final int REDIS_DATABASE = 1;
 
-    protected StringRedisTemplate redisTemplate;
+    protected ReactiveStringRedisTemplate redisTemplate;
 
     @Nullable
     private GenericContainer container;
@@ -47,19 +46,14 @@ public class TestBase {
         final var factory = new LettuceConnectionFactory(configuration);
         factory.afterPropertiesSet();
 
-        final var redisTemplate = new StringRedisTemplate();
-        redisTemplate.setConnectionFactory(factory);
-        redisTemplate.afterPropertiesSet();
-
+        final var redisTemplate = new ReactiveStringRedisTemplate(factory);
         this.redisTemplate = spy(redisTemplate);
     }
 
     @AfterEach
     public void tearDown() {
-        redisTemplate.execute((RedisCallback<Void>) connection -> {
-            connection.flushDb();
-            return null;
-        });
+        redisTemplate.execute(conn -> conn.serverCommands().flushDb())
+            .blockLast();
 
         if (container != null) {
             container.close();

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class AvatarUpdatedRepository {
-    private final StringRedisTemplate redisTemplate;
+    private final ReactiveStringRedisTemplate redisTemplate;
     private final AvatarUpdatedKeyBuilder keyBuilder;
     private final ZoneId zoneId;
 
@@ -31,14 +31,14 @@ public class AvatarUpdatedRepository {
 
         final String key = keyBuilder.buildKey(avatarType);
         final long value = updatedAt.atZone(zoneId).toEpochSecond();
-        redisTemplate.opsForValue().set(key, String.valueOf(value));
+        redisTemplate.opsForValue().set(key, String.valueOf(value)).block();
     }
 
     public Optional<LocalDateTime> get(final AvatarType avatarType) {
         Objects.requireNonNull(avatarType);
 
-        final String key =  keyBuilder.buildKey(avatarType);
-        final String value = redisTemplate.opsForValue().get(key);
+        final String key = keyBuilder.buildKey(avatarType);
+        final String value = redisTemplate.opsForValue().get(key).block();
         if (StringUtils.isEmpty(value)) {
             return Optional.empty();
         }
@@ -58,7 +58,7 @@ public class AvatarUpdatedRepository {
             .map(Objects::requireNonNull)
             .map(keyBuilder::buildKey)
             .collect(Collectors.toUnmodifiableList());
-        final List<String> values = redisTemplate.opsForValue().multiGet(keys);
+        final List<String> values = redisTemplate.opsForValue().multiGet(keys).block();
 
         if (CollectionUtils.isEmpty(values)) {
             return Collections.emptyList();
