@@ -1,17 +1,16 @@
 package moe.pine.emotions.app.services;
 
+import moe.pine.emotions.app.properties.MackerelProperties;
 import moe.pine.emotions.log.AvatarType;
 import moe.pine.emotions.log.AvatarUpdatedRepository;
 import moe.pine.emotions.mackerel.Mackerel;
 import moe.pine.emotions.mackerel.Metric;
-import moe.pine.emotions.app.properties.MackerelProperties;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.Clock;
@@ -20,18 +19,16 @@ import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class MetricServiceTest {
     private static final ZoneId ZONE_ID = ZoneId.of("Asia/Tokyo");
     private static final LocalDateTime NOW = LocalDateTime.of(2019, 5, 15, 15, 9);
     private static final Clock CLOCK = Clock.fixed(NOW.atZone(ZONE_ID).toInstant(), ZONE_ID);
-
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Mock
     private AvatarUpdatedRepository avatarUpdatedRepository;
@@ -44,7 +41,7 @@ public class MetricServiceTest {
 
     private MetricService metricService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         metricService = new MetricService(
             avatarUpdatedRepository,

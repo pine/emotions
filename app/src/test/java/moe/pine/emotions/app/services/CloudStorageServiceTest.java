@@ -1,31 +1,25 @@
 package moe.pine.emotions.app.services;
 
-import moe.pine.emotions.cloudstorage.CloudStorage;
 import moe.pine.emotions.app.properties.CloudStorageProperties;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import moe.pine.emotions.cloudstorage.CloudStorage;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings({"SpellCheckingInspection", "ResultOfMethodCallIgnored"})
+@ExtendWith(MockitoExtension.class)
+@SuppressWarnings("SpellCheckingInspection")
 public class CloudStorageServiceTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     @Mock
     private Random random;
 
@@ -46,7 +40,7 @@ public class CloudStorageServiceTest {
                 /* 1 */ new CloudStorageProperties.Image("bucket2", "name2"),
                 /* 2 */ new CloudStorageProperties.Image("bucket3", "name3")
             );
-        final byte[] imageBytes = new byte[]{};
+        final byte[] imageBytes = {};
 
         when(cloudStorageProperties.getImages()).thenReturn(images);
         when(random.nextInt(images.size())).thenReturn(2);
@@ -61,24 +55,22 @@ public class CloudStorageServiceTest {
 
     @Test
     public void chooseImageNullImagesTest() {
-        expectedException.expect(RuntimeException.class);
-        expectedException.expectMessage("`cloudstorage`.`images` should not be empty");
-
         when(cloudStorageProperties.getImages()).thenReturn(null);
 
-        cloudStorageService.chooseImage();
+        assertThatThrownBy(() -> cloudStorageService.chooseImage())
+            .isInstanceOf(RuntimeException.class)
+            .hasMessageStartingWith("`cloudstorage`.`images` should not be empty");
 
         verify(cloudStorageProperties).getImages();
     }
 
     @Test
     public void chooseImageEmptyImagesTest() {
-        expectedException.expect(RuntimeException.class);
-        expectedException.expectMessage("`cloudstorage`.`images` should not be empty");
-
         when(cloudStorageProperties.getImages()).thenReturn(Collections.emptyList());
 
-        cloudStorageService.chooseImage();
+        assertThatThrownBy(() -> cloudStorageService.chooseImage())
+            .isInstanceOf(RuntimeException.class)
+            .hasMessageStartingWith("`cloudstorage`.`images` should not be empty");
 
         verify(cloudStorageProperties).getImages();
     }

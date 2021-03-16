@@ -1,27 +1,22 @@
 package moe.pine.emotions.app.services;
 
 import moe.pine.emotions.twitter.Twitter;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+@ExtendWith(MockitoExtension.class)
 public class TwitterServiceTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     @Mock
     private Twitter twitter;
 
@@ -30,7 +25,7 @@ public class TwitterServiceTest {
 
     @Test
     public void updateImageTest() {
-        final byte[] imageBytes = new byte[]{0x00, 0x01, 0x02};
+        final byte[] imageBytes = {0x00, 0x01, 0x02};
         doNothing().when(twitter).updateProfileImage(imageBytes);
 
         twitterService.updateImage(imageBytes);
@@ -39,26 +34,25 @@ public class TwitterServiceTest {
     }
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void updateImageNullImageTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`image` should not be empty.");
+        lenient().doNothing().when(twitter).updateProfileImage(any());
 
-        doNothing().when(twitter).updateProfileImage(any());
-
-        //noinspection ConstantConditions
-        twitterService.updateImage(null);
+        assertThatThrownBy(() -> twitterService.updateImage(null))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageStartingWith("`image` should not be empty.");
 
         verify(twitter, never()).updateProfileImage(any());
     }
 
     @Test
+    @SuppressWarnings("ZeroLengthArrayAllocation")
     public void updateImageEmptyImageTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`image` should not be empty.");
+        lenient().doNothing().when(twitter).updateProfileImage(any());
 
-        doNothing().when(twitter).updateProfileImage(any());
-
-        twitterService.updateImage(new byte[]{});
+        assertThatThrownBy(() -> twitterService.updateImage(new byte[]{}))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageStartingWith("`image` should not be empty.");
 
         verify(twitter, never()).updateProfileImage(any());
     }

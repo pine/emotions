@@ -1,35 +1,29 @@
 package moe.pine.emotions.app.services;
 
-import lombok.SneakyThrows;
 import moe.pine.emotions.app.properties.SlackProperties;
 import moe.pine.emotions.slack.Slack;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings({"ConstantConditions", "ResultOfMethodCallIgnored", "NullableProblems"})
+@ExtendWith(MockitoExtension.class)
+@SuppressWarnings("ConstantConditions")
 public class SlackServiceTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     @Mock
     private Slack slack;
 
@@ -40,8 +34,7 @@ public class SlackServiceTest {
     private SlackService slackService;
 
     @Test
-    @SneakyThrows
-    public void updateImageTest() {
+    public void updateImageTest() throws Exception {
         final byte[] imageBytes = {0x00, 0x01, 0x02};
         final List<SlackProperties.Workspace> workspaces =
             List.of(
@@ -65,30 +58,27 @@ public class SlackServiceTest {
     }
 
     @Test
-    @SneakyThrows
-    public void updateImageNullImageTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`image` should not be empty.");
+    public void updateImageNullImageTest() throws Exception {
+        lenient().when(slackProperties.getWorkspaces()).thenReturn(Collections.emptyList());
+        lenient().doNothing().when(slack).setUserPhoto(anyString(), any());
 
-        when(slackProperties.getWorkspaces()).thenReturn(Collections.emptyList());
-        doNothing().when(slack).setUserPhoto(anyString(), any());
-
-        slackService.updateImage(null);
+        assertThatThrownBy(() -> slackService.updateImage(null))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageStartingWith("`image` should not be empty.");
 
         verify(slackProperties, never()).getWorkspaces();
         verify(slack, never()).setUserPhoto(anyString(), any());
     }
 
     @Test
-    @SneakyThrows
-    public void updateImageEmptyImageTest() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("`image` should not be empty.");
+    @SuppressWarnings("ZeroLengthArrayAllocation")
+    public void updateImageEmptyImageTest() throws Exception {
+        lenient().when(slackProperties.getWorkspaces()).thenReturn(Collections.emptyList());
+        lenient().doNothing().when(slack).setUserPhoto(anyString(), any());
 
-        when(slackProperties.getWorkspaces()).thenReturn(Collections.emptyList());
-        doNothing().when(slack).setUserPhoto(anyString(), any());
-
-        slackService.updateImage(new byte[]{});
+        assertThatThrownBy(() -> slackService.updateImage(new byte[]{}))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageStartingWith("`image` should not be empty.");
 
         verify(slackProperties, never()).getWorkspaces();
         verify(slack, never()).setUserPhoto(anyString(), any());

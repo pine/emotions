@@ -27,7 +27,7 @@ dependencies {
     implementation 'org.springframework.retry:spring-retry'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
-    //    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
     // Servlet
@@ -51,10 +51,6 @@ dependencies {
     // My libraries
     implementation 'moe.pine:heroku-addons'
     implementation 'moe.pine:spring-cache-interceptors'
-
-    // Test
-    testImplementation 'org.powermock:powermock-api-mockito2'
-    testImplementation 'org.powermock:powermock-module-junit4'
 }
 
 compileJava.dependsOn(processResources)

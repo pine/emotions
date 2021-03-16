@@ -1,28 +1,21 @@
 package moe.pine.emotions.app.services;
 
-import lombok.SneakyThrows;
 import moe.pine.emotions.bookmeter.Bookmeter;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-@SuppressWarnings({"ConstantConditions", "NullableProblems"})
+@ExtendWith(MockitoExtension.class)
+@SuppressWarnings("ConstantConditions")
 public class BookmeterServiceTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     @Mock
     private Bookmeter bookmeter;
 
@@ -30,9 +23,8 @@ public class BookmeterServiceTest {
     private BookmeterService bookmeterService;
 
     @Test
-    @SneakyThrows
-    public void updateImageTest() {
-        final byte[] imageBytes = new byte[]{0x00, 0x01, 0x02};
+    public void updateImageTest() throws Exception {
+        final byte[] imageBytes = {0x00, 0x01, 0x02};
 
         doNothing().when(bookmeter).updateProfileImage(imageBytes);
 
@@ -42,12 +34,10 @@ public class BookmeterServiceTest {
     }
 
     @Test
-    @SneakyThrows
-    public void updateImageTest_nullImage() {
-        expectedException.expectMessage("`image` should not be empty.");
-        expectedException.expect(IllegalArgumentException.class);
-
-        bookmeterService.updateImage(null);
+    public void updateImageTest_nullImage() throws Exception {
+        assertThatThrownBy(() -> bookmeterService.updateImage(null))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageStartingWith("`image` should not be empty.");
 
         verify(bookmeter, never()).updateProfileImage(any());
     }

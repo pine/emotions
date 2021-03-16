@@ -1,14 +1,13 @@
 package moe.pine.emotions.app.services;
 
-import moe.pine.emotions.gravatar.Gravatar;
 import moe.pine.emotions.app.properties.GravatarProperties;
-import org.junit.Rule;
-import org.junit.Test;
+import moe.pine.emotions.gravatar.Gravatar;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
@@ -16,11 +15,8 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
+@ExtendWith(MockitoExtension.class)
 public class GravatarServiceTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
     @Mock
     private Gravatar gravatar;
 
