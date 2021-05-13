@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Build
           command: |
-            ./gradlew clean :app:assemble
+            ./gradlew clean :app:bootJar
       - save_cache:
           paths:
             - ~/.gradle
