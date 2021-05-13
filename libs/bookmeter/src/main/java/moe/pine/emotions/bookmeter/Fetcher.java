@@ -13,11 +13,14 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ClientHttpResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import reactor.netty.http.Cookies;
 import reactor.netty.http.client.HttpClientResponse;
 
@@ -119,15 +122,14 @@ class Fetcher {
     GetAccountResponse getAccount(
         final MultiValueMap<String, String> cookies
     ) throws InterruptedException {
-        final ClientResponse clientResponse = get(ACCOUNT_PATH, cookies);
-        final String body = MonoUtils.unwrap(clientResponse.bodyToMono(String.class), TIMEOUT);
-        if (StringUtils.isEmpty(body)) {
+        final Response response = get(ACCOUNT_PATH, cookies);
+        if (StringUtils.isEmpty(response.getBody())) {
             throw new RuntimeException("An empty body received");
         }
 
         return GetAccountResponse.builder()
-            .body(body)
-            .cookies(CookieUtils.normalize(clientResponse.cookies()))
+            .body(response.getBody())
+            .cookies(CookieUtils.normalize(response.getCookies()))
             .build();
     }
 
@@ -145,65 +147,79 @@ class Fetcher {
         final MultiValueMap<String, HttpEntity<?>> formData,
         final MultiValueMap<String, String> cookies
     ) throws InterruptedException {
-        final ClientResponse clientResponse = post(ACCOUNT_PATH, formData, cookies);
-        final HttpStatus statusCode = clientResponse.statusCode();
-        MonoUtils.unwrap(clientResponse.bodyToMono(String.class), TIMEOUT);
+        final Response response = post(ACCOUNT_PATH, formData, cookies);
+        final HttpStatus statusCode = HttpStatus.valueOf(response.getRawStatusCode());
 
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
-                String.format("Illegal status code received. :: statusCode=%s",
-                    clientResponse.rawStatusCode()));
+                String.format("Illegal status code received. :: statusCode=%s", statusCode));
         }
+    }
+
+    @Value
+    static class Response {
+        int rawStatusCode;
+        String body;
+        MultiValueMap<String, ResponseCookie> cookies;
     }
 
     /**
      * GET
      */
     @VisibleForTesting
-    ClientResponse get(
+    Response get(
         final String path,
         @Nullable final MultiValueMap<String, String> cookies
     ) throws InterruptedException {
-        final ClientResponse clientResponse = MonoUtils.unwrap(
-            webClient.get()
-                .uri(path)
-                .header(HttpHeaders.USER_AGENT, USER_AGENT)
-                .cookies(builder -> {
-                    if (MapUtils.isNotEmpty(cookies)) {
-                        builder.addAll(cookies);
-                    }
-                })
-                .exchange(), TIMEOUT);
-        Objects.requireNonNull(clientResponse);
+        final Response response =
+            MonoUtils.unwrap(
+                webClient.get()
+                    .uri(path)
+                    .header(HttpHeaders.USER_AGENT, USER_AGENT)
+                    .cookies(builder -> {
+                        if (MapUtils.isNotEmpty(cookies)) {
+                            builder.addAll(cookies);
+                        }
+                    })
+                    .exchangeToMono(this::toResponse), TIMEOUT);
+        Objects.requireNonNull(response);
 
-        if (clientResponse.statusCode() != HttpStatus.OK) {
+        if (response.getRawStatusCode() != HttpStatus.OK.value()) {
             throw new RuntimeException(
-                String.format("Illegal status code :: statusCode=%d", clientResponse.rawStatusCode()));
+                String.format("Illegal status code :: statusCode=%d", response.getRawStatusCode()));
         }
 
-        patchBrokenCookies(clientResponse);
-        return clientResponse;
+        return response;
     }
 
     /**
      * POST
      */
     @VisibleForTesting
-    ClientResponse post(
+    Response post(
         final String path,
         final MultiValueMap<String, ?> formData,
         final MultiValueMap<String, String> cookies
     ) throws InterruptedException {
-        final ClientResponse clientResponse = MonoUtils.unwrap(
+        final Response response = MonoUtils.unwrap(
             webClient.post()
                 .uri(path)
                 .header(HttpHeaders.USER_AGENT, USER_AGENT)
                 .bodyValue(formData)
                 .cookies(builder -> builder.addAll(cookies))
-                .exchange(), TIMEOUT);
+                .exchangeToMono(this::toResponse), TIMEOUT);
 
+        return Objects.requireNonNull(response);
+    }
+
+    private Mono<Response> toResponse(ClientResponse clientResponse) {
         patchBrokenCookies(clientResponse);
-        return Objects.requireNonNull(clientResponse);
+
+        final int rawStatusCode = clientResponse.rawStatusCode();
+        final Mono<String> bodyMono = clientResponse.bodyToMono(String.class);
+        final MultiValueMap<String, ResponseCookie> cookies = clientResponse.cookies();
+
+        return bodyMono.map(body -> new Response(rawStatusCode, body, cookies));
     }
 
     /**
