@@ -30,12 +30,6 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
-    // Servlet
-    provided 'javax.servlet:javax.servlet-api'
-
-    // Micrometer
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-
     // Redis
     implementation 'io.lettuce:lettuce-core'
 
