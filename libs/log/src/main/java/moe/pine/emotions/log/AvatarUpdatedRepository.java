@@ -66,9 +66,11 @@ public class AvatarUpdatedRepository {
 
         final var items = ImmutableList.<Pair<AvatarType, LocalDateTime>>builder();
         for (int i = 0; i < values.size(); ++i) {
-            if (values.get(i) != null) {
+            final String value = values.get(i);
+
+            if (StringUtils.isNotEmpty(value)) {
                 final AvatarType avatarType = avatarTypes.get(i);
-                final long epochSeconds = Long.parseLong(values.get(i));
+                final long epochSeconds = Long.parseLong(value);
                 final Instant instant = Instant.ofEpochSecond(epochSeconds);
                 final LocalDateTime updatedAt = LocalDateTime.ofInstant(instant, zoneId);
                 items.add(Pair.of(avatarType, updatedAt));
