@@ -1,6 +1,5 @@
 package moe.pine.emotions.log;
 
-import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +9,7 @@ import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -64,7 +64,7 @@ public class AvatarUpdatedRepository {
             return Collections.emptyList();
         }
 
-        final var items = ImmutableList.<Pair<AvatarType, LocalDateTime>>builder();
+        final List<Pair<AvatarType, LocalDateTime>> items = new ArrayList<>();
         for (int i = 0; i < values.size(); ++i) {
             final String value = values.get(i);
 
@@ -77,6 +77,6 @@ public class AvatarUpdatedRepository {
             }
         }
 
-        return items.build();
+        return List.copyOf(items);
     }
 }
