@@ -115,13 +115,15 @@ subprojects {
     spotbugs {
         toolVersion = '3.1.8'
         excludeFilter = file("${project.rootDir}/config/findbugs-exclude.xml")
-        spotbugsTest.enabled = false
     }
     spotbugsMain {
         reports {
-            xml.enabled = false
-            html.enabled = true
+            xml.required = false
+            html.required = true
         }
+    }
+    spotbugsTest {
+        enabled = false
     }
 
 
@@ -149,8 +151,8 @@ task jacocoMerge(type: JacocoMerge) {
 jacocoTestReport {
     dependsOn(jacocoMerge)
     reports {
-        xml.enabled = true
-        html.enabled = true
+        xml.required = true
+        html.required = true
     }
 
     additionalSourceDirs.setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
