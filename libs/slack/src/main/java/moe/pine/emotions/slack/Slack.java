@@ -1,8 +1,8 @@
 package moe.pine.emotions.slack;
 
 import lombok.extern.slf4j.Slf4j;
-import moe.pine.emotions.reactor_utils.MonoUtils;
 import moe.pine.emotions.springutils.NamedByteArrayResource;
+import moe.pine.reactor.interruptible.MonoUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.Resource;
@@ -29,15 +29,15 @@ public class Slack {
     }
 
     Slack(
-        final WebClient.Builder webClientBuilder,
-        final String baseUrl
+            final WebClient.Builder webClientBuilder,
+            final String baseUrl
     ) {
-        this.webClient = webClientBuilder.baseUrl(baseUrl).build();
+        webClient = webClientBuilder.baseUrl(baseUrl).build();
     }
 
     public void setUserPhoto(
-        final String token,
-        final byte[] image
+            final String token,
+            final byte[] image
     ) throws InterruptedException {
         checkArgument(StringUtils.isNotEmpty(token), "`token` should not be empty.");
         checkArgument(ArrayUtils.isNotEmpty(image), "`image` should not be empty.");
@@ -46,14 +46,14 @@ public class Slack {
         final Resource resource = new NamedByteArrayResource(image, "image.png");
         body.part("image", resource, MediaType.IMAGE_PNG);
 
-        final Status status = MonoUtils.unwrap(
-            webClient.post()
-                .uri(USERS_SET_PHOTO_PATH)
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                .bodyValue(body.build())
-                .retrieve()
-                .bodyToMono(Status.class), TIMEOUT);
+        final Status status = MonoUtils.block(
+                webClient.post()
+                        .uri(USERS_SET_PHOTO_PATH)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .bodyValue(body.build())
+                        .retrieve()
+                        .bodyToMono(Status.class), TIMEOUT);
 
         if (status == null) {
             throw new SlackException("Failed to call users.setPhoto API. An empty response received.");
@@ -61,9 +61,9 @@ public class Slack {
 
         if (!status.isOk()) {
             throw new SlackException(String.format(
-                "Failed to call users.setPhoto API :: ok=%s, error=%s",
-                String.valueOf(status.isOk()),
-                String.valueOf(status.getError())));
+                    "Failed to call users.setPhoto API :: ok=%s, error=%s",
+                    String.valueOf(status.isOk()),
+                    String.valueOf(status.getError())));
         }
     }
 }

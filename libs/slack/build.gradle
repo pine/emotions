@@ -1,5 +1,4 @@
 dependencies {
-    implementation project(':lib-reactor-utils')
     implementation project(':lib-spring-utils')
 
     // Spring Framework
@@ -14,6 +13,7 @@ dependencies {
 
     // Utilities
     implementation 'com.google.guava:guava'
+    implementation 'moe.pine:reactor-interruptible'
 
     // Test
     testImplementation 'com.squareup.okhttp3:mockwebserver'
