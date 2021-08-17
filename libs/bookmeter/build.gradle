@@ -1,5 +1,4 @@
 dependencies {
-    implementation project(':lib-reactor-utils')
     implementation project(':lib-spring-utils')
 
     // Spring Framework
@@ -14,8 +13,9 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3'
     implementation 'org.apache.commons:commons-collections4'
 
-    // Guava
+    // Utilities
     implementation 'com.google.guava:guava'
+    implementation 'moe.pine:reactor-interruptible'
 
     // HTML parser
     implementation 'org.jsoup:jsoup'

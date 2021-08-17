@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import moe.pine.emotions.reactor_utils.MonoUtils;
+import moe.pine.reactor.interruptible.MonoUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.powermock.reflect.Whitebox;
@@ -59,7 +59,7 @@ class Fetcher {
      */
     GetLoginResponse getLogin() throws InterruptedException {
         final ClientResponse clientResponse = get(LOGIN_PATH, null);
-        final String body = MonoUtils.unwrap(clientResponse.bodyToMono(String.class), TIMEOUT);
+        final String body = MonoUtils.block(clientResponse.bodyToMono(String.class), TIMEOUT);
         if (StringUtils.isEmpty(body)) {
             throw new RuntimeException("An empty body received.");
         }
@@ -86,7 +86,7 @@ class Fetcher {
     ) throws InterruptedException {
         final ClientResponse clientResponse = post(LOGIN_PATH, formData, cookies);
         final HttpStatus statusCode = clientResponse.statusCode();
-        MonoUtils.unwrap(clientResponse.bodyToMono(String.class), TIMEOUT);
+        MonoUtils.block(clientResponse.bodyToMono(String.class), TIMEOUT);
 
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
@@ -120,7 +120,7 @@ class Fetcher {
         final MultiValueMap<String, String> cookies
     ) throws InterruptedException {
         final ClientResponse clientResponse = get(ACCOUNT_PATH, cookies);
-        final String body = MonoUtils.unwrap(clientResponse.bodyToMono(String.class), TIMEOUT);
+        final String body = MonoUtils.block(clientResponse.bodyToMono(String.class), TIMEOUT);
         if (StringUtils.isEmpty(body)) {
             throw new RuntimeException("An empty body received");
         }
@@ -147,7 +147,7 @@ class Fetcher {
     ) throws InterruptedException {
         final ClientResponse clientResponse = post(ACCOUNT_PATH, formData, cookies);
         final HttpStatus statusCode = clientResponse.statusCode();
-        MonoUtils.unwrap(clientResponse.bodyToMono(String.class), TIMEOUT);
+        MonoUtils.block(clientResponse.bodyToMono(String.class), TIMEOUT);
 
         if (!statusCode.is3xxRedirection()) {
             throw new RuntimeException(
@@ -164,7 +164,7 @@ class Fetcher {
         final String path,
         @Nullable final MultiValueMap<String, String> cookies
     ) throws InterruptedException {
-        final ClientResponse clientResponse = MonoUtils.unwrap(
+        final ClientResponse clientResponse = MonoUtils.block(
             webClient.get()
                 .uri(path)
                 .header(HttpHeaders.USER_AGENT, USER_AGENT)
@@ -194,7 +194,7 @@ class Fetcher {
         final MultiValueMap<String, ?> formData,
         final MultiValueMap<String, String> cookies
     ) throws InterruptedException {
-        final ClientResponse clientResponse = MonoUtils.unwrap(
+        final ClientResponse clientResponse = MonoUtils.block(
             webClient.post()
                 .uri(path)
                 .header(HttpHeaders.USER_AGENT, USER_AGENT)
