@@ -1,4 +1,4 @@
-package moe.pine.emotions.springutils;
+package moe.pine.emotions.spring_utils;
 
 import org.junit.jupiter.api.Test;
 
