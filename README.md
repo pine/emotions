@@ -57,7 +57,7 @@ $ ./gradlew :tool-gravatar:bootRun
 $ heroku apps:create your-app
 $ heroku config:set SPRING_PROFILES_ACTIVE=prod
 $ heroku config:set TZ=Asia/Tokyo
-$ heroku config:set 'JAVA_OPTS=-XX:+UseCompressedOops -XX:+UseStringDeduplication --illegal-access=deny -Dlog4j2.formatMsgNoLookups=true'
+$ heroku config:set 'JAVA_OPTS=-Xmx200m -XX:+UseCompressedOops -XX:+UseStringDeduplication -Dlog4j2.formatMsgNoLookups=true'
 
 
 # Setup Redis
