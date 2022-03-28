@@ -1,5 +1,6 @@
 package moe.pine.emotions.gravatar;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import moe.pine.emotions.gravatar.xmlrpc.GravatarClient;
@@ -16,7 +17,7 @@ import java.util.Random;
 import static com.google.common.base.Preconditions.checkArgument;
 
 @Slf4j
-@Getter
+@Getter(AccessLevel.PACKAGE)
 public class Gravatar {
     private final Random random;
     private final GravatarClient gravatarClient;
@@ -29,7 +30,7 @@ public class Gravatar {
         this(gravatarClient, password, new Random());
     }
 
-    public Gravatar(
+    protected Gravatar(
         final GravatarClient gravatarClient,
         final String password,
         final Random random

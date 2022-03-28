@@ -24,10 +24,9 @@ public class GravatarConfig {
     @Bean
     public Gravatar gravatar(
         GravatarProperties gravatarProperties,
-        GravatarClient gravatarClient,
-        Random random
+        GravatarClient gravatarClient
     ) {
-        return new Gravatar(gravatarClient, gravatarProperties.getPassword(), random);
+        return new Gravatar(gravatarClient, gravatarProperties.getPassword());
     }
 
 }
