@@ -8,7 +8,7 @@
 
 ## Requirements
 
-- JDK 11 or later
+- JDK 17 or later
 - Redis
 
 ## Libraries
@@ -38,8 +38,7 @@ $ ./gradlew :app:bootRun
 For macOS users.
 
 ```
-$ brew tap adoptopenjdk/openjdk
-$ brew cask install adoptopenjdk11
+$ brew install --cask temurin17
 ```
 
 ### Gravatar
@@ -66,7 +65,7 @@ $ heroku addons:create heroku-redis:hobby-dev
 # Deploy JAR file
 $ ./gradlew build
 $ heroku plugins:install java
-$ heroku deploy:jar --jar app/build/libs/app.jar --jdk 11
+$ heroku deploy:jar --jar app/build/libs/app.jar --jdk 17
 ```
 
 ### Monitoring
