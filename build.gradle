@@ -24,8 +24,17 @@ plugins {
     id 'com.github.spotbugs' version '5.0.6' apply false
 }
 
-allprojects {
+apply plugin: 'java'
+
+configure(subprojects.findAll { it.name == 'app' || it.name.startsWith('tool-') }) {
     apply plugin: 'java'
+}
+
+configure(subprojects.findAll { it.name.startsWith('lib-') }) {
+    apply plugin: 'java-library'
+}
+
+allprojects {
     apply plugin: 'idea'
 
     group 'moe.pine.emotions'

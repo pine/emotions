@@ -1,15 +1,11 @@
+rootProject.name = 'emotions'
+
 include ':app'
 
-for (File f : file('libs').listFiles()) {
-    if (f.directory) {
-        include(":lib-${f.name}")
-        project(":lib-${f.name}").projectDir = f
+for (File f : rootDir.listFiles()) {
+    if (f.directory && f.name.startsWith('lib-') || f.name.startsWith('tool-')) {
+        include(":${f.name}")
+        project(":${f.name}").projectDir = f
     }
 }
 
-for (File f : file('tools').listFiles()) {
-    if (f.directory) {
-        include(":tool-${f.name}")
-        project(":tool-${f.name}").projectDir = f
-    }
-}
