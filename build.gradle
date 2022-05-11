@@ -103,6 +103,7 @@ subprojects {
 
             // Utilities
             dependency "org.projectlombok:lombok:$lombokVersion"
+            dependency 'com.github.maricn:logback-slack-appender:1.4.0'
 
             // My Utilities
             dependency 'moe.pine:heroku-addons:0.3.3'
