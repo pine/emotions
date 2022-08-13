@@ -1,10 +1,11 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.2
+  heroku: circleci/heroku@1.2.6
 jobs:
   build:
     docker:
-      - image: cimg/openjdk:17.0.2
+      - image: cimg/openjdk:17.0-node
       - image: redis
     working_directory: ~/repo
     environment:
@@ -36,17 +37,17 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-      - run:
-          name: Deployment
-          command: |
-            if [ "$CIRCLE_BRANCH" == "main" ]; then
-              ./.circleci/setup-heroku.sh
-              ./.circleci/setup-retry.sh
-
-              retry -- heroku plugins:install java
-              retry -- heroku deploy:jar \
-                --jar app/build/libs/app.jar \
-                --jdk 17 \
-                --app $HEROKU_APP
-            fi
-
+      - when:
+          condition:
+            equal: [ main, << pipeline.git.branch >> ]
+          steps:
+            - heroku/install
+            - run:
+                name: Deployment
+                command: |
+                  ./.circleci/setup-retry.sh
+                  retry -- heroku plugins:install java
+                  retry -- heroku deploy:jar \
+                    --jar app/build/libs/app.jar \
+                    --jdk 17 \
+                    --app $HEROKU_APP
