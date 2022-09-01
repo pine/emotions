@@ -4,7 +4,7 @@ build/
 out/
 *.iml
 
-app/src/main/resources/application-local.yml
-app/src/main/resources/application-prod.yml
-app/src/main/resources/gcp-credentials.json
-app/src/main/resources/logback-spring.xml
+application-local.yml
+application-prod.yml
+gcp-credentials.json
+logback-spring.xml
