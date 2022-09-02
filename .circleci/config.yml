@@ -15,11 +15,6 @@ jobs:
       YARN_SILENT: 1
     steps:
       - checkout
-      - run:
-          name: Checkout submodule
-          command: |
-            git submodule sync
-            git submodule update --init
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "build.gradle" }}
