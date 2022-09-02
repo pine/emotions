@@ -4,6 +4,4 @@ build/
 out/
 *.iml
 
-gcp-credentials.json
-
 secrets.properties
