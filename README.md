@@ -55,7 +55,6 @@ $ ./gradlew :tool-gravatar:bootRun
 ```sh
 $ heroku apps:create your-app
 $ heroku config:set JASYPT_ENCRYPTOR_PASSWORD=PASSWORD
-$ heroku config:set SPRING_PROFILES_ACTIVE=prod
 $ heroku config:set TZ=Asia/Tokyo
 $ heroku config:set 'JAVA_OPTS=-Xmx200m -XX:+UseCompressedOops -XX:+UseStringDeduplication -Dlog4j2.formatMsgNoLookups=true'
 
