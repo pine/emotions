@@ -1,7 +1,13 @@
 apply plugin: 'org.springframework.boot'
 
 bootRun {
-    jvmArgs = ['--illegal-access=deny']
+    def properties = new Properties()
+    def secrets = rootProject.file("credentials/secrets.properties")
+    if (secrets.exists()) {
+        properties.load(secrets.newDataInputStream())
+    }
+
+    systemProperties = properties
 }
 
 configurations {
@@ -29,6 +35,9 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+
+    // Jasypt
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter'
 
     // Redis
     implementation 'io.lettuce:lettuce-core'

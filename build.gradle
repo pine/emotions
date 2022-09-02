@@ -8,8 +8,7 @@ buildscript {
         springBootVersion = '2.6.5'
     }
     repositories {
-        mavenCentral()
-        maven { url 'https://plugins.gradle.org/m2/' }
+        gradlePluginPortal()
         maven { url 'https://repo.spring.io/plugins-release' }
     }
     dependencies {
@@ -84,6 +83,9 @@ subprojects {
             mavenBom 'org.testcontainers:testcontainers-bom:1.15.3'
         }
         dependencies {
+            // Jasypt
+            dependency 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+
             // Guava
             dependency 'com.google.guava:guava:27.0.1-jre'
 
@@ -199,7 +201,7 @@ buildtimetracker {
 
 // ----- Configuration ------------------------------------
 
-def confFiles = fileTree('credentials').include('**/*.yml', '**/*.json')
+def confFiles = fileTree('credentials').include('**/*.yml', '**/*.json', "**/*.xml")
 confFiles.forEach { File src ->
     def dest = new File(
         src.absolutePath.replace("${rootDir.absolutePath}/credentials", rootDir.absolutePath))
