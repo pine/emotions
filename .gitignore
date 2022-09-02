@@ -4,8 +4,6 @@ build/
 out/
 *.iml
 
-application-prod.yml
 gcp-credentials.json
-logback-spring.xml
 
 secrets.properties

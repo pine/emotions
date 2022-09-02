@@ -1,0 +1,39 @@
+<configuration>
+  <property name="CONSOLE_LOG_PATTERN"
+            value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%logger){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+  <property name="SLACK_LOG_PATTERN"
+            value="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %logger:%line : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+  <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
+    <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>${SLACK_LOG_PATTERN}</pattern>
+    </layout>
+    <username>Spring Framework</username>
+    <iconUrl>https://i.imgur.com/nYCCvln.png</iconUrl>
+    <colorCoding>true</colorCoding>
+  </appender>
+
+  <appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="SLACK"/>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>WARN</level>
+    </filter>
+  </appender>
+
+  <springProfile name="prod">
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="ASYNC_SLACK"/>
+    </root>
+  </springProfile>
+
+  <springProfile name="local">
+    <root level="DEBUG">
+      <appender-ref ref="CONSOLE"/>
+    </root>
+  </springProfile>
+</configuration>

@@ -1,0 +1,67 @@
+# General
+# ---------------------------
+
+spring:
+  redis:
+    database: 0
+
+scheduling:
+  enabled: true
+
+app:
+  site-url: https://github.com/pine/emotions
+
+
+# Cloud services
+# ---------------------------
+
+cloudstorage:
+  credentials: 'classpath:/gcp-credentials.json'
+  images:
+    - bucket: emotions-images
+      name: ai1.png
+    - bucket: emotions-images
+      name: ai2.png
+    - bucket: emotions-images
+      name: ai3.png
+    - bucket: emotions-images
+      name: ai4.png
+
+mackerel:
+  api-key: ENC(x7QL3l/7+u2eSTpiiOH7VG+x0RtP7W6eR5L0Z3iBoH6/SvTs9aAsj8tM90OCNmJR85Eq0iSe2lG1S2y1Fhyfcn0RxRC4e/EXexNw9mV3UUo=)
+  graphs:
+    elapsed-time:
+      name: 'elapsed_time'
+
+
+# Supported services
+# ---------------------------
+
+bookmeter:
+  email: pinemz@gmail.com
+  password: ENC(fp/FXCL56EnenEHO7DmQqe9he1+V1Oze/w2dNLBj2hZhT0c6lbX10LKK95m1Jz9bwwimInx0MZ8/bMkE8SOMbg==)
+
+gravatar:
+  email: pinemz@gmail.com
+  password: ENC(jPuQTuOKKasrWOMcXMZdYxGw7odJMoqGS83OvxQqgxAqgUpflZHMaQzZCbYXnndc06R69hT3MIFUvdzexKOEog==)
+  addresses:
+    - pinemz@gmail.com
+    - pinemz@outlook.jp
+    - pine@cpan.org
+    - matsushita@mfac.jp
+  images:
+    - 7e4c74ed99b559d2dba24292a270677d
+    - 91d702b2382ab7c03201724276ec8174
+    - dceb9ad0d4645b348721f086dbe839fe
+    - 8decd9236d7efd42d6527c35636d5551
+
+slack:
+  workspaces: []
+
+twitter:
+  consumer-key: ENC(fGKlMZ0hjWe8oYAWw18mnx2eYAxpYDRsgS40rnTpDIBX+rY3SG4hsLG+tosY51e4ulGW2KpOzZQc4QSD0Oagcw==)
+  consumer-secret: ENC(SBgCQjQz+mWoGqGLcKb1kGyJ2c89Oc7MvtBtQsRjl/Zqqa38iCrvMSA75WIuIDizUWtBY/sutBruJ6zDka2gRfn64T8eUuxo1KeXyrna37A8NaJjWV5htYxnQHwaoSSD)
+  access-token: ENC(vQ5OldVRYWFvmkLvsHuFNX9GjirebFyFh6jVXGy83qOqWEbX4B0pbS+mET6dM8xcCPZXSWQM7oHJjrRLlmRr0KCI5oeuklCcShm6jMp9oqIJZ/hVKyOCdC+XPui8PjCW)
+  access-token-secret: ENC(C+FjKpM4fjyOBf18VL0jJhv1aCc/GpYu4M6PD3rifk1WLKjexBc7PgsDrFo1simrsGx/4BBcDgyngvCY/AXM+H+ecJKv3Bz5DtNUBe7vayU=)
+  connection-timeout: 30s
+  read-timeout: 120s
