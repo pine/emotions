@@ -4,7 +4,4 @@ build/
 out/
 *.iml
 
-application-local.yml
-application-prod.yml
-gcp-credentials.json
-logback-spring.xml
+secrets.properties

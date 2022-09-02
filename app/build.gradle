@@ -1,7 +1,13 @@
 apply plugin: 'org.springframework.boot'
 
 bootRun {
-    jvmArgs = ['--illegal-access=deny']
+    def properties = new Properties()
+    def secrets = rootProject.file("credentials/secrets.properties")
+    if (secrets.exists()) {
+        properties.load(secrets.newDataInputStream())
+    }
+
+    systemProperties = properties
 }
 
 configurations {
@@ -30,15 +36,20 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
+    // Jasypt
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter'
+
     // Redis
     implementation 'io.lettuce:lettuce-core'
 
     // Apache Commons
+    implementation 'commons-io:commons-io'
     implementation 'org.apache.commons:commons-collections4'
     implementation 'org.apache.commons:commons-lang3'
 
     // Utilities
     implementation 'com.google.guava:guava'
+    implementation 'com.github.maricn:logback-slack-appender'
 
     // My libraries
     implementation 'moe.pine:heroku-addons'

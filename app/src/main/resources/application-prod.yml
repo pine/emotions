@@ -1,0 +1,67 @@
+# General
+# ---------------------------
+
+spring:
+  redis:
+    database: 0
+
+scheduling:
+  enabled: true
+
+app:
+  site-url: https://github.com/pine/emotions
+
+
+# Cloud services
+# ---------------------------
+
+cloudstorage:
+  credentials: ENC(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)
+  images:
+    - bucket: emotions-images
+      name: ai1.png
+    - bucket: emotions-images
+      name: ai2.png
+    - bucket: emotions-images
+      name: ai3.png
+    - bucket: emotions-images
+      name: ai4.png
+
+mackerel:
+  api-key: ENC(x7QL3l/7+u2eSTpiiOH7VG+x0RtP7W6eR5L0Z3iBoH6/SvTs9aAsj8tM90OCNmJR85Eq0iSe2lG1S2y1Fhyfcn0RxRC4e/EXexNw9mV3UUo=)
+  graphs:
+    elapsed-time:
+      name: 'elapsed_time'
+
+
+# Supported services
+# ---------------------------
+
+bookmeter:
+  email: pinemz@gmail.com
+  password: ENC(fp/FXCL56EnenEHO7DmQqe9he1+V1Oze/w2dNLBj2hZhT0c6lbX10LKK95m1Jz9bwwimInx0MZ8/bMkE8SOMbg==)
+
+gravatar:
+  email: pinemz@gmail.com
+  password: ENC(jPuQTuOKKasrWOMcXMZdYxGw7odJMoqGS83OvxQqgxAqgUpflZHMaQzZCbYXnndc06R69hT3MIFUvdzexKOEog==)
+  addresses:
+    - pinemz@gmail.com
+    - pinemz@outlook.jp
+    - pine@cpan.org
+    - matsushita@mfac.jp
+  images:
+    - 7e4c74ed99b559d2dba24292a270677d
+    - 91d702b2382ab7c03201724276ec8174
+    - dceb9ad0d4645b348721f086dbe839fe
+    - 8decd9236d7efd42d6527c35636d5551
+
+slack:
+  workspaces: []
+
+twitter:
+  consumer-key: ENC(fGKlMZ0hjWe8oYAWw18mnx2eYAxpYDRsgS40rnTpDIBX+rY3SG4hsLG+tosY51e4ulGW2KpOzZQc4QSD0Oagcw==)
+  consumer-secret: ENC(SBgCQjQz+mWoGqGLcKb1kGyJ2c89Oc7MvtBtQsRjl/Zqqa38iCrvMSA75WIuIDizUWtBY/sutBruJ6zDka2gRfn64T8eUuxo1KeXyrna37A8NaJjWV5htYxnQHwaoSSD)
+  access-token: ENC(vQ5OldVRYWFvmkLvsHuFNX9GjirebFyFh6jVXGy83qOqWEbX4B0pbS+mET6dM8xcCPZXSWQM7oHJjrRLlmRr0KCI5oeuklCcShm6jMp9oqIJZ/hVKyOCdC+XPui8PjCW)
+  access-token-secret: ENC(C+FjKpM4fjyOBf18VL0jJhv1aCc/GpYu4M6PD3rifk1WLKjexBc7PgsDrFo1simrsGx/4BBcDgyngvCY/AXM+H+ecJKv3Bz5DtNUBe7vayU=)
+  connection-timeout: 30s
+  read-timeout: 120s
