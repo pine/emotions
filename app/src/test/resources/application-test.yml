@@ -17,7 +17,7 @@ micrometer:
 # ---------------------------
 
 cloudstorage:
-  credentials: 'classpath:/gcp-credentials.json'
+  credentials: '{}'
   images:
     - bucket: bucket
       name: name
