@@ -95,6 +95,8 @@ class Fetcher {
 
         final String location =
             clientResponse.headers().asHttpHeaders().getFirst(HttpHeaders.LOCATION);
+        log.debug("Redirected : {}", location);
+
         if (StringUtils.isEmpty(location)) {
             throw new RuntimeException("An empty `Location` header received.");
         }
