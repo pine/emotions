@@ -68,6 +68,17 @@ $ heroku plugins:install java
 $ heroku deploy:jar --jar app/build/libs/app.jar --jdk 17
 ```
 
+### Encrypt credentials with Jasypt
+To encrypt plain text with Jasypt, please use the command below.
+
+```sh
+$ bin/encrypt.sh \
+    algorithm=PBEWITHHMACSHA512ANDAES_256 \
+    ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator \
+    password=<password> \
+    input=<input>
+```
+
 ### Monitoring
 Mackerel's service metrics are supported.
 
