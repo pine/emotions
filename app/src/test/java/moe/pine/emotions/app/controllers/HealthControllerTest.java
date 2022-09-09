@@ -1,6 +1,5 @@
 package moe.pine.emotions.app.controllers;
 
-import moe.pine.emotions.app.config.WebMvcConfig;
 import moe.pine.emotions.app.properties.AppProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

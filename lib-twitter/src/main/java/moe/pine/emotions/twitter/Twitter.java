@@ -3,14 +3,13 @@ package moe.pine.emotions.twitter;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.ByteArrayInputStream;
 import java.time.Duration;
-import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -26,12 +25,12 @@ public class Twitter {
         final Duration connectionTimeout,
         final Duration readTimeout
     ) {
-        checkArgument(StringUtils.isNotEmpty(consumerKey), "`consumerKey` should not be empty.");
-        checkArgument(StringUtils.isNotEmpty(consumerSecret), "`consumerSecret` should not be empty.");
-        checkArgument(StringUtils.isNotEmpty(accessToken), "`accessToken` should not be empty.");
-        checkArgument(StringUtils.isNotEmpty(accessTokenSecret), "`accessTokenSecret` should not be empty.");
-        Objects.requireNonNull(connectionTimeout);
-        Objects.requireNonNull(readTimeout);
+        Assert.hasLength(consumerKey, "consumerKey");
+        Assert.hasLength(consumerSecret, "consumerSecret");
+        Assert.hasLength(accessToken, "accessToken");
+        Assert.hasLength(accessTokenSecret, "accessTokenSecret");
+        Assert.notNull(connectionTimeout, "connectionTimeout");
+        Assert.notNull(readTimeout, "readTimeout");
 
         final Configuration conf = new ConfigurationBuilder()
             .setOAuthConsumerKey(consumerKey)
@@ -50,7 +49,7 @@ public class Twitter {
     Twitter(
         final twitter4j.Twitter twitter
     ) {
-        underlying = Objects.requireNonNull(twitter);
+        underlying = twitter;
     }
 
     /**

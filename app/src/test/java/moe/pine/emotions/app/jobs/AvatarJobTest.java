@@ -3,8 +3,6 @@ package moe.pine.emotions.app.jobs;
 import moe.pine.emotions.app.services.BookmeterService;
 import moe.pine.emotions.app.services.CloudStorageService;
 import moe.pine.emotions.app.services.GravatarService;
-import moe.pine.emotions.app.services.MetricService;
-import moe.pine.emotions.app.services.SlackService;
 import moe.pine.emotions.app.services.TwitterService;
 import moe.pine.emotions.log.AvatarType;
 import org.junit.jupiter.api.Test;

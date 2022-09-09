@@ -1,6 +1,5 @@
 package moe.pine.emotions.app.jobs;
 
-import moe.pine.emotions.app.services.MetricService;
 import moe.pine.emotions.mackerel.Metric;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

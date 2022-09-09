@@ -10,10 +10,6 @@ bootRun {
     systemProperties = properties
 }
 
-configurations {
-    implementation.exclude module: 'spring-boot-starter-tomcat'
-}
-
 dependencies {
     // Sub-projects
     implementation project(':lib-bookmeter')
@@ -25,16 +21,15 @@ dependencies {
     implementation project(':lib-twitter')
 
     // Spring Framework
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'org.springframework.boot:spring-boot-starter-jetty'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.retry:spring-retry'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
 
     // Jasypt
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter'
@@ -50,10 +45,4 @@ dependencies {
     // Utilities
     implementation 'com.google.guava:guava'
     implementation 'com.github.maricn:logback-slack-appender'
-
-    // My libraries
-    implementation 'moe.pine:heroku-addons'
-    implementation 'moe.pine:spring-cache-interceptors'
 }
-
-compileJava.dependsOn(processResources)
