@@ -79,8 +79,11 @@ $ bin/encrypt.sh \
     input=<input>
 ```
 
-### Monitoring
-Mackerel's service metrics are supported.
+### Run specific job
+
+```
+ ./gradlew :app:bootRun --args='--spring.batch.job.names=<job name>'
+ ```
 
 ## License
 MIT &copy; [Pine Mizune](https://profile.pine.moe/)
