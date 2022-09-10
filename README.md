@@ -79,11 +79,21 @@ $ bin/encrypt.sh \
     input=<input>
 ```
 
-### Run specific job
+### Run Spring Batch's job
+#### Using Gradle
 
-```
- ./gradlew :app:bootRun --args='--spring.batch.job.names=<job name>'
+```bash
+$ ./gradlew :app:bootRun --args='--spring.batch.job.names=<job_name>'
  ```
+
+#### Using .jar file
+
+```bash
+$ ./gradlew :app:bootJar
+$ java -jar -jar app/build/libs/app.jar \
+    --jasypt.encryptor.password=<password> \
+    --spring.batch.job.names=<job_name>
+```
 
 ## License
 MIT &copy; [Pine Mizune](https://profile.pine.moe/)
