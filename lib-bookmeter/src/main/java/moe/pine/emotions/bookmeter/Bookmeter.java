@@ -43,10 +43,11 @@ public class Bookmeter {
         }
         log.debug("Found authenticity token :: authenticityToken={}", authenticityToken);
 
+        final var loginFormData = formDataBuilder.buildLoginFormData(authenticityToken);
+        log.debug("Built login form data : {}", loginFormData);
+
         final Fetcher.PostLoginResponse postLoginResponse =
-            fetcher.postLogin(
-                formDataBuilder.buildLoginFormData(authenticityToken),
-                getLoginResponse.getCookies());
+            fetcher.postLogin(loginFormData, getLoginResponse.getCookies());
         log.debug("Login successful");
 
         final Fetcher.GetAccountResponse getAccountResponse =
