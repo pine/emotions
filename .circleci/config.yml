@@ -13,6 +13,8 @@ jobs:
       TZ: "Asia/Tokyo"
       YARN_SILENT: 1
     steps:
+      - setup_remote_docker:
+          version: 20.10.24
       - checkout
       - restore_cache:
           keys:
