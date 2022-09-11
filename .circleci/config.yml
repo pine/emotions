@@ -33,4 +33,6 @@ jobs:
       - gcp-gcr/build-image:
           image: main/app
           registry-url: asia-northeast1-docker.pkg.dev
-
+      - gcp-gcr/push-image:
+          image: main/app
+          registry-url: asia-northeast1-docker.pkg.dev
