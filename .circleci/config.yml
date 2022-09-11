@@ -29,6 +29,7 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
+      - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
           image: main/app
           registry-url: asia-northeast1-docker.pkg.dev
