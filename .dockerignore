@@ -1,7 +1,10 @@
-.idea/
+.circleci/
+.git/
 .gradle/
+.idea/
 build/
 out/
+credentials/
 
 *.iml
 secrets.properties

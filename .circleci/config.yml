@@ -1,13 +1,12 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.2
-  heroku: circleci/heroku@1.2.6
+  gcp-gcr: circleci/gcp-gcr@0.15.0
 jobs:
   build:
     docker:
       - image: cimg/openjdk:17.0-node
       - image: redis
-    working_directory: ~/repo
     environment:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
@@ -23,26 +22,12 @@ jobs:
           name: Test
           command: |
             ./gradlew check jacocoTestReport
-      - codecov/upload
-      - run:
-          name: Build
-          command: |
-            ./gradlew clean :app:bootJar
       - save_cache:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-      - when:
-          condition:
-            equal: [ main, << pipeline.git.branch >> ]
-          steps:
-            - heroku/install
-            - run:
-                name: Deployment
-                command: |
-                  ./.circleci/setup-retry.sh
-                  retry -- heroku plugins:install java
-                  retry -- heroku deploy:jar \
-                    --jar app/build/libs/app.jar \
-                    --jdk 17 \
-                    --app $HEROKU_APP
+      - codecov/upload
+      - gcp-gcr/build-image:
+          image: main/app
+          registry-url: asia-northeast1-docker.pkg.dev
+
