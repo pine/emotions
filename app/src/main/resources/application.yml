@@ -3,9 +3,6 @@ spring:
     active: local
   main:
     web-application-type: none
-  output:
-    ansi:
-      enabled: always
 
 logging:
   level:

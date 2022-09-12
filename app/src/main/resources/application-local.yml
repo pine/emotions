@@ -4,6 +4,9 @@
 spring:
   redis:
     database: 0
+  output:
+    ansi:
+      enabled: always
 
 management:
   endpoints:
