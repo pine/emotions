@@ -4,15 +4,14 @@
 spring:
   redis:
     database: 0
+  main:
+    banner-mode: off
   output:
     ansi:
       enabled: never
 
 scheduling:
   enabled: true
-
-app:
-  site-url: https://github.com/pine/emotions
 
 
 # Cloud services

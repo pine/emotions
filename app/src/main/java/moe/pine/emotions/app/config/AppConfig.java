@@ -1,7 +1,5 @@
 package moe.pine.emotions.app.config;
 
-import moe.pine.emotions.app.properties.AppProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,7 +8,6 @@ import java.time.ZoneId;
 import java.util.Random;
 
 @Configuration
-@EnableConfigurationProperties(AppProperties.class)
 public class AppConfig {
     @Bean
     public Random random() {

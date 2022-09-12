@@ -17,9 +17,6 @@ management:
 scheduling:
   enabled: true
 
-app:
-  site-url: https://github.com/pine/emotions
-
 
 # Cloud services
 # ---------------------------
