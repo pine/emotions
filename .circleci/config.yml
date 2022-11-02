@@ -47,7 +47,8 @@ jobs:
       - gcp-gcr/push-image:
           image: $REPOSITORY_NAME/$IMAGE_NAME
           registry-url: asia-northeast1-docker.pkg.dev
-      - gcp-cli/install
+      - gcp-cli/install:
+          version: 408.0.0
       - gcp-cli/initialize
       - run:
           command: |
