@@ -51,7 +51,7 @@ jobs:
       - gcp-cli/initialize
       - run:
           command: |
-            gcloud artifacts docker images list asia-northeast1-docker.pkg.dev/emotions-232912/$REPOSITORY_NAME/$IMAGE_NAME --include-tags --filter="TAGS!=latest" --format="value(DIGEST)" | xargs -I DIGEST echo gcloud artifacts docker images delete --quiet --async asia-northeast1-docker.pkg.dev/emotions-232912/$REPOSITORY_NAME/$IMAGE_NAME@DIGEST
+            gcloud artifacts docker images list asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/$REPOSITORY_NAME/$IMAGE_NAME --include-tags --filter="TAGS!=latest" --format="value(DIGEST)" | xargs -I DIGEST echo gcloud artifacts docker images delete --quiet --async asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/$REPOSITORY_NAME/$IMAGE_NAME@DIGEST
 
 workflows:
   version: 2
