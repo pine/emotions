@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.2
+  gcp-cli: circleci/gcp-cli@2.4.1
   gcp-gcr: circleci/gcp-gcr@0.15.0
 jobs:
   build:
@@ -50,6 +51,11 @@ jobs:
             - gcp-gcr/push-image:
                 image: $REPOSITORY_NAME/$IMAGE_NAME
                 registry-url: asia-northeast1-docker.pkg.dev
+             - gcp-cli/install
+             - gcp-cli/initialize
+
+            # - run:
+                # gcloud artifacts docker images list asia-northeast1-docker.pkg.dev/emotions-232912/main/app --include-tags --filter="TAGS!=latest" --format="value(DIGEST)" | xargs -I DIGEST echo gcloud artifacts docker images delete --quiet --async asia-northeast1-docker.pkg.dev/emotions-232912/main/app@DIGEST
 workflows:
   version: 2
   main:
