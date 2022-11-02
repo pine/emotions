@@ -12,6 +12,8 @@ jobs:
       TERM: dumb
       TZ: "Asia/Tokyo"
       YARN_SILENT: 1
+      REPOSITORY_NAME: main
+      IMAGE_NAME: app
     steps:
       - setup_remote_docker:
           version: 20.10.14
@@ -29,11 +31,15 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-      - gcp-gcr/gcr-auth:
-          registry-url: asia-northeast1-docker.pkg.dev
-      - gcp-gcr/build-image:
-          image: container/app
-          registry-url: asia-northeast1-docker.pkg.dev
-      - gcp-gcr/push-image:
-          image: container/app
-          registry-url: asia-northeast1-docker.pkg.dev
+      - when:
+          condition:
+            equal: [ spring-batch, << pipeline.git.branch >> ]
+          steps:
+            - gcp-gcr/gcr-auth:
+                registry-url: asia-northeast1-docker.pkg.dev
+            - gcp-gcr/build-image:
+                image: $REPOSITORY_NAME/$IMAGE_NAME
+                registry-url: asia-northeast1-docker.pkg.dev
+            - gcp-gcr/push-image:
+                image: $REPOSITORY_NAME/$IMAGE_NAME
+                registry-url: asia-northeast1-docker.pkg.dev
