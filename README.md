@@ -50,24 +50,6 @@ Please try the following commands after set `GRAVATAR_EMAIL`, `GRAVATAR_PASSWORD
 $ ./gradlew :tool-gravatar:bootRun
 ```
 
-### Deployment
-
-```sh
-$ heroku apps:create your-app
-$ heroku config:set JASYPT_ENCRYPTOR_PASSWORD=PASSWORD
-$ heroku config:set TZ=Asia/Tokyo
-$ heroku config:set 'JAVA_OPTS=-Xmx200m -XX:+UseCompressedOops -XX:+UseStringDeduplication -Dlog4j2.formatMsgNoLookups=true'
-
-
-# Setup Redis
-$ heroku addons:create heroku-redis:hobby-dev
-
-# Deploy JAR file
-$ ./gradlew build
-$ heroku plugins:install java
-$ heroku deploy:jar --jar app/build/libs/app.jar --jdk 17
-```
-
 ### Encrypt credentials with Jasypt
 To encrypt plain text with Jasypt, please use the command below.
 
