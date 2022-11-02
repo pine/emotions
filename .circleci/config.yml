@@ -51,10 +51,8 @@ jobs:
             - gcp-gcr/push-image:
                 image: $REPOSITORY_NAME/$IMAGE_NAME
                 registry-url: asia-northeast1-docker.pkg.dev
-             - gcp-cli/install
-             - gcp-cli/initialize
-            # - run:
-                # gcloud artifacts docker images list asia-northeast1-docker.pkg.dev/emotions-232912/main/app --include-tags --filter="TAGS!=latest" --format="value(DIGEST)" | xargs -I DIGEST echo gcloud artifacts docker images delete --quiet --async asia-northeast1-docker.pkg.dev/emotions-232912/main/app@DIGEST
+             # - gcp-cli/install
+             # - gcp-cli/initialize
 
 workflows:
   version: 2
