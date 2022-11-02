@@ -52,7 +52,7 @@ jobs:
                 registry-url: asia-northeast1-docker.pkg.dev
 workflows:
   version: 2
-  build_and_test:
+  main:
     jobs:
       - build
       - deploy
