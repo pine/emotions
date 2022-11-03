@@ -2,8 +2,8 @@ package moe.pine.emotions.app.config;
 
 import lombok.RequiredArgsConstructor;
 import moe.pine.emotions.app.batch.BookmeterTasklet;
+import moe.pine.emotions.app.batch.GravatarTasklet;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.context.annotation.Bean;
@@ -16,17 +16,26 @@ public class BatchConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job bookmeterJob(Step bookmeterStep) {
+    public Job bookmeterJob(BookmeterTasklet bookmeterTasklet) {
+        var step = stepBuilderFactory.get("main")
+            .tasklet(bookmeterTasklet)
+            .build();
+
         return jobBuilderFactory.get("bookmeter")
-            .flow(bookmeterStep)
+            .flow(step)
             .end()
             .build();
     }
 
     @Bean
-    public Step bookmeterStep(BookmeterTasklet bookmeterTasklet) {
-        return stepBuilderFactory.get("main")
-            .tasklet(bookmeterTasklet)
+    public Job gravatarJob(GravatarTasklet gravatarTasklet) {
+        var step = stepBuilderFactory.get("main")
+            .tasklet(gravatarTasklet)
+            .build();
+
+        return jobBuilderFactory.get("gravatar")
+            .flow(step)
+            .end()
             .build();
     }
 }
