@@ -16,7 +16,6 @@ dependencies {
     implementation project(':lib-gravatar')
     implementation project(':lib-cloudstorage')
     implementation project(':lib-log')
-    implementation project(':lib-mackerel')
     implementation project(':lib-slack')
     implementation project(':lib-twitter')
 
