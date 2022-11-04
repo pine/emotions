@@ -29,7 +29,7 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
   deploy:
     docker:
-      - image: cimg/python:3.8.15
+      - image: cimg/python:3.11.0
     environment:
       TERM: dumb
       TZ: "Asia/Tokyo"
