@@ -3,6 +3,7 @@ package moe.pine.emotions.app.config;
 import lombok.RequiredArgsConstructor;
 import moe.pine.emotions.app.batch.BookmeterTasklet;
 import moe.pine.emotions.app.batch.GravatarTasklet;
+import moe.pine.emotions.app.batch.TwitterTasklet;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -34,6 +35,18 @@ public class BatchConfiguration {
             .build();
 
         return jobBuilderFactory.get("gravatar")
+            .flow(step)
+            .end()
+            .build();
+    }
+
+    @Bean
+    public Job twitterJob(TwitterTasklet twitterTasklet) {
+        var step = stepBuilderFactory.get("main")
+            .tasklet(twitterTasklet)
+            .build();
+
+        return jobBuilderFactory.get("twitter")
             .flow(step)
             .end()
             .build();
