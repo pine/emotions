@@ -62,6 +62,8 @@ $ bin/encrypt.sh \
 ```
 
 ### Run Spring Batch's job
+`<job_name>` is defined in [BatchConfiguration.java](app/src/main/java/moe/pine/emotions/app/config/BatchConfiguration.java).
+
 #### Using Gradle
 
 ```bash
