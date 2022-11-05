@@ -30,7 +30,6 @@ $ ./gradlew :app:bootRun
 - [Gravatar](https://gravatar.com/)
   - [GitHub](https://github.com/)
   - [Qiita](https://qiita.com/)
-- [Slack](https://slack.com)
 - [Twitter](https://twitter.com)
 
 ## Development
