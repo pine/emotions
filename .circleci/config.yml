@@ -18,11 +18,11 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "build.gradle" }}
             - v1-dependencies-
-      # - run:
-      #     name: Test
-      #     command: |
-      #       ./gradlew check jacocoTestReport
-      # - codecov/upload
+      - run:
+           name: Test
+           command: |
+             ./gradlew check jacocoTestReport
+      - codecov/upload
       - save_cache:
           paths:
             - ~/.gradle
