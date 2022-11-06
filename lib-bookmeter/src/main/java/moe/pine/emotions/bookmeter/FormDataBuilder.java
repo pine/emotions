@@ -2,7 +2,7 @@ package moe.pine.emotions.bookmeter;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import moe.pine.emotions.spring_utils.NamedByteArrayResource;
+import moe.pine.spring.util.NamedByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
