@@ -13,16 +13,8 @@
 
 ## Libraries
 
-- Spring Boot 2.x
-
-## Getting started
-
-```sh
-$ cp app/src/main/resources/application-sample.yml app/src/main/resources/application-local.yml
-$ vim app/src/main/resources/application-local.yml
-
-$ ./gradlew :app:bootRun
-```
+- Spring Boot 2
+- Spring Batch
 
 ## Supported services
 
