@@ -1,6 +1,6 @@
 package moe.pine.emotions.bookmeter;
 
-import moe.pine.emotions.spring_utils.NamedByteArrayResource;
+import moe.pine.spring.util.NamedByteArrayResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.Resource;

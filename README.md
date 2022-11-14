@@ -30,7 +30,6 @@ $ ./gradlew :app:bootRun
 - [Gravatar](https://gravatar.com/)
   - [GitHub](https://github.com/)
   - [Qiita](https://qiita.com/)
-- [Slack](https://slack.com)
 - [Twitter](https://twitter.com)
 
 ## Development
@@ -50,24 +49,6 @@ Please try the following commands after set `GRAVATAR_EMAIL`, `GRAVATAR_PASSWORD
 $ ./gradlew :tool-gravatar:bootRun
 ```
 
-### Deployment
-
-```sh
-$ heroku apps:create your-app
-$ heroku config:set JASYPT_ENCRYPTOR_PASSWORD=PASSWORD
-$ heroku config:set TZ=Asia/Tokyo
-$ heroku config:set 'JAVA_OPTS=-Xmx200m -XX:+UseCompressedOops -XX:+UseStringDeduplication -Dlog4j2.formatMsgNoLookups=true'
-
-
-# Setup Redis
-$ heroku addons:create heroku-redis:hobby-dev
-
-# Deploy JAR file
-$ ./gradlew build
-$ heroku plugins:install java
-$ heroku deploy:jar --jar app/build/libs/app.jar --jdk 17
-```
-
 ### Encrypt credentials with Jasypt
 To encrypt plain text with Jasypt, please use the command below.
 
@@ -79,8 +60,23 @@ $ bin/encrypt.sh \
     input=<input>
 ```
 
-### Monitoring
-Mackerel's service metrics are supported.
+### Run Spring Batch's job
+`<job_name>` is defined in [BatchConfiguration.java](app/src/main/java/moe/pine/emotions/app/config/BatchConfiguration.java).
+
+#### Using Gradle
+
+```bash
+$ ./gradlew :app:bootRun --args='--spring.batch.job.names=<job_name>'
+ ```
+
+#### Using .jar file
+
+```bash
+$ ./gradlew :app:bootJar
+$ java -jar -jar app/build/libs/app.jar \
+    --jasypt.encryptor.password=<password> \
+    --spring.batch.job.names=<job_name>
+```
 
 ## License
 MIT &copy; [Pine Mizune](https://profile.pine.moe/)

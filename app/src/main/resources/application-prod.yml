@@ -4,12 +4,14 @@
 spring:
   redis:
     database: 0
+  main:
+    banner-mode: off
+  output:
+    ansi:
+      enabled: never
 
 scheduling:
   enabled: true
-
-app:
-  site-url: https://github.com/pine/emotions
 
 
 # Cloud services
@@ -54,9 +56,6 @@ gravatar:
     - 91d702b2382ab7c03201724276ec8174
     - dceb9ad0d4645b348721f086dbe839fe
     - 8decd9236d7efd42d6527c35636d5551
-
-slack:
-  workspaces: []
 
 twitter:
   consumer-key: ENC(fGKlMZ0hjWe8oYAWw18mnx2eYAxpYDRsgS40rnTpDIBX+rY3SG4hsLG+tosY51e4ulGW2KpOzZQc4QSD0Oagcw==)

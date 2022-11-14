@@ -1,18 +1,17 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.2
-  heroku: circleci/heroku@1.2.6
+  gcp-cli: circleci/gcp-cli@2.4.1
+  gcp-gcr: circleci/gcp-gcr@0.15.0
 jobs:
   build:
     docker:
-      - image: cimg/openjdk:17.0-node
+      - image: cimg/openjdk:17.0
       - image: redis
-    working_directory: ~/repo
     environment:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
       TZ: "Asia/Tokyo"
-      YARN_SILENT: 1
     steps:
       - checkout
       - restore_cache:
@@ -20,29 +19,51 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle" }}
             - v1-dependencies-
       - run:
-          name: Test
-          command: |
-            ./gradlew check jacocoTestReport
+           name: Test
+           command: |
+             ./gradlew check jacocoTestReport
       - codecov/upload
-      - run:
-          name: Build
-          command: |
-            ./gradlew clean :app:bootJar
       - save_cache:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-      - when:
-          condition:
-            equal: [ main, << pipeline.git.branch >> ]
-          steps:
-            - heroku/install
-            - run:
-                name: Deployment
-                command: |
-                  ./.circleci/setup-retry.sh
-                  retry -- heroku plugins:install java
-                  retry -- heroku deploy:jar \
-                    --jar app/build/libs/app.jar \
-                    --jdk 17 \
-                    --app $HEROKU_APP
+  deploy:
+    docker:
+      - image: cimg/python:3.11.0
+    environment:
+      TERM: dumb
+      TZ: "Asia/Tokyo"
+      REPOSITORY_NAME: main
+      IMAGE_NAME: app
+    steps:
+      - setup_remote_docker:
+          version: 20.10.14
+      - checkout
+      - gcp-cli/install:
+          version: 408.0.0
+      - gcp-cli/initialize
+      - gcp-gcr/gcr-auth:
+          registry-url: asia-northeast1-docker.pkg.dev
+      - gcp-gcr/build-image:
+          image: $REPOSITORY_NAME/$IMAGE_NAME
+          registry-url: asia-northeast1-docker.pkg.dev
+      - gcp-gcr/push-image:
+          image: $REPOSITORY_NAME/$IMAGE_NAME
+          registry-url: asia-northeast1-docker.pkg.dev
+      - run:
+          name: Clean old docker images
+          command: |
+            gcloud artifacts docker images list asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/$REPOSITORY_NAME/$IMAGE_NAME --include-tags --filter="TAGS!=latest" --format="value(DIGEST)" | xargs -I DIGEST gcloud artifacts docker images delete --quiet --async asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/$REPOSITORY_NAME/$IMAGE_NAME@DIGEST
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build
+      - deploy:
+          requires:
+              - build
+          filters:
+            branches:
+              only:
+                - main
