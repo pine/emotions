@@ -66,4 +66,4 @@ workflows:
           filters:
             branches:
               only:
-                - spring-batch
+                - main
