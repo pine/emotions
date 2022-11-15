@@ -9,7 +9,6 @@
 ## Requirements
 
 - JDK 17 or later
-- Redis
 
 ## Libraries
 
