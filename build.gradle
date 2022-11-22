@@ -12,9 +12,9 @@ buildscript {
 plugins {
     id 'java'
 
+    id 'com.asarkar.gradle.build-time-tracker' version '4.3.0'
     id 'com.github.spotbugs' version '5.0.6' apply false
     id 'io.spring.dependency-management' version '1.0.5.RELEASE' apply false
-    id 'net.rdrei.android.buildtimetracker' version '0.11.0'
     id 'org.gradle.test-retry' version '1.4.1' apply false
     id 'org.springframework.boot' version "${springBootVersion}" apply false
 }
@@ -177,16 +177,4 @@ jacocoTestReport {
     additionalSourceDirs.setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
     sourceDirectories.setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
     classDirectories.setFrom(files(subprojects.sourceSets.main.output))
-}
-
-
-// ----- Build Time Tracker -------------------------------
-
-buildtimetracker {
-    reporters {
-        summary {
-            ordered true
-            barstyle 'ascii'
-        }
-    }
 }
